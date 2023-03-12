@@ -1,0 +1,6 @@
+API: 
+tredding:https://api.themoviedb.org/3/trending(all, tv, persion)/movie/day
+popular:https://api.themoviedb.org/3/movie/popular
+top rated: https://api.themoviedb.org/3/movie/top_rated
+hot: https://api.themoviedb.org/3/trending/movie/day?page=2
+upcoming: https://api.themoviedb.org/3/movie/upcoming
