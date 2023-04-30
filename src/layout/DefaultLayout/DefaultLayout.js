@@ -1,13 +1,16 @@
-import Header from '~/layout/components/Header';
+import { Grid } from '@mui/material';
+import Sidebar from '~/layout/components/SideBar';
 
 function DefaultLayout({ children }) {
     return (
-        <div>
-            <Header />
-            <div className="container">
-                <div className="content">{children}</div>
-            </div>
-        </div>
+        <Grid container>
+            <Grid item xs={2}>
+                <Sidebar />
+            </Grid>
+            <Grid item xs={10}>
+                {children}
+            </Grid>
+        </Grid>
     );
 }
 
