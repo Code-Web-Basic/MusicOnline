@@ -3,7 +3,9 @@ import styles from './Home.module.scss';
 const cx = classNames.bind(styles);
 
 function Home() {
-    return <div className={cx('wrapper')}>home</div>;
+    return (<div style={{ minHeight: 'calc(100vh - 70px - 90px)', backgroundColor: '#170f23' }}>
+        homes
+    </div>);
 }
 
 export default Home;

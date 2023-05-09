@@ -1,16 +1,22 @@
-import { Grid } from '@mui/material';
+import { Box, Grid, Stack } from '@mui/material';
 import Sidebar from '~/layout/components/SideBar';
+import Header from '../components/Header/Header';
+import PlayMusic from '../components/PlayMusic/PlayMusic';
 
 function DefaultLayout({ children }) {
     return (
-        <Grid container>
-            <Grid item xs={2}>
-                <Sidebar />
+        <Stack direction={{ xs: 'column' }}>
+            <Grid container>
+                <Grid item xs={2}>
+                    <Sidebar />
+                </Grid>
+                <Grid item xs={10}>
+                    <Header />
+                    {children}
+                </Grid>
             </Grid>
-            <Grid item xs={10}>
-                {children}
-            </Grid>
-        </Grid>
+            <PlayMusic />
+        </Stack>
     );
 }
 
