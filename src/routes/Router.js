@@ -4,8 +4,9 @@
 import { configRouter } from '~/config';
 import Home from '~/pages/Home';
 import Login from '~/pages/Login';
-import Signup from '~/pages/Signup';
-import Resetpass from '~/pages/Resetpass';
+import Signup from '~/pages/SignUp';
+import Resetpass from '~/pages/ResetPass';
+import Library from '~/pages/Library/Library';
 // Public routes
 const publicRoutes = [
     { path: configRouter.Home, component: Home },
@@ -13,7 +14,7 @@ const publicRoutes = [
     { path: configRouter.Signup, component: Signup, layout: null },
     { path: configRouter.Resetpass, component: Resetpass, layout: null },
     { path: configRouter.ZingChart, component: Home },
-    { path: configRouter.Library, component: Home },
+    { path: configRouter.Library, component: Library },
     { path: configRouter.Favorite, component: Home },
 ];
 const privateRoutes = [];

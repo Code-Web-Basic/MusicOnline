@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import styles from './Resetpass.module.scss';
+import styles from './ResetPass.module.scss';
 //component
 const cx = classNames.bind(styles);
 function Resetpass() {
