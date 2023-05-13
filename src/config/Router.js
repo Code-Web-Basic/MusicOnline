@@ -2,9 +2,10 @@ const router = {
     Home: '/',
     Login: '/login',
     Signup: '/signup',
-    Resetpass: '/resetpass',
+    ResetPass: '/resetpass',
     ZingChart: '/zing-chart',
     Library: '/library',
     Favorite: '/favorite',
+    DetailPlaylist: '/playlist',
 };
 export default router;
