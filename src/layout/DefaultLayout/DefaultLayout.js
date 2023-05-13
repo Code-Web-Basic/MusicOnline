@@ -6,7 +6,7 @@ import PlayMusic from '../components/PlayMusic/PlayMusic';
 function DefaultLayout({ children }) {
     return (
         <Stack direction={{ xs: 'column' }}>
-            <Grid container>
+            <Grid container sx={{ backgroundColor: '#170f23' }}>
                 <Grid item xs={2}>
                     <Sidebar />
                 </Grid>

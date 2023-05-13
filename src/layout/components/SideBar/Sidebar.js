@@ -7,7 +7,7 @@ import {
     InstagramLogo,
     ListPlus,
     MonitorPlay,
-    Playlist
+    Playlist,
 } from 'phosphor-react';
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -18,12 +18,12 @@ function Sidebar() {
     const location = useLocation();
     const [openSideBar, setOpenSidebar] = useState(true);
     return (
-        <Box sx={{ position: 'sticky', top: '0px', height: 'calc(100vh - 90px)', backgroundColor: '#170f23' }}>
+        <Box sx={{ position: 'sticky', top: '0px', height: 'calc(100vh - 90px)', backgroundColor: '#2a213a' }}>
             <Stack direction="row">
                 <Stack
                     direction={'column'}
                     spacing={2}
-                    width='100%'
+                    width="100%"
                     overflow="hidden"
                     sx={{
                         transition: '0.1s linear',
@@ -38,7 +38,7 @@ function Sidebar() {
                         p={1}
                         alignItems="center"
                         justifyContent="center"
-                        color='white'
+                        color="white"
                     >
                         {openSideBar && <Typography variant="h5">NHOM 7</Typography>}
                     </Stack>
@@ -54,14 +54,14 @@ function Sidebar() {
                                 textDecoration: 'none',
                                 '&:hover': {
                                     borderRadius: '15px',
-                                    opacity: '1'
+                                    opacity: '1',
                                 },
                                 background:
                                     location.pathname === configRouter.Home && openSideBar
                                         ? 'hsla(0,0%,100%,0.1)'
                                         : 'transparent',
                                 borderRadius: '15px',
-                                opacity: '0.7'
+                                opacity: '0.7',
                             }}
                             spacing={3}
                             component={Link}
@@ -72,18 +72,18 @@ function Sidebar() {
                         >
                             {location.pathname === configRouter.Home ? (
                                 <>
-                                    <House color='white' size={24} weight="fill" />
+                                    <House color="white" size={24} weight="fill" />
                                     {openSideBar && (
-                                        <Typography color='white' variant="h6" fontSize={'1rem'} fontWeight="500">
+                                        <Typography color="white" variant="h6" fontSize={'1rem'} fontWeight="500">
                                             Khám Phá
                                         </Typography>
                                     )}
                                 </>
                             ) : (
                                 <>
-                                    <House color='white' size={24} weight="regular" />
+                                    <House color="white" size={24} weight="regular" />
                                     {openSideBar && (
-                                        <Typography color='white' variant="body1" fontWeight="300">
+                                        <Typography color="white" variant="body1" fontWeight="300">
                                             Khám Phá
                                         </Typography>
                                     )}
@@ -101,14 +101,14 @@ function Sidebar() {
                                 textDecoration: 'none',
                                 '&:hover': {
                                     borderRadius: '15px',
-                                    opacity: '1'
+                                    opacity: '1',
                                 },
                                 background:
                                     location.pathname === configRouter.ZingChart && openSideBar
                                         ? 'hsla(0,0%,100%,0.1)'
                                         : 'transparent',
                                 borderRadius: '15px',
-                                opacity: '0.7'
+                                opacity: '0.7',
                             }}
                             spacing={3}
                             component={Link}
@@ -119,18 +119,18 @@ function Sidebar() {
                         >
                             {location.pathname === configRouter.ZingChart ? (
                                 <>
-                                    <ChartLineUp color='white' size={24} weight="fill" />
+                                    <ChartLineUp color="white" size={24} weight="fill" />
                                     {openSideBar && (
-                                        <Typography color='white' variant="h6" fontSize={'1rem'} fontWeight="500">
+                                        <Typography color="white" variant="h6" fontSize={'1rem'} fontWeight="500">
                                             Zing chart
                                         </Typography>
                                     )}
                                 </>
                             ) : (
                                 <>
-                                    <ChartLineUp color='white' size={24} weight="regular" />
+                                    <ChartLineUp color="white" size={24} weight="regular" />
                                     {openSideBar && (
-                                        <Typography color='white' variant="body1" fontWeight="300">
+                                        <Typography color="white" variant="body1" fontWeight="300">
                                             Zing chart
                                         </Typography>
                                     )}
@@ -148,14 +148,14 @@ function Sidebar() {
                                 textDecoration: 'none',
                                 '&:hover': {
                                     borderRadius: '15px',
-                                    opacity: '1'
+                                    opacity: '1',
                                 },
                                 background:
                                     location.pathname === configRouter.Library && openSideBar
                                         ? 'hsla(0,0%,100%,0.1)'
                                         : 'transparent',
                                 borderRadius: '15px',
-                                opacity: '0.7'
+                                opacity: '0.7',
                             }}
                             spacing={3}
                             component={Link}
@@ -166,18 +166,18 @@ function Sidebar() {
                         >
                             {location.pathname === configRouter.Library ? (
                                 <>
-                                    <Playlist color='white' size={24} weight="fill" />
+                                    <Playlist color="white" size={24} weight="fill" />
                                     {openSideBar && (
-                                        <Typography color='white' variant="h6" fontSize={'1rem'} fontWeight="500">
+                                        <Typography color="white" variant="h6" fontSize={'1rem'} fontWeight="500">
                                             Thư Viện
                                         </Typography>
                                     )}
                                 </>
                             ) : (
                                 <>
-                                    <Playlist color='white' size={24} weight="regular" />
+                                    <Playlist color="white" size={24} weight="regular" />
                                     {openSideBar && (
-                                        <Typography color='white' variant="body1" fontWeight="300">
+                                        <Typography color="white" variant="body1" fontWeight="300">
                                             Thư Viện
                                         </Typography>
                                     )}
@@ -195,14 +195,14 @@ function Sidebar() {
                                 textDecoration: 'none',
                                 '&:hover': {
                                     borderRadius: '15px',
-                                    opacity: '1'
+                                    opacity: '1',
                                 },
                                 background:
                                     location.pathname === configRouter.Favorite && openSideBar
                                         ? 'hsla(0,0%,100%,0.1)'
                                         : 'transparent',
                                 borderRadius: '15px',
-                                opacity: '0.7'
+                                opacity: '0.7',
                             }}
                             spacing={3}
                             component={Link}
@@ -213,18 +213,18 @@ function Sidebar() {
                         >
                             {location.pathname === configRouter.Favorite ? (
                                 <>
-                                    <ListPlus color='white' size={24} weight="fill" />
+                                    <ListPlus color="white" size={24} weight="fill" />
                                     {openSideBar && (
-                                        <Typography color='white' variant="h6" fontSize={'1rem'} fontWeight="500">
+                                        <Typography color="white" variant="h6" fontSize={'1rem'} fontWeight="500">
                                             Tạo Playlist Mới
                                         </Typography>
                                     )}
                                 </>
                             ) : (
                                 <>
-                                    <ListPlus color='white' size={24} weight="regular" />
+                                    <ListPlus color="white" size={24} weight="regular" />
                                     {openSideBar && (
-                                        <Typography color='white' variant="body1" fontWeight="300">
+                                        <Typography color="white" variant="body1" fontWeight="300">
                                             Tạo Playlist Mới
                                         </Typography>
                                     )}
