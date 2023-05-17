@@ -1,4 +1,4 @@
-import DetailPlaylist from '~/layout/components/DetailPlaylist/DetailPlaylist';
+import DetailPlaylist from '~/layout/components/Publish/DetailPlaylist/DetailPlaylist';
 
 function Playlist() {
     return (

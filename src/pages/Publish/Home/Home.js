@@ -1,10 +1,10 @@
 import classNames from 'classnames/bind';
 import styles from './Home.module.scss';
-import Banner from '~/layout/components/Home/Banner/Banner';
+import Banner from '~/layout/components/Publish/Home/Banner/Banner';
 import { Container, ListItem } from '@mui/material';
-import ListPlaylist from '~/layout/components/Home/ListPlaylist/ListPlaylist.';
-import ItemTabPlaylist from '~/layout/components/Home/ListTabPlaylist/ItemTabPlaylist';
-import ListTabPlaylist from '~/layout/components/Home/ListTabPlaylist/ListTabPlaylist';
+import ListPlaylist from '~/layout/components/Publish/Home/ListPlaylist/ListPlaylist.';
+import ItemTabPlaylist from '~/layout/components/Publish/Home/ListTabPlaylist/ItemTabPlaylist';
+import ListTabPlaylist from '~/layout/components/Publish/Home/ListTabPlaylist/ListTabPlaylist';
 const cx = classNames.bind(styles);
 
 function Home() {
