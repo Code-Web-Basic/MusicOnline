@@ -10,7 +10,7 @@ import Resetpass from '~/pages/Publish/Resetpass';
 import DetailPlaylist from '~/layout/components/Publish/DetailPlaylist/DetailPlaylist';
 import Type from '~/pages/Publish/Type/Type';
 import Content from '~/pages/Publisher/Content/Content';
-import Library from '~/pages/Library/Library';
+import Library from '~/pages/Publisher/Library/Library';
 // Public routes
 const publicRoutes = [
     { path: configRouter.Home, component: Content },
