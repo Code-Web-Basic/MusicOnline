@@ -77,30 +77,6 @@ function stableSort(array, comparator) {
     return stabilizedThis.map((el) => el[0]);
 }
 
-const headCells = [
-    {
-        id: 'Name',
-        numeric: true,
-        right: false,
-        disablePadding: true,
-        label: 'Bài hát',
-    },
-    {
-        id: 'Album',
-        numeric: true,
-        right: false,
-        disablePadding: false,
-        label: 'Album',
-    },
-    {
-        id: 'Time',
-        numeric: true,
-        right: true,
-        disablePadding: false,
-        label: 'Thời gian',
-    },
-];
-
 function EnhancedTableHead(props) {
     const theme = useTheme();
     const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;

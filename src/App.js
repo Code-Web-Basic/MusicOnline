@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { publicRoutes, privateRoutes } from '~/routes';
-import DefaultLayout from '~/layout/DefaultLayout';
+import DefaultLayout from '~/layout/Publish/DefaultLayout';
 import { useSelector } from 'react-redux';
 
 function App() {
