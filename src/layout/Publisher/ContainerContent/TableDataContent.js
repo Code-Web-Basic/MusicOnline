@@ -424,8 +424,8 @@ export function RowTableContent({ row, isItemSelected, handleClick, labelId }) {
                     </Box>
                     <Stack direction={'column'}>
                         <Typography
-                            variant="h5"
-                            fontSize="1rem"
+                            variant="h6"
+                            fontSize="0.8rem"
                             color={theme.palette.common.black}
                             overflow={'hidden'}
                             textOverflow={'ellipsis'}

@@ -40,9 +40,9 @@ function TabListContent() {
         <Box sx={{ width: '100%' }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                    <Tab label="Music" {...a11yProps(0)} sx={{ color: 'rgba(255, 255, 255, 0.7)' }} />
-                    <Tab label="Album" {...a11yProps(1)} sx={{ color: 'rgba(255, 255, 255, 0.7)' }} />
-                    <Tab label="Single" {...a11yProps(2)} sx={{ color: 'rgba(255, 255, 255, 0.7)' }} />
+                    <Tab label="Music" {...a11yProps(0)} sx={{ color: theme.palette.common.black }} />
+                    <Tab label="Album" {...a11yProps(1)} sx={{ color: theme.palette.common.black }} />
+                    <Tab label="Single" {...a11yProps(2)} sx={{ color: theme.palette.common.black }} />
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
