@@ -12,6 +12,7 @@ import Library from '~/pages/Publisher/Library/Library';
 import Signup from '~/pages/Publish/Signup/Signup';
 import ResetPass from '~/pages/Publish/ResetPass/ResetPass';
 
+import MyPlayList from '~/pages/Publish/MyPlayList/MyPlayList';
 // Public routes
 const publicRoutes = [
     { path: configRouter.Home, component: Content },
@@ -20,7 +21,7 @@ const publicRoutes = [
     { path: configRouter.ResetPass, component: ResetPass, layout: null },
     { path: configRouter.ZingChart, component: Home },
     { path: configRouter.Library, component: Library },
-    { path: configRouter.Favorite, component: Home },
+    { path: configRouter.Favorite, component: MyPlayList },
     { path: configRouter.DetailPlaylist, component: DetailPlaylist },
 ];
 const privateRoutes = [];
