@@ -1,1 +1,1 @@
-export { default } from './ResetPass';
+export { default } from '~/pages/Publish/Resetpass/Resetpass';

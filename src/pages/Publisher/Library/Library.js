@@ -4,7 +4,7 @@ import ListMyPlayList from "~/layout/components/ListMyPlayList/ListMyPlayList";
 import { styled } from '@mui/system';
 import { buttonClasses } from '@mui/base/Button';
 import { Tab, TabPanel, Tabs, TabsList, tabClasses } from '@mui/base';
-import ItemTabPlaylist from "~/layout/components/Home/ListTabPlaylist/ItemTabPlaylist";
+import ItemTabPlaylist from "~/layout/components/Publish/Home/ListTabPlaylist/ItemTabPlaylist";
 
 const grey = {
     50: '#f6f8fa',

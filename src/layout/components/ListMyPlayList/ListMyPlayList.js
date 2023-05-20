@@ -10,9 +10,9 @@ import 'swiper/css/scrollbar';
 
 // import required modules
 import { Scrollbar } from 'swiper';
-import ItemPlaylist from '../Home/ItemPlaylist/ItemPlaylist';
 import { CaretRight, PlusCircle, X } from 'phosphor-react';
 import { useNavigate } from 'react-router-dom';
+import ItemPlaylist from '../Publish/Home/ItemPlaylist/ItemPlaylist';
 const style = {
     position: 'absolute',
     top: '40%',
