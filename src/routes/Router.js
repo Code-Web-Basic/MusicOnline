@@ -12,7 +12,7 @@ import Library from '~/pages/Publisher/Library/Library';
 import Signup from '~/pages/Publish/Signup/Signup';
 import ResetPass from '~/pages/Publish/ResetPass/ResetPass';
 
-import MyPlayList from '~/pages/MyPlayList/MyPlayList';
+import MyPlayList from '~/pages/Publish/MyPlayList/MyPlayList';
 // Public routes
 const publicRoutes = [
     { path: configRouter.Home, component: Content },

@@ -5,7 +5,7 @@ import PlayMusic from '../../components/Publish/PlayMusic/PlayMusic';
 
 function DefaultLayout({ children }) {
     return (
-        <Stack direction={{ xs: 'column' }}>
+        <Stack direction={{ xs: 'column' }} height={'100vh'} width={'100%'}>
             <Grid container sx={{ backgroundColor: '#170f23' }}>
                 <Grid item xs={2}>
                     <Sidebar />
@@ -14,8 +14,8 @@ function DefaultLayout({ children }) {
                     <Header />
                     {children}
                 </Grid>
+                <PlayMusic />
             </Grid>
-            <PlayMusic />
         </Stack>
     );
 }
