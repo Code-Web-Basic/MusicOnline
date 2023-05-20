@@ -2,16 +2,18 @@
 
 // Pages
 import { configRouter } from '~/config';
-import Home from '~/pages/Home';
-import Login from '~/pages/Login';
-import Signup from '~/pages/SignUp';
-import Resetpass from '~/pages/ResetPass';
-import Library from '~/pages/Library/Library';
-import DetailPlaylist from '~/layout/components/DetailPlaylist/DetailPlaylist';
-import MyPlayList from '~/pages/MyPlayList/MyPlayList';
+
+import Home from '~/pages/Publish/Home';
+import Login from '~/pages/Publish/Login';
+import Signup from '~/pages/Publish/Signup';
+import Resetpass from '~/pages/Publish/Resetpass';
+import DetailPlaylist from '~/layout/components/Publish/DetailPlaylist/DetailPlaylist';
+import Type from '~/pages/Publish/Type/Type';
+import Content from '~/pages/Publisher/Content/Content';
+import Library from '~/pages/Publisher/Library/Library';
 // Public routes
 const publicRoutes = [
-    { path: configRouter.Home, component: Home },
+    { path: configRouter.Home, component: Content },
     { path: configRouter.Login, component: Login, layout: null },
     { path: configRouter.Signup, component: Signup, layout: null },
     { path: configRouter.ResetPass, component: Resetpass, layout: null },

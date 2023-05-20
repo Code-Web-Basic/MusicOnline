@@ -1,28 +1,23 @@
 import {
     Box,
     Checkbox,
-    FormControlLabel,
     IconButton,
-    Paper,
-    Switch,
+    Stack,
     Table,
     TableBody,
     TableCell,
     TableContainer,
     TableHead,
-    TablePagination,
     TableRow,
     TableSortLabel,
-    Toolbar,
     Tooltip,
     Typography,
     alpha,
     useTheme,
 } from '@mui/material';
-import { Funnel, Trash } from 'phosphor-react';
+import { DotsThree, Heart, MusicNote, Play } from 'phosphor-react';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { visuallyHidden } from '@mui/utils';
 
 function createData(name, calories, fat, carbs, protein) {
     return {
@@ -82,27 +77,6 @@ function stableSort(array, comparator) {
     return stabilizedThis.map((el) => el[0]);
 }
 
-const headCells = [
-    {
-        id: 'Name',
-        numeric: true,
-        disablePadding: false,
-        label: 'Bài hát',
-    },
-    {
-        id: 'Album',
-        numeric: true,
-        disablePadding: false,
-        label: 'Album',
-    },
-    {
-        id: 'Time',
-        numeric: true,
-        disablePadding: false,
-        label: 'Thời gian',
-    },
-];
-
 function EnhancedTableHead(props) {
     const theme = useTheme();
     const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
@@ -113,8 +87,8 @@ function EnhancedTableHead(props) {
     return (
         <TableHead>
             <TableRow>
-                <TableCell padding="checkbox">
-                    {numSelected > 0 ? (
+                {numSelected > 0 ? (
+                    <TableCell padding="checkbox" sx={{ width: 60 }}>
                         <Checkbox
                             color="primary"
                             indeterminate={numSelected > 0 && numSelected < rowCount}
@@ -124,11 +98,13 @@ function EnhancedTableHead(props) {
                                 'aria-label': 'select all desserts',
                             }}
                         />
-                    ) : (
+                    </TableCell>
+                ) : (
+                    <TableCell sx={{ width: 60 }}>
                         <TableSortLabel
                             // active={orderBy === headCell.id}
-                            // direction={orderBy === headCell.id ? order : 'asc'}
-                            // onClick={createSortHandler(headCell.id)}
+                            direction={orderBy === 'Name' ? order : 'asc'}
+                            onClick={createSortHandler('Name')}
                             sx={{
                                 color: theme.palette.grey[500],
                                 '&:hover': {
@@ -136,25 +112,35 @@ function EnhancedTableHead(props) {
                                 },
                             }}
                         >
-                            {/* {orderBy === headCell.id ? (
-                                <Box component="span" sx={visuallyHidden}>
-                                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                                </Box>
-                            ) : null} */}
+                            {/* <Box component="span">{order === 'desc' ? 'sorted descending' : 'sorted ascending'}</Box> */}
                         </TableSortLabel>
-                    )}
-                </TableCell>
-                {headCells.map((headCell) => (
-                    <TableCell
-                        key={headCell.id}
-                        align={'left'}
-                        padding={headCell.disablePadding ? 'none' : 'normal'}
-                        // sortDirection={orderBy === headCell.id ? order : false}
-                        sx={{ color: theme.palette.grey[500] }}
-                    >
-                        {headCell.label}
                     </TableCell>
-                ))}
+                )}
+
+                <TableCell
+                    align={'left'}
+                    padding={'normal'}
+                    // sortDirection={orderBy === headCell.id ? order : false}
+                    sx={{ color: theme.palette.grey[500] }}
+                >
+                    Bài hát
+                </TableCell>
+                <TableCell
+                    align={'left'}
+                    padding={'normal'}
+                    // sortDirection={orderBy === headCell.id ? order : false}
+                    sx={{ color: theme.palette.grey[500] }}
+                >
+                    Album
+                </TableCell>
+                <TableCell
+                    align={'right'}
+                    padding={'normal'}
+                    // sortDirection={orderBy === headCell.id ? order : false}
+                    sx={{ color: theme.palette.grey[500], width: 150 }}
+                >
+                    Bài hát
+                </TableCell>
             </TableRow>
         </TableHead>
     );
@@ -171,7 +157,6 @@ EnhancedTableHead.propTypes = {
 
 function TableMusic({ data }) {
     const theme = useTheme();
-
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('calories');
     const [selected, setSelected] = React.useState([]);
@@ -234,7 +219,15 @@ function TableMusic({ data }) {
         <Box sx={{ width: '100%' }}>
             {/* <EnhancedTableToolbar numSelected={selected.length} /> */}
             <TableContainer>
-                <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'medium'}>
+                <Table
+                    sx={{
+                        minWidth: 750,
+                        overflowX: 'hidden',
+                        borderColor: theme.palette.grey[500],
+                    }}
+                    aria-labelledby="tableTitle"
+                    size={'medium'}
+                >
                     <EnhancedTableHead
                         numSelected={selected.length}
                         order={order}
@@ -249,47 +242,14 @@ function TableMusic({ data }) {
                             const labelId = `enhanced-table-checkbox-${index}`;
 
                             return (
-                                <TableRow
-                                    hover
-                                    onClick={(event) => handleClick(event, row.name)}
-                                    role="checkbox"
-                                    aria-checked={isItemSelected}
-                                    tabIndex={-1}
+                                <RowTableMusic
                                     key={row.name}
-                                    selected={isItemSelected}
-                                    sx={{
-                                        cursor: 'pointer',
-                                        '&:hover': {
-                                            background: 'rgba(23,15,35,0.3)',
-                                        },
-                                    }}
-                                >
-                                    <TableCell padding="checkbox" sx={{ color: theme.palette.grey[500] }}>
-                                        <Checkbox
-                                            sx={{ color: theme.palette.grey[500] }}
-                                            checked={isItemSelected}
-                                            inputProps={{
-                                                'aria-labelledby': labelId,
-                                            }}
-                                        />
-                                    </TableCell>
-                                    <TableCell
-                                        component="th"
-                                        id={labelId}
-                                        scope="row"
-                                        padding="none"
-                                        align="left"
-                                        sx={{ color: theme.palette.grey[500] }}
-                                    >
-                                        {row.name}
-                                    </TableCell>
-                                    <TableCell align="left" sx={{ color: theme.palette.grey[500] }}>
-                                        {row.calories}
-                                    </TableCell>
-                                    <TableCell align="left" sx={{ color: theme.palette.grey[500] }}>
-                                        {row.fat}
-                                    </TableCell>
-                                </TableRow>
+                                    row={row}
+                                    isItemSelected={isItemSelected}
+                                    handleClick={handleClick}
+                                    labelId={labelId}
+                                    selectedArr={selected}
+                                />
                             );
                         })}
                         {emptyRows > 0 && (
@@ -304,18 +264,157 @@ function TableMusic({ data }) {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <TablePagination
+            {/* <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
                 count={rows.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-            {/* <FormControlLabel control={<Switch checked={dense} onChange={handleChangeDense} />} label="Dense padding" /> */}
+                onRowsPerPageChange={handleChangeRowsPerPage} 
+            />*/}
         </Box>
     );
 }
 
 export default TableMusic;
+
+function RowTableMusic({ row, isItemSelected, handleClick, labelId, selectedArr = [] }) {
+    const theme = useTheme();
+    const [hover, setHover] = React.useState(false);
+
+    return (
+        <TableRow
+            hover
+            role="checkbox"
+            aria-checked={isItemSelected}
+            tabIndex={-1}
+            selected={isItemSelected}
+            sx={{
+                height: 70,
+                cursor: 'pointer',
+                '&.MuiTableRow-root': {
+                    borderRadius: 2,
+                    overflow: 'hidden',
+                },
+                '&.MuiTableRow-root.Mui-selected': {
+                    backgroundColor: alpha(theme.palette.grey[500], theme.palette.action.selectedOpacity),
+                },
+                '&.MuiTableRow-root.Mui-selected:hover': {
+                    backgroundColor: alpha(theme.palette.grey[600], theme.palette.action.selectedOpacity),
+                },
+                '&.MuiTableRow-root:hover': {
+                    backgroundColor: alpha(theme.palette.grey[600], theme.palette.action.selectedOpacity),
+                },
+            }}
+            onMouseEnter={() => setHover(true)}
+            onMouseLeave={() => setHover(false)}
+            // classes={{
+            //     root: useStyles.tableRowRoot,
+            //     selected: useStyles.tableRowSelected,
+            // }}
+        >
+            {selectedArr.length > 0 || hover ? (
+                <TableCell sx={{ color: theme.palette.grey[500], width: 50 }} padding="checkbox">
+                    <Checkbox
+                        onClick={(event) => handleClick(event, row.name)}
+                        sx={{ color: theme.palette.grey[500] }}
+                        checked={isItemSelected}
+                        inputProps={{
+                            'aria-labelledby': labelId,
+                        }}
+                    />
+                </TableCell>
+            ) : (
+                <TableCell sx={{ color: theme.palette.grey[500], width: 50 }}>
+                    <MusicNote size={20} color={theme.palette.grey[500]} />
+                </TableCell>
+            )}
+
+            <TableCell
+                component="th"
+                id={labelId}
+                scope="row"
+                padding="none"
+                align="left"
+                sx={{ color: theme.palette.grey[500] }}
+            >
+                <Stack direction={'row'} gap={1} alignItems={'center'}>
+                    <Box sx={{ height: 40, width: 40, overflow: 'hidden', borderRadius: 1, position: 'relative' }}>
+                        <img
+                            style={{ height: '100%', width: '100%', objectFit: 'cover' }}
+                            src={
+                                'https://photo-resize-zmp3.zmdcdn.me/w94_r1x1_webp/covers/f/a/facbb6acec54dacd342c04b533f56b9d_1396931968.jpg'
+                            }
+                            alt="music"
+                        />
+                        {hover && (
+                            <Box
+                                sx={{
+                                    position: 'absolute',
+                                    width: '100%',
+                                    height: '100%',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    top: 0,
+                                    left: 0,
+                                }}
+                            >
+                                <Play size={15} color={theme.palette.common.white} weight="fill" />
+                            </Box>
+                        )}
+                    </Box>
+                    <Stack direction={'column'}>
+                        <Typography
+                            variant="h5"
+                            fontSize="1rem"
+                            color={theme.palette.common.white}
+                            overflow={'hidden'}
+                            textOverflow={'ellipsis'}
+                        >
+                            {row.name}
+                        </Typography>
+                        <Stack direction={'row'} alignItems={'center'}>
+                            <Typography variant="body2" color={theme.palette.grey[500]}>
+                                Earl Klugh
+                            </Typography>
+                        </Stack>
+                    </Stack>
+                </Stack>
+            </TableCell>
+            <TableCell align="left" sx={{ color: theme.palette.grey[500] }}>
+                <Typography variant="body2" color={theme.palette.grey[500]}>
+                    Heimweh (Single)
+                </Typography>
+            </TableCell>
+            <TableCell align="right" sx={{ color: theme.palette.grey[500] }}>
+                {hover ? (
+                    <Stack direction={'row'} alignItems={'center'} justifyContent={'flex-end'}>
+                        <Tooltip title="Thêm vào thư viện">
+                            <Checkbox
+                                sx={{ marginRight: '10px' }}
+                                icon={<Heart size={15} color={theme.palette.common.white} />}
+                                checkedIcon={<Heart size={15} weight="fill" color="#9b4de0" />}
+                                // sx={{ color: '#9b4de0' }}
+                            />
+                        </Tooltip>
+                        <Tooltip title="khác">
+                            <IconButton
+                                sx={{
+                                    '&:hover': {
+                                        background: theme.palette.grey[800],
+                                    },
+                                }}
+                            >
+                                <DotsThree size={20} weight="bold" color={theme.palette.common.white} />
+                            </IconButton>
+                        </Tooltip>
+                    </Stack>
+                ) : (
+                    '03:09'
+                )}
+            </TableCell>
+        </TableRow>
+    );
+}
