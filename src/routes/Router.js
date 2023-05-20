@@ -8,6 +8,7 @@ import Signup from '~/pages/SignUp';
 import Resetpass from '~/pages/ResetPass';
 import Library from '~/pages/Library/Library';
 import DetailPlaylist from '~/layout/components/DetailPlaylist/DetailPlaylist';
+import MyPlayList from '~/pages/MyPlayList/MyPlayList';
 // Public routes
 const publicRoutes = [
     { path: configRouter.Home, component: Home },
@@ -16,7 +17,7 @@ const publicRoutes = [
     { path: configRouter.ResetPass, component: Resetpass, layout: null },
     { path: configRouter.ZingChart, component: Home },
     { path: configRouter.Library, component: Library },
-    { path: configRouter.Favorite, component: Home },
+    { path: configRouter.Favorite, component: MyPlayList },
     { path: configRouter.DetailPlaylist, component: DetailPlaylist },
 ];
 const privateRoutes = [];
