@@ -10,9 +10,9 @@ import Type from '~/pages/Publish/Type/Type';
 import Content from '~/pages/Publisher/Content/Content';
 import Library from '~/pages/Publisher/Library/Library';
 import Signup from '~/pages/Publish/Signup/Signup';
-import ResetPass from '~/pages/Publish/ResetPass/ResetPass';
 
 import MyPlayList from '~/pages/Publish/MyPlayList/MyPlayList';
+import ResetPass from '~/pages/Publish/Resetpass/Resetpass';
 // Public routes
 const publicRoutes = [
     { path: configRouter.Home, component: Content },
