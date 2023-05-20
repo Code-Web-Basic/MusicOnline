@@ -1,10 +1,10 @@
-import { Box, Container, Stack, Typography } from "@mui/material";
-import { PlayCircle } from "phosphor-react";
-import ListMyPlayList from "~/layout/components/ListMyPlayList/ListMyPlayList";
+import { Box, Container, Stack, Typography } from '@mui/material';
+import { PlayCircle } from 'phosphor-react';
+import ListMyPlayList from '~/layout/components/Publish/ListMyPlayList/ListMyPlayList';
 import { styled } from '@mui/system';
 import { buttonClasses } from '@mui/base/Button';
 import { Tab, TabPanel, Tabs, TabsList, tabClasses } from '@mui/base';
-import ItemTabPlaylist from "~/layout/components/Publish/Home/ListTabPlaylist/ItemTabPlaylist";
+import ItemTabPlaylist from '~/layout/components/Publish/Home/ListTabPlaylist/ItemTabPlaylist';
 
 const grey = {
     50: '#f6f8fa',
@@ -77,106 +77,143 @@ const StyledTabsList = styled(TabsList)(
 
 function Library() {
     const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    return (<div
-        style={{
-            minHeight: 'calc(100vh - 70px - 90px)',
-            backgroundColor: '#170f23',
-            height: '100%',
-            textOverflow: 'auto',
-        }}
-    >
-        <Container maxWidth="xl" sx={{ display: 'flex', flexDirection: 'column', padding: '40px 0px' }}>
-            <Stack>
-                <Typography variant='h3' color='white' sx={{ display: 'flex', alignItems: 'center' }}>
-                    Thư viện
-                    <PlayCircle cursor='pointer' size={40} weight="fill" />
-                </Typography>
-            </Stack>
-            <Stack sx={{ marginTop: '45px' }}>
-                <ListMyPlayList title={'PLAYLIST'} data={data} />
-            </Stack>
-            <Stack sx={{ marginTop: '30px' }}>
-                <Typography variant='h3' color='white' fontSize={'1.2rem'} sx={{ display: 'flex', alignItems: 'center' }}>
-                    BÀI HÁT
-                </Typography>
-                <Stack direction="row" width="100%" padding="10px">
-                    <Box sx={{ width: '100%' }}>
-                        <Tabs defaultValue={1}>
-                            <StyledTabsList>
-                                <StyledTab value={1}>Yêu thích</StyledTab>
-                                <StyledTab value={2}>Đã tải lên</StyledTab>
-                            </StyledTabsList>
-                            <StyledTabPanel value={1}>
-                                <ItemTabPlaylist />
-                            </StyledTabPanel>
-                            <StyledTabPanel value={2}>
-                                <Stack display='flex' flexDirection='column' width='90%'>
-                                    <Stack display='flex' flexDirection='row' justifyContent='space-between' >
-                                        <Typography variant="h3" fontSize='0.8rem' color='#ccc'>
-                                            BÀI HÁT
-                                        </Typography>
-                                        <Typography variant="h3" fontSize='0.8rem' color='#ccc'>
-                                            THỜI GIAN
-                                        </Typography>
-                                    </Stack>
-                                    <Stack display='flex' flexDirection='row' justifyContent='space-between' alignItems='center' padding='5px 5px' sx={{ backgroundColor: 'hsla(0,0%,100%,0.1)', margin: '5px 0' }}>
-                                        <Box sx={{ width: '33%', height: '100%', display: 'flex', alignItems: 'center' }}>
-                                            <Box sx={{ width: '64px', height: '64px' }}>
-                                                <img
-                                                    src="https://th.bing.com/th/id/OIP.QBN8EFimKWv_qtNxC3FP5wHaGU?pid=ImgDet&rs=1"
-                                                    alt="img"
-                                                    style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '5px' }}
-                                                />
-                                            </Box>
-                                            <Box sx={{ width: '150px', paddingRight: '10px', marginLeft: '10px' }}>
-                                                <Typography color="white" fontSize="14px">
-                                                    Tên bài nhạc
-                                                </Typography>
-                                                <Typography color="white" fontSize="12px">
-                                                    Ten ca si
-                                                </Typography>
-                                            </Box>
-                                        </Box>
-                                        <Box color='white'>
-                                            Cá nhân
-                                        </Box>
-                                        <Box color='white'>
-                                            02:32
-                                        </Box>
-                                    </Stack>
-                                    <Stack display='flex' flexDirection='row' justifyContent='space-between' alignItems='center' padding='5px 5px' sx={{ backgroundColor: 'hsla(0,0%,100%,0.1)', margin: '5px 0' }}>
-                                        <Box sx={{ width: '33%', height: '100%', display: 'flex', alignItems: 'center' }}>
-                                            <Box sx={{ width: '64px', height: '64px' }}>
-                                                <img
-                                                    src="https://th.bing.com/th/id/OIP.QBN8EFimKWv_qtNxC3FP5wHaGU?pid=ImgDet&rs=1"
-                                                    alt="img"
-                                                    style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '5px' }}
-                                                />
-                                            </Box>
-                                            <Box sx={{ width: '150px', paddingRight: '10px', marginLeft: '10px' }}>
-                                                <Typography color="white" fontSize="14px">
-                                                    Tên bài nhạc
-                                                </Typography>
-                                                <Typography color="white" fontSize="12px">
-                                                    Ten ca si
-                                                </Typography>
-                                            </Box>
-                                        </Box>
-                                        <Box color='white'>
-                                            Cá nhân
-                                        </Box>
-                                        <Box color='white'>
-                                            02:32
-                                        </Box>
-                                    </Stack>
-                                </Stack>
-                            </StyledTabPanel>
-                        </Tabs>
-                    </Box>
+    return (
+        <div
+            style={{
+                minHeight: 'calc(100vh - 70px - 90px)',
+                backgroundColor: '#170f23',
+                height: '100%',
+                textOverflow: 'auto',
+            }}
+        >
+            <Container maxWidth="xl" sx={{ display: 'flex', flexDirection: 'column', padding: '40px 0px' }}>
+                <Stack>
+                    <Typography variant="h3" color="white" sx={{ display: 'flex', alignItems: 'center' }}>
+                        Thư viện
+                        <PlayCircle cursor="pointer" size={40} weight="fill" />
+                    </Typography>
                 </Stack>
-            </Stack>
-        </Container>
-    </div>);
+                <Stack sx={{ marginTop: '45px' }}>
+                    <ListMyPlayList title={'PLAYLIST'} data={data} />
+                </Stack>
+                <Stack sx={{ marginTop: '30px' }}>
+                    <Typography
+                        variant="h3"
+                        color="white"
+                        fontSize={'1.2rem'}
+                        sx={{ display: 'flex', alignItems: 'center' }}
+                    >
+                        BÀI HÁT
+                    </Typography>
+                    <Stack direction="row" width="100%" padding="10px">
+                        <Box sx={{ width: '100%' }}>
+                            <Tabs defaultValue={1}>
+                                <StyledTabsList>
+                                    <StyledTab value={1}>Yêu thích</StyledTab>
+                                    <StyledTab value={2}>Đã tải lên</StyledTab>
+                                </StyledTabsList>
+                                <StyledTabPanel value={1}>
+                                    <ItemTabPlaylist />
+                                </StyledTabPanel>
+                                <StyledTabPanel value={2}>
+                                    <Stack display="flex" flexDirection="column" width="90%">
+                                        <Stack display="flex" flexDirection="row" justifyContent="space-between">
+                                            <Typography variant="h3" fontSize="0.8rem" color="#ccc">
+                                                BÀI HÁT
+                                            </Typography>
+                                            <Typography variant="h3" fontSize="0.8rem" color="#ccc">
+                                                THỜI GIAN
+                                            </Typography>
+                                        </Stack>
+                                        <Stack
+                                            display="flex"
+                                            flexDirection="row"
+                                            justifyContent="space-between"
+                                            alignItems="center"
+                                            padding="5px 5px"
+                                            sx={{ backgroundColor: 'hsla(0,0%,100%,0.1)', margin: '5px 0' }}
+                                        >
+                                            <Box
+                                                sx={{
+                                                    width: '33%',
+                                                    height: '100%',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                }}
+                                            >
+                                                <Box sx={{ width: '64px', height: '64px' }}>
+                                                    <img
+                                                        src="https://th.bing.com/th/id/OIP.QBN8EFimKWv_qtNxC3FP5wHaGU?pid=ImgDet&rs=1"
+                                                        alt="img"
+                                                        style={{
+                                                            width: '100%',
+                                                            height: '100%',
+                                                            objectFit: 'cover',
+                                                            borderRadius: '5px',
+                                                        }}
+                                                    />
+                                                </Box>
+                                                <Box sx={{ width: '150px', paddingRight: '10px', marginLeft: '10px' }}>
+                                                    <Typography color="white" fontSize="14px">
+                                                        Tên bài nhạc
+                                                    </Typography>
+                                                    <Typography color="white" fontSize="12px">
+                                                        Ten ca si
+                                                    </Typography>
+                                                </Box>
+                                            </Box>
+                                            <Box color="white">Cá nhân</Box>
+                                            <Box color="white">02:32</Box>
+                                        </Stack>
+                                        <Stack
+                                            display="flex"
+                                            flexDirection="row"
+                                            justifyContent="space-between"
+                                            alignItems="center"
+                                            padding="5px 5px"
+                                            sx={{ backgroundColor: 'hsla(0,0%,100%,0.1)', margin: '5px 0' }}
+                                        >
+                                            <Box
+                                                sx={{
+                                                    width: '33%',
+                                                    height: '100%',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                }}
+                                            >
+                                                <Box sx={{ width: '64px', height: '64px' }}>
+                                                    <img
+                                                        src="https://th.bing.com/th/id/OIP.QBN8EFimKWv_qtNxC3FP5wHaGU?pid=ImgDet&rs=1"
+                                                        alt="img"
+                                                        style={{
+                                                            width: '100%',
+                                                            height: '100%',
+                                                            objectFit: 'cover',
+                                                            borderRadius: '5px',
+                                                        }}
+                                                    />
+                                                </Box>
+                                                <Box sx={{ width: '150px', paddingRight: '10px', marginLeft: '10px' }}>
+                                                    <Typography color="white" fontSize="14px">
+                                                        Tên bài nhạc
+                                                    </Typography>
+                                                    <Typography color="white" fontSize="12px">
+                                                        Ten ca si
+                                                    </Typography>
+                                                </Box>
+                                            </Box>
+                                            <Box color="white">Cá nhân</Box>
+                                            <Box color="white">02:32</Box>
+                                        </Stack>
+                                    </Stack>
+                                </StyledTabPanel>
+                            </Tabs>
+                        </Box>
+                    </Stack>
+                </Stack>
+            </Container>
+        </div>
+    );
 }
 
 export default Library;
