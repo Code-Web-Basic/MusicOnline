@@ -75,10 +75,10 @@ function Header() {
                     onClose={handleCloseUserMenu}
                 >
                     <MenuItem sx={{ display: 'flex', flexDirection: 'column' }} onClick={handleCloseUserMenu}>
-                        <Typography textAlign="center" margin='5px'><Link to={configRouter.Login} >Thông tin cá nhân</Link></Typography>
+                        <Typography textAlign="center" margin='5px'><Link to={configRouter.Profile} >Thông tin cá nhân</Link></Typography>
                         <Typography textAlign="center" margin='5px'><Link to={configRouter.Login} >Đăng ký nhà phát hành</Link></Typography>
                         <Typography textAlign="center" margin='5px'><Link to={configRouter.Login} >Đăng nhập</Link></Typography>
-                        <Typography textAlign="center" margin='5px'><Link to={configRouter.Login} >Đăng xuất</Link></Typography>
+                        <Typography textAlign="center" margin='5px'><Link to={configRouter.Home} >Đăng xuất</Link></Typography>
                     </MenuItem>
                 </Menu>
             </Box>

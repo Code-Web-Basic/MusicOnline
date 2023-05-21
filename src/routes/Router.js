@@ -13,6 +13,7 @@ import Signup from '~/pages/Publish/Signup/Signup';
 
 import MyPlayList from '~/pages/Publish/MyPlayList/MyPlayList';
 import ResetPass from '~/pages/Publish/Resetpass/Resetpass';
+import Profile from '~/pages/Publish/Profile/Profile';
 // Public routes
 const publicRoutes = [
     { path: configRouter.Home, component: Content },
@@ -23,6 +24,7 @@ const publicRoutes = [
     { path: configRouter.Library, component: Library },
     { path: configRouter.Favorite, component: MyPlayList },
     { path: configRouter.DetailPlaylist, component: DetailPlaylist },
+    { path: configRouter.Profile, component: Profile, layout: null },
 ];
 const privateRoutes = [];
 
