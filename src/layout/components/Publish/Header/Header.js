@@ -1,6 +1,8 @@
 import { Avatar, Box, Fab, FormControl, IconButton, Input, InputAdornment, InputBase, Menu, MenuItem, Tooltip, Typography, useTheme } from "@mui/material";
 import { MagnifyingGlass, SketchLogo } from "phosphor-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { configRouter } from "~/config";
 
 function Header() {
     const [anchorElUser, setAnchorElUser] = useState(null);
@@ -72,11 +74,12 @@ function Header() {
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                 >
-                    {settings.map((setting) => (
-                        <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                            <Typography textAlign="center">{setting}</Typography>
-                        </MenuItem>
-                    ))}
+                    <MenuItem sx={{ display: 'flex', flexDirection: 'column' }} onClick={handleCloseUserMenu}>
+                        <Typography textAlign="center" margin='5px'><Link to={configRouter.Login} >Thông tin cá nhân</Link></Typography>
+                        <Typography textAlign="center" margin='5px'><Link to={configRouter.Login} >Đăng ký nhà phát hành</Link></Typography>
+                        <Typography textAlign="center" margin='5px'><Link to={configRouter.Login} >Đăng nhập</Link></Typography>
+                        <Typography textAlign="center" margin='5px'><Link to={configRouter.Login} >Đăng xuất</Link></Typography>
+                    </MenuItem>
                 </Menu>
             </Box>
         </Box>

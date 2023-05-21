@@ -1,5 +1,5 @@
-import { Box, Container, Modal, Stack, Switch, Typography } from '@mui/material';
-import { PlusCircle, X } from 'phosphor-react';
+import { Box, Container, IconButton, Modal, Stack, Switch, Typography } from '@mui/material';
+import { Play, PlusCircle, X } from 'phosphor-react';
 import { useState } from 'react';
 
 const style = {
@@ -17,6 +17,7 @@ function MyPlayList() {
     const [newPlayList, setNewPlayList] = useState(false);
     const [checked, setChecked] = useState(true);
     const [namePlayList, setNamePlayList] = useState('');
+    const [isHovering, setIsHovering] = useState(false);
     const handleOpenNewPlayList = () => {
         setNewPlayList(true);
     };
@@ -45,6 +46,7 @@ function MyPlayList() {
     const handleGetNamePlayList = (e) => {
         setNamePlayList(e.target.value);
     };
+
     return (
         <Container maxWidth="xl" sx={{ display: 'flex', flexDirection: 'column' }}>
             <Stack borderBottom="1px solid #ccc" padding="15px" display="flex" flexDirection="row">
@@ -52,7 +54,10 @@ function MyPlayList() {
                     Playlist
                 </Typography>
             </Stack>
+            {/* All playlist */}
             <Stack margin="10px 10px" sx={{ display: 'flex', flexDirection: 'row' }}>
+
+                {/* new playlist */}
                 <Stack sx={{ cursor: 'pointer' }} width="18%" height="250px" border="1px solid hsla(0,0%,100%,0.1)">
                     <Stack
                         onClick={handleOpenNewPlayList}
@@ -146,14 +151,36 @@ function MyPlayList() {
                         </Box>
                     </Modal>
                 </Stack>
+
+                {/* dispaly all playlist */}
                 <Stack
-                    margin="10px 10px"
-                    sx={{ cursor: 'pointer' }}
+                    margin="0px 10px"
+                    sx={{
+                        cursor: 'pointer',
+                    }}
                     width="18%"
                     height="250px"
-                    border="1px solid hsla(0,0%,100%,0.1)"
+                    onMouseOver={() => setIsHovering(true)}
+                    onMouseOut={() => setIsHovering(false)}
                 >
-                    test
+                    {isHovering && (
+                        <IconButton
+                            sx={{
+                                position: 'absolute',
+                            }}
+                        >
+                            <Play size={20} weight="fill" />
+                        </IconButton>
+                    )}
+                    <img src='https://th.bing.com/th/id/OIP.94-AotN7wmEJEpbouOzJ3QHaHa?pid=ImgDet&rs=1'
+                        style={{
+                            borderRadius: '5px', width: '100%', height: '205px',
+                            '&:hover': {
+                                background: 'hsla(0,0%,100%,0.1)',
+                            },
+                        }} />
+                    <Typography variant="h4" color="white" fontSize="1.2rem" margin='3px 0px'>name</Typography>
+                    <Typography variant="h4" color="white" fontSize="1rem" fontStyle='italic' sx={{ opacity: '0.7' }}>name</Typography>
                 </Stack>
             </Stack>
         </Container>
