@@ -1,29 +1,52 @@
 import { Fragment } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { publicRoutes, privateRoutes } from '~/routes';
-import DefaultLayout from '~/layout/Publish/DefaultLayout';
+import { publicRoutes, publisherRoutes, adminRoutes } from '~/routes';
+import DefaultLayoutPublic from '~/layout/Publish';
+import DefaultLayoutAdmin from '~/layout/Admin';
+import DefaultLayoutPublisher from '~/layout/Publisher';
 import { useSelector } from 'react-redux';
 
 function App() {
     const currentUser = useSelector((state) => state.auth.currentUser);
-    let routerCheck = publicRoutes;
-
-    if (currentUser) {
-        routerCheck = privateRoutes;
+    let routerCheck = null;
+    const role = 'publisher';
+    // routerCheck = publisherRoutes;
+    if (role === 'admin') {
+        routerCheck = adminRoutes;
+    } else if (role === 'publisher') {
+        routerCheck = publisherRoutes;
+    } else {
+        routerCheck = publicRoutes;
     }
+
     return (
         <Router>
             <div className="App">
                 <Routes>
                     {routerCheck.map((route, index) => {
                         const Page = route.component;
-                        let Layout = DefaultLayout;
+                        let Layout = null;
+                        // layout router
+                        if (role === 'admin') {
+                            Layout = DefaultLayoutAdmin;
+                        } else if (role === 'publisher') {
+                            Layout = DefaultLayoutPublisher;
+                        } else {
+                            Layout = DefaultLayoutPublic;
+                        }
+                        //
                         if (route.layout) {
                             Layout = route.layout;
                         } else if (route.layout === null) {
                             Layout = Fragment;
                         } else {
-                            Layout = DefaultLayout;
+                            if (role === 'admin') {
+                                Layout = DefaultLayoutAdmin;
+                            } else if (role === 'publisher') {
+                                Layout = DefaultLayoutPublisher;
+                            } else {
+                                Layout = DefaultLayoutPublic;
+                            }
                         }
                         return (
                             <Route

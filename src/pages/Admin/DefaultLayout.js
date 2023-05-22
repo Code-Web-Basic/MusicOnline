@@ -1,4 +1,4 @@
-import { Box, Grid, Stack } from '@mui/material';
+import { Grid, Stack } from '@mui/material';
 import Sidebar from '~/layout/components/Publish/SideBar';
 import Header from '../../components/Publish/Header/Header';
 import PlayMusic from '../../components/Publish/PlayMusic/PlayMusic';
@@ -19,5 +19,3 @@ function DefaultLayout({ children }) {
         </Stack>
     );
 }
-
-export default DefaultLayout;
