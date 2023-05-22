@@ -7,6 +7,7 @@ import { store } from './app/store';
 import App from '~/App';
 import GlobalStyles from './components/GlobalStyles/GlobalStyles';
 import ThemeProvider from './theme';
+import { SnackbarProvider } from 'notistack';
 // import { StyledChart } from './layout/components/Publisher/chart';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -16,8 +17,9 @@ root.render(
             <GlobalStyles>
                 <ThemeProvider>
                     {/* <StyledChart /> */}
-
-                    <App />
+                    <SnackbarProvider>
+                        <App />
+                    </SnackbarProvider>
                 </ThemeProvider>
             </GlobalStyles>
         </Provider>

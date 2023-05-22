@@ -12,9 +12,11 @@ function App() {
     const role = 'publisher';
     // routerCheck = publisherRoutes;
     if (role === 'admin') {
-        routerCheck = adminRoutes;
+        const arrTmp = [...adminRoutes, ...publicRoutes];
+        routerCheck = arrTmp;
     } else if (role === 'publisher') {
-        routerCheck = publisherRoutes;
+        const arrTmp = [...publisherRoutes, ...publicRoutes];
+        routerCheck = arrTmp;
     } else {
         routerCheck = publicRoutes;
     }

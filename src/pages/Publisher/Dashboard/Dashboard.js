@@ -2,8 +2,21 @@ import { Stack, Typography } from '@mui/material';
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 import ListMusicNew from '~/layout/Publisher/ListMusicNew/ListMusicNew';
 import { faker } from '@faker-js/faker';
+import { useEffect } from 'react';
+import { getMusic } from '~/service/publisher/musicService';
 
 function Dashboard() {
+    useEffect(() => {
+        const getApi = async () => {
+            try {
+                const res = await getMusic();
+                console.log(res);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        getApi();
+    }, []);
     return (
         <Stack direction={'column'}>
             <Stack direction={'row'} margin={'0px 20px'}>

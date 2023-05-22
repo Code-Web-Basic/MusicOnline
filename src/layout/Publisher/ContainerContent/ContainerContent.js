@@ -2,6 +2,7 @@ import { Stack, Typography, useTheme } from '@mui/material';
 import TabListContent from './TabListContent';
 import { Button } from '@mui/material';
 import { UploadSimple } from 'phosphor-react';
+import UploadNewMusic from '../UploadNewMusic/UploadNewMusic';
 
 function ContainerContent() {
     const theme = useTheme();
@@ -16,9 +17,11 @@ function ContainerContent() {
                 >
                     Content Music
                 </Typography>
-                <Button size="large" variant="contained" startIcon={<UploadSimple size={20} weight="fill" />}>
-                    upload new music
-                </Button>
+                <UploadNewMusic>
+                    <Button size="large" variant="contained" startIcon={<UploadSimple size={20} weight="fill" />}>
+                        upload new music
+                    </Button>
+                </UploadNewMusic>
             </Stack>
             <Stack direction={'row'} padding={2}>
                 <TabListContent />
