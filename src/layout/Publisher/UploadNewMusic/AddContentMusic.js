@@ -25,12 +25,14 @@ import { Timestamp } from 'firebase/firestore';
 import { createMusic } from '~/service/publisher/musicService';
 import { useSnackbar } from 'notistack';
 import { formatDurationMusic } from '~/util/formatTime';
+import { useSelector } from 'react-redux';
 
 AddContentMusic.prototype = {
     files: PropTypes.array,
     handleOpen: PropTypes.func,
 };
 function AddContentMusic({ files = [], handleOpen }) {
+    const currentUser = useSelector((state) => state.auth.currentUser);
     const inputRef = useRef(null);
     const theme = useTheme();
     const audioRef = useRef(files[0] !== null ? new Audio(URL.createObjectURL(files[0])) : null);
@@ -73,7 +75,7 @@ function AddContentMusic({ files = [], handleOpen }) {
             numberListen: 0,
             numberComment: 0,
             numberLike: 0,
-            idPublisher: '',
+            idPublisher: currentUser.user.uid,
             status: status,
             album: idAlbums,
             singles: idSingles,
