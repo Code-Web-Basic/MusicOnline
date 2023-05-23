@@ -18,7 +18,8 @@ export const signUpPassWord = createAsyncThunk('auth/signUpPassWord', async (par
     const data = {
         userId: doc(db, user.uid),
         role: params.role,
-        timestamp: serverTimestamp(),
+        createAt: serverTimestamp(),
+        updateAt: serverTimestamp(),
     };
     const docRef = await addDoc(collection(db, 'role'), data);
     return { user, role: { id: docRef.id, ...data } };
@@ -28,6 +29,7 @@ export const signInPassWord = createAsyncThunk('auth/signInPassWord', async (par
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
     const q = query(collection(db, 'role'), where('userId', '==', user.uid));
+    console.log(user.uid);
     const querySnapshot = await getDocs(q);
     const role = querySnapshot.docs.map((doc) => doc.exists && { id: doc.id, ...doc.data() })[0];
     return { user, role: role };
@@ -45,7 +47,8 @@ export const signInGoogle = createAsyncThunk('auth/signInGoogle', async (params,
         const data = {
             userId: user.uid,
             role: 'user',
-            timestamp: serverTimestamp(),
+            createAt: serverTimestamp(),
+            updateAt: serverTimestamp(),
         };
         const roleRef = await addDoc(collection(db, 'role'), data);
         return { user, role: { id: roleRef.id, ...data } };
@@ -61,11 +64,11 @@ export const signInFacebook = createAsyncThunk('auth/signInFacebook', async (par
     const q = query(collection(db, 'role'), where('userId', '==', user.uid));
     const querySnapshot = await getDocs(q);
     if (querySnapshot.empty) {
-        console.log(querySnapshot);
         const data = {
             userId: user.uid,
             role: 'user',
-            timestamp: serverTimestamp(),
+            createAt: serverTimestamp(),
+            updateAt: serverTimestamp(),
         };
         const roleRef = await addDoc(collection(db, 'role'), data);
         return { user, role: { id: roleRef.id, ...data } };

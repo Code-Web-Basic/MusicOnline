@@ -9,9 +9,8 @@ function App() {
     let routerCheck = null;
     let role = null;
     if (currentUser?.role) {
-        role = currentUser?.role[0]?.role;
+        role = currentUser?.role?.role;
     }
-
     // routerCheck = publisherRoutes;
     if (role === 'admin') {
         const arrTmp = [...adminRoutes, ...publicRoutes];

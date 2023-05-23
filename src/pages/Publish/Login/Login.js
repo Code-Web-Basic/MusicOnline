@@ -22,7 +22,8 @@ import images from '~/asset/images';
 import { useDispatch, useSelector } from 'react-redux';
 import { signInGoogle, signInPassWord } from '~/features/authSlice';
 import { useSnackbar } from 'notistack';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import router from '~/config/Router';
 
 const IOSSwitch = styled((props) => <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />)(
     ({ theme }) => ({
@@ -104,7 +105,7 @@ function Login() {
     return (
         <>
             <Grid container width="100%" height={'100vh'}>
-                <Grid item xs={6} height="100%" alignItems="center" justifyContent="center">
+                <Grid item xs={6} height="100%" alignItems="center" justifyContent="center" zIndex={10}>
                     <Stack direction={'column'} p={2} height="100%" width="100%" spacing={2}>
                         <Stack direction={'row'} alignItems="center" justifyContent={'space-between'}>
                             <Box height={50}>
@@ -121,6 +122,8 @@ function Login() {
                                     Don’t have an account?
                                 </Typography>
                                 <Typography
+                                    component={Link}
+                                    to={router.Signup}
                                     // fontSize="0.8rem"
                                     variant="button"
                                     fontWeight={500}
@@ -283,16 +286,16 @@ function Login() {
                             position="relative"
                             width="100%"
                             height="100%"
+                            overflow={'hidden'}
                         >
                             <img
                                 src={images.loginBackground}
                                 alt="background"
                                 style={{
-                                    position: 'absolute',
-                                    height: '100%',
+                                    maxHeight: '100%',
                                     width: '100%',
                                     objectFit: 'cover',
-                                    transform: 'translateX(-10%)',
+                                    transform: 'scale(1.5)',
                                 }}
                             />
                         </Stack>
