@@ -5,21 +5,23 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { store } from './app/store';
 import App from '~/App';
-import GlobalStyles from './components/GlobalStyles/GlobalStyles';
+// import GlobalStyles from './components/GlobalStyles/GlobalStyles';
 import ThemeProvider from './theme';
+import { SnackbarProvider } from 'notistack';
 // import { StyledChart } from './layout/components/Publisher/chart';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
         <Provider store={store}>
-            <GlobalStyles>
-                <ThemeProvider>
-                    {/* <StyledChart /> */}
-
+            {/* <GlobalStyles> */}
+            <ThemeProvider>
+                {/* <StyledChart /> */}
+                <SnackbarProvider>
                     <App />
-                </ThemeProvider>
-            </GlobalStyles>
+                </SnackbarProvider>
+            </ThemeProvider>
+            {/* </GlobalStyles> */}
         </Provider>
     </React.StrictMode>,
 );

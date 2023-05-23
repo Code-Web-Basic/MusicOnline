@@ -19,39 +19,38 @@ import Analytics from '~/pages/Publisher/Analytics/Analytics';
 import Earn from '~/pages/Publisher/Earn/Earn';
 import Account from '~/pages/Publisher/Account/Account';
 import Comment from '~/pages/Publisher/Comment/Comment';
+// layout
+import DefaultLayoutAdmin from '~/layout/Admin';
+import DefaultLayoutPublisher from '~/layout/Publisher';
+import ZingRank from '~/pages/Publish/ZingRank/ZingRank';
 // Public routes
 const publicRoutes = [
-    { path: configRouter.Home, component: Content },
+    { path: configRouter.Home, component: Home },
     { path: configRouter.Login, component: Login, layout: null },
     { path: configRouter.Signup, component: Signup, layout: null },
     { path: configRouter.ResetPass, component: ResetPass, layout: null },
-    { path: configRouter.ZingChart, component: Home },
+    { path: configRouter.ZingChart, component: ZingRank },
     { path: configRouter.Library, component: Library },
-    { path: configRouter.Favorite, component: MyPlayList },
+    { path: configRouter.Favorite, component: DetailPlaylist },
     { path: configRouter.DetailPlaylist, component: DetailPlaylist },
 ];
 const publisherRoutes = [
-    { path: configRouter.dashboard, component: Dashboard },
+    { path: configRouter.dashboard, component: Dashboard, layout: DefaultLayoutPublisher },
     { path: configRouter.Login, component: Login, layout: null },
     { path: configRouter.Signup, component: Signup, layout: null },
     { path: configRouter.ResetPass, component: ResetPass, layout: null },
-    { path: configRouter.content, component: Content },
-    { path: configRouter.analytics, component: Analytics },
-    { path: configRouter.comment, component: Comment },
-    { path: configRouter.accountPublisher, component: Account },
-    { path: configRouter.earn, component: Earn },
-    { path: configRouter.copyright, component: Copyright },
+    { path: configRouter.content, component: Content, layout: DefaultLayoutPublisher },
+    { path: configRouter.analytics, component: Analytics, layout: DefaultLayoutPublisher },
+    { path: configRouter.comment, component: Comment, layout: DefaultLayoutPublisher },
+    { path: configRouter.accountPublisher, component: Account, layout: DefaultLayoutPublisher },
+    { path: configRouter.earn, component: Earn, layout: DefaultLayoutPublisher },
+    { path: configRouter.copyright, component: Copyright, layout: DefaultLayoutPublisher },
 ];
 const adminRoutes = [
-    { path: configRouter.Home, component: Content },
     { path: configRouter.Login, component: Login, layout: null },
     { path: configRouter.Signup, component: Signup, layout: null },
     { path: configRouter.ResetPass, component: ResetPass, layout: null },
-    { path: configRouter.ZingChart, component: Home },
-    { path: configRouter.Library, component: Library },
-    { path: configRouter.Favorite, component: MyPlayList },
-    { path: configRouter.DetailPlaylist, component: DetailPlaylist },
 ];
-const privateRoutes = [];
+// const privateRoutes = [];
 
 export { publicRoutes, publisherRoutes, adminRoutes };
