@@ -8,5 +8,13 @@ const router = {
     Favorite: '/favorite',
     DetailPlaylist: '/playlist',
     Profile: '/profile',
+
+    dashboard: '/dashboard',
+    content: '/publisher/content',
+    analytics: '/publisher/analytics',
+    comment: '/publisher/comment',
+    earn: '/publisher/earn',
+    copyright: '/publisher/copyright',
+    accountPublisher: '/publisher/account',
 };
 export default router;

@@ -1,6 +1,6 @@
-import { Box, Container, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import { useTheme } from '@mui/material';
-import ListMusic from '~/layout/components/Publish/Home/ListMusic/ListMusic';
+import ListMusic from '~/layout/components/Publish/ListMusic/ListMusic';
 
 function Type() {
     const theme = useTheme();

@@ -18,7 +18,7 @@ function Sidebar() {
     const location = useLocation();
     const [openSideBar, setOpenSidebar] = useState(true);
     return (
-        <Box sx={{ position: 'sticky', top: '0px', height: 'calc(100vh - 90px)', backgroundColor: '#2a213a' }}>
+        <Box sx={{ position: 'sticky', top: '0px', backgroundColor: '#2a213a' }}>
             <Stack direction="row">
                 <Stack
                     direction={'column'}

@@ -1,29 +1,41 @@
 import { Fragment } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { publicRoutes, privateRoutes } from '~/routes';
-import DefaultLayout from '~/layout/Publish/DefaultLayout';
+import { publicRoutes, publisherRoutes, adminRoutes } from '~/routes';
+import DefaultLayoutPublic from '~/layout/Publish';
 import { useSelector } from 'react-redux';
 
 function App() {
     const currentUser = useSelector((state) => state.auth.currentUser);
-    let routerCheck = publicRoutes;
-
-    if (currentUser) {
-        routerCheck = privateRoutes;
+    let routerCheck = null;
+    let role = null;
+    if (currentUser?.role) {
+        role = currentUser?.role?.role;
     }
+    // routerCheck = publisherRoutes;
+    if (role === 'admin') {
+        const arrTmp = [...adminRoutes, ...publicRoutes];
+        routerCheck = arrTmp;
+    } else if (role === 'publisher') {
+        const arrTmp = [...publisherRoutes, ...publicRoutes];
+        routerCheck = arrTmp;
+    } else {
+        routerCheck = publicRoutes;
+    }
+
     return (
         <Router>
             <div className="App">
                 <Routes>
                     {routerCheck.map((route, index) => {
                         const Page = route.component;
-                        let Layout = DefaultLayout;
+                        let Layout = null;
+
                         if (route.layout) {
                             Layout = route.layout;
                         } else if (route.layout === null) {
                             Layout = Fragment;
                         } else {
-                            Layout = DefaultLayout;
+                            Layout = DefaultLayoutPublic;
                         }
                         return (
                             <Route

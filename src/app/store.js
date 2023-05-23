@@ -17,7 +17,7 @@ export default configureStore({
     },
 });
 
-const rootReducer = combineReducers({ auth: authReducer, myplaylist: MyPlayListReducer, });
+const rootReducer = combineReducers({ auth: authReducer, myplaylist: MyPlayListReducer });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store = configureStore({
     reducer: persistedReducer,

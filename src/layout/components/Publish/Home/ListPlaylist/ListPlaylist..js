@@ -49,7 +49,7 @@ function ListPlaylist({ title, data = [], size = 'small', type = 'playlist' }) {
                     style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}
                 >
                     {data.map((item) => (
-                        <SwiperSlide>
+                        <SwiperSlide key={item}>
                             <ItemPlaylist data={item} size={size} type={type} />
                         </SwiperSlide>
                     ))}
