@@ -32,7 +32,7 @@ const publicRoutes = [
     { path: configRouter.ResetPass, component: ResetPass, layout: null },
     { path: configRouter.ZingChart, component: ZingRank },
     { path: configRouter.Library, component: Library },
-    { path: configRouter.Favorite, component: DetailPlaylist },
+    { path: configRouter.Favorite, component: MyPlayList },
     { path: configRouter.DetailPlaylist, component: DetailPlaylist },
     { path: configRouter.Profile, component: Profile, layout: null },
 ];
