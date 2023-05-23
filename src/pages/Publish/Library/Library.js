@@ -87,6 +87,7 @@ function Library() {
             }}
         >
             <Container maxWidth="xl" sx={{ display: 'flex', flexDirection: 'column', padding: '40px 0px' }}>
+                {/* all playlist */}
                 <Stack>
                     <Typography variant="h3" color="white" sx={{ display: 'flex', alignItems: 'center' }}>
                         Thư viện
@@ -96,6 +97,8 @@ function Library() {
                 <Stack sx={{ marginTop: '45px' }}>
                     <ListMyPlayList title={'PLAYLIST'} data={data} />
                 </Stack>
+
+                {/* Music */}
                 <Stack sx={{ marginTop: '30px' }}>
                     <Typography
                         variant="h3"
@@ -112,9 +115,11 @@ function Library() {
                                     <StyledTab value={1}>Yêu thích</StyledTab>
                                     <StyledTab value={2}>Đã tải lên</StyledTab>
                                 </StyledTabsList>
+                                {/*  */}
                                 <StyledTabPanel value={1}>
                                     <ItemTabPlaylist />
                                 </StyledTabPanel>
+                                {/* da tai len */}
                                 <StyledTabPanel value={2}>
                                     <Stack display="flex" flexDirection="column" width="90%">
                                         <Stack display="flex" flexDirection="row" justifyContent="space-between">

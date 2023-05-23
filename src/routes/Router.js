@@ -10,7 +10,6 @@ import Type from '~/pages/Publish/Type/Type';
 import Content from '~/pages/Publisher/Content/Content';
 import Library from '~/pages/Publish/Library/Library';
 import Signup from '~/pages/Publish/Signup/Signup';
-import ResetPass from '~/pages/Publish/ResetPass/ResetPass';
 
 import MyPlayList from '~/pages/Publish/MyPlayList/MyPlayList';
 import Dashboard from '~/pages/Publisher/Dashboard/Dashboard';
@@ -23,6 +22,8 @@ import Comment from '~/pages/Publisher/Comment/Comment';
 import DefaultLayoutAdmin from '~/layout/Admin';
 import DefaultLayoutPublisher from '~/layout/Publisher';
 import ZingRank from '~/pages/Publish/ZingRank/ZingRank';
+import ResetPass from '~/pages/Publish/ResetPass/ResetPass';
+import Profile from '~/pages/Publish/Profile/Profile';
 // Public routes
 const publicRoutes = [
     { path: configRouter.Home, component: Home },
@@ -31,8 +32,9 @@ const publicRoutes = [
     { path: configRouter.ResetPass, component: ResetPass, layout: null },
     { path: configRouter.ZingChart, component: ZingRank },
     { path: configRouter.Library, component: Library },
-    { path: configRouter.Favorite, component: DetailPlaylist },
+    { path: configRouter.Favorite, component: MyPlayList },
     { path: configRouter.DetailPlaylist, component: DetailPlaylist },
+    { path: configRouter.Profile, component: Profile, layout: null },
 ];
 const publisherRoutes = [
     { path: configRouter.dashboard, component: Dashboard, layout: DefaultLayoutPublisher },

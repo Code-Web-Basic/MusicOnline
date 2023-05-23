@@ -16,6 +16,8 @@ import { MagnifyingGlass, SketchLogo } from 'phosphor-react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { logout } from '~/features/authSlice';
+import { Link } from 'react-router-dom';
+import { configRouter } from '~/config';
 
 function Header() {
     const dispatch = useDispatch();
