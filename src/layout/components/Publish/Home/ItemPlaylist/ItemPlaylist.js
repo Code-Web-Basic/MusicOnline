@@ -134,7 +134,7 @@ function ItemPlaylist({ size = 'large', data, type = 'playlist' }) {
                             <Checkbox
                                 icon={<Heart size={20} color={theme.palette.common.white} />}
                                 checkedIcon={<Heart size={20} weight="fill" color="#9b4de0" />}
-                                // sx={{ color: '#9b4de0' }}
+                            // sx={{ color: '#9b4de0' }}
                             />
                             <IconButton
                                 sx={{

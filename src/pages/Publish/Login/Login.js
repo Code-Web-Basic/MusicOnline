@@ -19,6 +19,8 @@ import {
 import { Eye, EyeSlash } from 'phosphor-react';
 // redux
 import images from '~/asset/images';
+import { Link } from 'react-router-dom';
+import { configRouter } from '~/config';
 
 const IOSSwitch = styled((props) => <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />)(
     ({ theme }) => ({
@@ -102,13 +104,15 @@ function Login() {
                                 <Typography variant="h4" fontSize="1rem">
                                     Don’t have an account?
                                 </Typography>
-                                <Typography
-                                    fontSize="1rem"
-                                    variant="h4"
-                                    sx={{ color: theme.palette.primary.main }}
-                                >
-                                    Sign up!
-                                </Typography>
+                                <Link to={configRouter.Signup}>
+                                    <Typography
+                                        fontSize="1rem"
+                                        variant="h4"
+                                        sx={{ color: theme.palette.primary.main }}
+                                    >
+                                        Sign up!
+                                    </Typography>
+                                </Link>
                             </Box>
                         </Stack>
                         <Stack direction={'column'} alignItems="center" justifyContent={'center'} spacing={2} flex="1">

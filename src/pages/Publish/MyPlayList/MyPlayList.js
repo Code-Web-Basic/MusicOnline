@@ -1,6 +1,9 @@
-import { Box, Container, IconButton, Modal, Stack, Switch, Typography } from '@mui/material';
+import { Alert, Box, Container, IconButton, Modal, Snackbar, Stack, Switch, Typography } from '@mui/material';
 import { Play, PlusCircle, X } from 'phosphor-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import ItemMyPlayList from '~/layout/components/Publish/ListMyPlayList/ItemMyPlayList';
+import { getAllMyPlayList, setNewMyPlayList } from '~/service/publish/publish';
 
 const style = {
     position: 'absolute',
@@ -14,6 +17,11 @@ const style = {
 };
 
 function MyPlayList() {
+    const dispath = useDispatch()
+    useEffect(() => {
+        dispath(getAllMyPlayList())
+    })
+    const myPlayLists = useSelector(state => state.myplaylist.data)
     const [newPlayList, setNewPlayList] = useState(false);
     const [checked, setChecked] = useState(true);
     const [namePlayList, setNamePlayList] = useState('');
@@ -37,9 +45,10 @@ function MyPlayList() {
         if (playList.name === '') {
             alert('Vui lòng nhập tên playlist');
         } else {
-            // data.push(playList)
-            console.log(playList);
             setNewPlayList(false);
+            setNamePlayList('')
+            dispath(setNewMyPlayList(playList));
+            handleClick()
         }
     };
 
@@ -47,15 +56,28 @@ function MyPlayList() {
         setNamePlayList(e.target.value);
     };
 
+    const [open, setOpen] = useState(false);
+
+    const handleClick = () => {
+        setOpen(true);
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
+
     return (
-        <Container maxWidth="xl" sx={{ display: 'flex', flexDirection: 'column' }}>
+        <Container maxWidth="xl" sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
             <Stack borderBottom="1px solid #ccc" padding="15px" display="flex" flexDirection="row">
                 <Typography width="100px" variant="h3" color="white" fontSize="1.5rem">
                     Playlist
                 </Typography>
             </Stack>
             {/* All playlist */}
-            <Stack margin="10px 10px" sx={{ display: 'flex', flexDirection: 'row' }}>
+            <Stack margin="10px 10px" sx={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', width: '100%' }}>
 
                 {/* new playlist */}
                 <Stack sx={{ cursor: 'pointer' }} width="18%" height="250px" border="1px solid hsla(0,0%,100%,0.1)">
@@ -150,38 +172,17 @@ function MyPlayList() {
                             </Stack>
                         </Box>
                     </Modal>
+                    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                            Tạo playlist thành công!
+                        </Alert>
+                    </Snackbar>
                 </Stack>
 
-                {/* dispaly all playlist */}
-                <Stack
-                    margin="0px 10px"
-                    sx={{
-                        cursor: 'pointer',
-                    }}
-                    width="18%"
-                    height="250px"
-                    onMouseOver={() => setIsHovering(true)}
-                    onMouseOut={() => setIsHovering(false)}
-                >
-                    {isHovering && (
-                        <IconButton
-                            sx={{
-                                position: 'absolute',
-                            }}
-                        >
-                            <Play size={20} weight="fill" />
-                        </IconButton>
-                    )}
-                    <img src='https://th.bing.com/th/id/OIP.94-AotN7wmEJEpbouOzJ3QHaHa?pid=ImgDet&rs=1'
-                        style={{
-                            borderRadius: '5px', width: '100%', height: '205px',
-                            '&:hover': {
-                                background: 'hsla(0,0%,100%,0.1)',
-                            },
-                        }} />
-                    <Typography variant="h4" color="white" fontSize="1.2rem" margin='3px 0px'>name</Typography>
-                    <Typography variant="h4" color="white" fontSize="1rem" fontStyle='italic' sx={{ opacity: '0.7' }}>name</Typography>
-                </Stack>
+                {myPlayLists.map((playlist, index) => (
+                    <ItemMyPlayList playlist={playlist} key={index} />
+                ))}
+
             </Stack>
         </Container>
     );
