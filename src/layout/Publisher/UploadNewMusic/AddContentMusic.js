@@ -18,7 +18,7 @@ import {
 } from '@mui/material';
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 import { Plus } from 'phosphor-react';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import ControlPreviewMusic from './ControlPreviewMusic';
 import PropTypes from 'prop-types';
 import { Timestamp } from 'firebase/firestore';

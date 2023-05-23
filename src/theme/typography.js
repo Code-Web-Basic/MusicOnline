@@ -53,19 +53,19 @@ const typography = {
     h4: {
         fontWeight: 700,
         lineHeight: 1.5,
-        fontSize: pxToRem(17),
+        fontSize: pxToRem(16),
         ...responsiveFontSizes({ sm: 20, md: 24, lg: 24 }),
     },
     h5: {
         fontWeight: 600,
         lineHeight: 1.5,
-        fontSize: pxToRem(16),
+        fontSize: pxToRem(15),
         ...responsiveFontSizes({ sm: 19, md: 20, lg: 20 }),
     },
     h6: {
         fontWeight: 600,
         lineHeight: 28 / 18,
-        fontSize: pxToRem(15),
+        fontSize: pxToRem(14),
         ...responsiveFontSizes({ sm: 18, md: 18, lg: 18 }),
     },
     subtitle1: {
@@ -83,7 +83,7 @@ const typography = {
         fontSize: pxToRem(14),
     },
     body2: {
-        lineHeight: 22 / 14,
+        lineHeight: 22 / 13,
         fontSize: pxToRem(13),
     },
     caption: {

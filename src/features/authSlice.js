@@ -6,7 +6,8 @@ import {
     signInWithPopup,
     signOut,
 } from 'firebase/auth';
-import { auth, googleAuthProvider, facebookAuthProvider } from '~/connectFirebase/config';
+import { addDoc, collection, doc, getDocs, query, serverTimestamp, where } from 'firebase/firestore';
+import { auth, googleAuthProvider, facebookAuthProvider, db } from '~/connectFirebase/config';
 
 const { createSlice, createAsyncThunk } = require('@reduxjs/toolkit');
 
@@ -14,28 +15,63 @@ export const signUpPassWord = createAsyncThunk('auth/signUpPassWord', async (par
     const { email, password } = params;
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
-    return { user };
+    const data = {
+        userId: doc(db, user.uid),
+        role: params.role,
+        timestamp: serverTimestamp(),
+    };
+    const docRef = await addDoc(collection(db, 'role'), data);
+    return { user, role: { id: docRef.id, ...data } };
 });
 export const signInPassWord = createAsyncThunk('auth/signInPassWord', async (params, thunkAPI) => {
     const { email, password } = params;
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
-    return { user };
+    const q = query(collection(db, 'role'), where('userId', '==', user.uid));
+    const querySnapshot = await getDocs(q);
+    const role = querySnapshot.docs.map((doc) => doc.exists && { id: doc.id, ...doc.data() })[0];
+    return { user, role: role };
 });
 
 export const signInGoogle = createAsyncThunk('auth/signInGoogle', async (params, thunkAPI) => {
     const userCredential = await signInWithPopup(auth, googleAuthProvider);
     const credential = GoogleAuthProvider.credentialFromResult(userCredential);
-    const token = credential.accessToken;
+    // const token = credential.accessToken;
     const user = userCredential.user;
-    return { user, token };
+    const q = query(collection(db, 'role'), where('userId', '==', user.uid));
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.empty) {
+        console.log(querySnapshot);
+        const data = {
+            userId: user.uid,
+            role: 'user',
+            timestamp: serverTimestamp(),
+        };
+        const roleRef = await addDoc(collection(db, 'role'), data);
+        return { user, role: { id: roleRef.id, ...data } };
+    }
+    const role = querySnapshot.docs.map((doc) => doc.exists && { id: doc.id, ...doc.data() })[0];
+    return { user, role: role };
 });
 export const signInFacebook = createAsyncThunk('auth/signInFacebook', async (params, thunkAPI) => {
     const userCredential = await signInWithPopup(auth, facebookAuthProvider);
     const credential = FacebookAuthProvider.credentialFromResult(userCredential);
-    const token = credential.accessToken;
+    // const token = credential.accessToken;
     const user = userCredential.user;
-    return { user, token };
+    const q = query(collection(db, 'role'), where('userId', '==', user.uid));
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.empty) {
+        console.log(querySnapshot);
+        const data = {
+            userId: user.uid,
+            role: 'user',
+            timestamp: serverTimestamp(),
+        };
+        const roleRef = await addDoc(collection(db, 'role'), data);
+        return { user, role: { id: roleRef.id, ...data } };
+    }
+    const role = querySnapshot.docs.map((doc) => doc.exists && { id: doc.id, ...doc.data() })[0];
+    return { user, role: role };
 });
 export const logout = createAsyncThunk('auth/logout', async (params, thunkAPI) => {
     await signOut(auth);
@@ -61,6 +97,7 @@ export const authSlice = createSlice({
         builder.addCase(signInPassWord.fulfilled, (state, action) => {
             state.loading = false;
             state.currentUser = action.payload;
+            state.error = '';
             state.typeLogin = 'password';
         });
         builder.addCase(signUpPassWord.pending, (state, action) => {
@@ -73,6 +110,7 @@ export const authSlice = createSlice({
         builder.addCase(signUpPassWord.fulfilled, (state, action) => {
             state.loading = false;
             state.currentUser = action.payload;
+            state.error = '';
             state.typeLogin = 'password';
         });
         builder.addCase(signInGoogle.pending, (state, action) => {
@@ -85,6 +123,7 @@ export const authSlice = createSlice({
         builder.addCase(signInGoogle.fulfilled, (state, action) => {
             state.loading = false;
             state.currentUser = action.payload;
+            state.error = '';
             state.typeLogin = 'google';
         });
         builder.addCase(signInFacebook.pending, (state, action) => {
@@ -97,6 +136,7 @@ export const authSlice = createSlice({
         builder.addCase(signInFacebook.fulfilled, (state, action) => {
             state.loading = false;
             state.currentUser = action.payload;
+            state.error = '';
             state.typeLogin = 'facebook';
         });
         builder.addCase(logout.pending, (state, action) => {
@@ -110,6 +150,7 @@ export const authSlice = createSlice({
             state.loading = false;
             state.currentUser = null;
             state.typeLogin = null;
+            state.error = '';
         });
     },
 });

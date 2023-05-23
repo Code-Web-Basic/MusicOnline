@@ -1,17 +1,11 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
-
-// import './styles.css';
-
-// import required modules
-import { Pagination } from 'swiper';
 import { Box, Stack } from '@mui/material';
-import images from '~/asset/images';
 
 function Banner() {
     const data = [1, 2, 3, 4, 5, 6];
@@ -35,7 +29,7 @@ function Banner() {
                 className="mySwiper"
             >
                 {data.map((item) => (
-                    <SwiperSlide>
+                    <SwiperSlide key={item}>
                         <ItemBanner data={item} />
                     </SwiperSlide>
                 ))}

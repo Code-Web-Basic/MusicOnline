@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // mui
 import { LoadingButton } from '@mui/lab';
 import {
@@ -19,6 +19,10 @@ import {
 import { Eye, EyeSlash } from 'phosphor-react';
 // redux
 import images from '~/asset/images';
+import { useDispatch, useSelector } from 'react-redux';
+import { signInGoogle, signInPassWord } from '~/features/authSlice';
+import { useSnackbar } from 'notistack';
+import { useNavigate } from 'react-router-dom';
 
 const IOSSwitch = styled((props) => <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />)(
     ({ theme }) => ({
@@ -69,7 +73,12 @@ const IOSSwitch = styled((props) => <Switch focusVisibleClassName=".Mui-focusVis
 );
 function Login() {
     const theme = useTheme();
+    const currentUser = useSelector((state) => state.auth.currentUser);
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     // data
+    const { enqueueSnackbar } = useSnackbar();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
@@ -81,8 +90,17 @@ function Login() {
     };
 
     const handleClickButtonSignIn = async () => {
-        console.log("login")
+        if (password !== '' && email !== '') dispatch(signInPassWord({ email: email, password: password }));
+        else enqueueSnackbar('password or email blank', { variant: 'warning' });
     };
+    const handleLoginGoogle = async () => {
+        dispatch(signInGoogle());
+    };
+    useEffect(() => {
+        if (currentUser) {
+            navigate('/');
+        }
+    }, [currentUser, navigate]);
     return (
         <>
             <Grid container width="100%" height={'100vh'}>
@@ -99,12 +117,14 @@ function Login() {
                                 ></img>
                             </Box>
                             <Box display={'flex'} gap={'10px'}>
-                                <Typography variant="h4" fontSize="1rem">
+                                <Typography variant="h6" fontSize="1rem">
                                     Don’t have an account?
                                 </Typography>
                                 <Typography
-                                    fontSize="1rem"
-                                    variant="h4"
+                                    // fontSize="0.8rem"
+                                    variant="button"
+                                    fontWeight={500}
+                                    // lineHeight={'none'}
                                     sx={{ color: theme.palette.primary.main }}
                                 >
                                     Sign up!
@@ -138,6 +158,7 @@ function Login() {
                                         },
                                     }}
                                     startIcon={<img src={images.googleIcon} alt="google"></img>}
+                                    onClick={handleLoginGoogle}
                                 >
                                     Google
                                 </Button>
@@ -234,6 +255,7 @@ function Login() {
                                     width: 400,
                                     borderRadius: 2,
                                     color: theme.palette.text.secondary,
+                                    border: '1px solid',
                                     borderColor: theme.palette.text.secondary,
                                     '&:hover': {
                                         color: theme.palette.text.secondary,
