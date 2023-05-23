@@ -12,7 +12,7 @@ import Library from '~/pages/Publish/Library/Library';
 import Signup from '~/pages/Publish/Signup/Signup';
 
 import MyPlayList from '~/pages/Publish/MyPlayList/MyPlayList';
-import ResetPass from '~/pages/Publish/Resetpass/Resetpass';
+import ResetPass from '~/pages/Publish/ResetPass/ResetPass';
 import Profile from '~/pages/Publish/Profile/Profile';
 // Public routes
 const publicRoutes = [
