@@ -1,10 +1,13 @@
-import { Box, Container, Stack, Typography } from '@mui/material';
-import { PlayCircle } from 'phosphor-react';
+import { Box, Button, Container, Modal, Stack, Typography } from '@mui/material';
+import { PlayCircle, X } from 'phosphor-react';
 import ListMyPlayList from '~/layout/components/Publish/ListMyPlayList/ListMyPlayList';
 import { styled } from '@mui/system';
 import { buttonClasses } from '@mui/base/Button';
 import { Tab, TabPanel, Tabs, TabsList, tabClasses } from '@mui/base';
 import ItemTabPlaylist from '~/layout/components/Publish/Home/ListTabPlaylist/ItemTabPlaylist';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 const grey = {
     50: '#f6f8fa',
@@ -75,8 +78,36 @@ const StyledTabsList = styled(TabsList)(
     `,
 );
 
+const style = {
+    position: 'absolute',
+    top: '40%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    bgcolor: 'background.paper',
+    background: 'rgb(255, 255, 255)',
+    p: 1,
+    borderRadius: '10px',
+};
+
 function Library() {
-    const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    const currentUser = useSelector(state => state.auth.currentUser)
+    const [open, setOpen] = useState(true);
+    const navigate = useNavigate()
+    const handleLogin = () => {
+        navigate('/login')
+    }
+
+    const handleClick = () => {
+        setOpen(false);
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+        console.log("true");
+    };
     return (
         <div
             style={{
@@ -86,7 +117,7 @@ function Library() {
                 textOverflow: 'auto',
             }}
         >
-            <Container maxWidth="xl" sx={{ display: 'flex', flexDirection: 'column', padding: '40px 0px' }}>
+            {currentUser?.user?.uid ? <Container maxWidth="xl" sx={{ display: 'flex', flexDirection: 'column', padding: '40px 0px' }}>
                 {/* all playlist */}
                 <Stack>
                     <Typography variant="h3" color="white" sx={{ display: 'flex', alignItems: 'center' }}>
@@ -95,13 +126,12 @@ function Library() {
                     </Typography>
                 </Stack>
                 <Stack sx={{ marginTop: '45px' }}>
-                    <ListMyPlayList title={'PLAYLIST'} data={data} />
+                    <ListMyPlayList title={'PLAYLIST'} />
                 </Stack>
 
                 {/* Music */}
                 <Stack sx={{ marginTop: '30px' }}>
                     <Typography
-                        variant="h3"
                         color="white"
                         fontSize={'1.2rem'}
                         sx={{ display: 'flex', alignItems: 'center' }}
@@ -217,7 +247,57 @@ function Library() {
                     </Stack>
                 </Stack>
             </Container>
-        </div>
+                :
+                <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={style} minWidth="400px" maxheight="400px" overflow="auto">
+                        <Stack direction="column">
+                            <Stack
+                                direction="row"
+                                width="100%"
+                                alignItems="center"
+                                justifyContent={'center'}
+                                p={1}
+                                position="relative"
+                                borderBottom="1px solid rgb(219, 219, 219)"
+                            >
+                                <Typography variant="body1" fontWeight={5600} fontSize="1.2rem">
+                                    Bạn chưa đăng nhập?
+                                </Typography>
+                                <Box sx={{ position: 'absolute', right: '10px' }} >
+                                    <X cursor='pointer' onClick={handleClose} size={20} />
+                                </Box>
+                            </Stack>
+                            <Stack
+                                sx={{
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    padding: '5px 20px',
+                                }}
+                            >
+                                <Stack>
+                                    <Typography fontSize="14px" fontWeight="400" marginBottom="5px">
+                                        Đăng nhập để sử dụng dịch vụ?
+                                    </Typography>
+                                </Stack>
+                            </Stack>
+                            <Stack sx={{ padding: '10px 20px', display: 'flex', flexDirection: 'row', justifyContent: 'right' }}>
+                                <Stack>
+                                    <Button onClick={handleLogin} style={{ borderRadius: '10px', backgroundColor: '#33FF33', color: 'black', fontWeight: '600', marginLeft: '10px' }}>
+                                        Đăng nhập
+                                    </Button>
+                                </Stack>
+                            </Stack>
+                        </Stack>
+                    </Box>
+                </Modal>}
+        </div >
     );
 }
 
