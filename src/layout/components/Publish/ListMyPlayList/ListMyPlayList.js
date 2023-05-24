@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Box, Modal, Stack, Switch, Typography, useTheme } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Alert, Box, Modal, Snackbar, Stack, Switch, Typography, useTheme } from '@mui/material';
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -12,7 +12,9 @@ import 'swiper/css/scrollbar';
 import { Scrollbar } from 'swiper';
 import { CaretRight, PlusCircle, X } from 'phosphor-react';
 import { useNavigate } from 'react-router-dom';
-import ItemPlaylist from '../Home/ItemPlaylist/ItemPlaylist';
+import ItemMyPlayList from './ItemMyPlayList';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllMyPlayList, setNewMyPlayList } from '~/service/publish/publish';
 const style = {
     position: 'absolute',
     top: '40%',
@@ -24,10 +26,17 @@ const style = {
     borderRadius: '10px',
 };
 function ListMyPlayList({ title, data = [], size = 'small', type = 'playlist' }) {
+    const dispath = useDispatch()
+    // useEffect(() => {
+    //     dispath(getAllMyPlayList())
+    // })
+    const myPlayLists = useSelector(state => state.myplaylist.data)
     const theme = useTheme();
     const [newPlayList, setNewPlayList] = useState(false);
     const [checked, setChecked] = useState(true);
     const [namePlayList, setNamePlayList] = useState('');
+    const [open, setOpen] = useState(false);
+    // const dispath = useDispatch()
     let slidesPerView;
 
     if (size === 'large') {
@@ -62,13 +71,26 @@ function ListMyPlayList({ title, data = [], size = 'small', type = 'playlist' })
         if (playList.name === '') {
             alert('Vui lòng nhập tên playlist');
         } else {
-            data.push(playList);
             setNewPlayList(false);
+            setNamePlayList('')
+            dispath(setNewMyPlayList(playList));
+            handleClick()
         }
     };
 
     const handleGetNamePlayList = (e) => {
         setNamePlayList(e.target.value);
+    };
+
+    const handleClick = () => {
+        setOpen(true);
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
     };
 
     return (
@@ -161,6 +183,11 @@ function ListMyPlayList({ title, data = [], size = 'small', type = 'playlist' })
                             </Stack>
                         </Box>
                     </Modal>
+                    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                            Tạo playlist thành công!
+                        </Alert>
+                    </Snackbar>
                 </Typography>
                 <Typography
                     onClick={handleLoadMorePlayList}
@@ -177,22 +204,16 @@ function ListMyPlayList({ title, data = [], size = 'small', type = 'playlist' })
                 </Typography>
             </Stack>
 
-            <Stack direction="row" width="100%" padding="10px">
-                <Swiper
-                    slidesPerView={slidesPerView}
-                    spaceBetween={25 - slidesPerView}
-                    scrollbar={{
-                        hide: true,
-                    }}
-                    modules={[Scrollbar]}
-                    className="mySwiper"
-                >
-                    {data.map((item) => (
-                        <SwiperSlide>
-                            <ItemPlaylist data={item} size="small" type="playlist" />
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
+            <Stack direction="row" width="100%">
+                {myPlayLists.length > 5 ?
+                    myPlayLists.slice(0, 5).map((playlist, index) => (
+                        <ItemMyPlayList playlist={playlist} key={index} />
+                    ))
+                    :
+                    myPlayLists.map((playlist, index) => (
+                        <ItemMyPlayList playlist={playlist} key={index} />
+                    ))
+                }
             </Stack>
         </Stack>
     );

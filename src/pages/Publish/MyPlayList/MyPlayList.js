@@ -1,6 +1,9 @@
-import { Box, Container, Modal, Stack, Switch, Typography } from '@mui/material';
-import { PlusCircle, X } from 'phosphor-react';
-import { useState } from 'react';
+import { Alert, Box, Container, IconButton, Modal, Snackbar, Stack, Switch, Typography } from '@mui/material';
+import { Play, PlusCircle, X } from 'phosphor-react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import ItemMyPlayList from '~/layout/components/Publish/ListMyPlayList/ItemMyPlayList';
+import { getAllMyPlayList, setNewMyPlayList } from '~/service/publish/publish';
 
 const style = {
     position: 'absolute',
@@ -14,9 +17,15 @@ const style = {
 };
 
 function MyPlayList() {
+    const dispath = useDispatch()
+    useEffect(() => {
+        dispath(getAllMyPlayList())
+    })
+    const myPlayLists = useSelector(state => state.myplaylist.data)
     const [newPlayList, setNewPlayList] = useState(false);
     const [checked, setChecked] = useState(true);
     const [namePlayList, setNamePlayList] = useState('');
+    const [isHovering, setIsHovering] = useState(false);
     const handleOpenNewPlayList = () => {
         setNewPlayList(true);
     };
@@ -36,23 +45,41 @@ function MyPlayList() {
         if (playList.name === '') {
             alert('Vui lòng nhập tên playlist');
         } else {
-            // data.push(playList)
-            console.log(playList);
             setNewPlayList(false);
+            setNamePlayList('')
+            dispath(setNewMyPlayList(playList));
+            handleClick()
         }
     };
 
     const handleGetNamePlayList = (e) => {
         setNamePlayList(e.target.value);
     };
+
+    const [open, setOpen] = useState(false);
+
+    const handleClick = () => {
+        setOpen(true);
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
+
     return (
-        <Container maxWidth="xl" sx={{ display: 'flex', flexDirection: 'column' }}>
+        <Container maxWidth="xl" sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
             <Stack borderBottom="1px solid #ccc" padding="15px" display="flex" flexDirection="row">
                 <Typography width="100px" variant="h3" color="white" fontSize="1.5rem">
                     Playlist
                 </Typography>
             </Stack>
-            <Stack margin="10px 10px" sx={{ display: 'flex', flexDirection: 'row' }}>
+            {/* All playlist */}
+            <Stack margin="10px 10px" sx={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', width: '100%' }}>
+
+                {/* new playlist */}
                 <Stack sx={{ cursor: 'pointer' }} width="18%" height="250px" border="1px solid hsla(0,0%,100%,0.1)">
                     <Stack
                         onClick={handleOpenNewPlayList}
@@ -145,16 +172,17 @@ function MyPlayList() {
                             </Stack>
                         </Box>
                     </Modal>
+                    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                            Tạo playlist thành công!
+                        </Alert>
+                    </Snackbar>
                 </Stack>
-                <Stack
-                    margin="10px 10px"
-                    sx={{ cursor: 'pointer' }}
-                    width="18%"
-                    height="250px"
-                    border="1px solid hsla(0,0%,100%,0.1)"
-                >
-                    test
-                </Stack>
+
+                {myPlayLists.map((playlist, index) => (
+                    <ItemMyPlayList playlist={playlist} key={index} />
+                ))}
+
             </Stack>
         </Container>
     );

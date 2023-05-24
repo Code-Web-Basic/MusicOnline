@@ -16,11 +16,11 @@ import {
     Typography,
     useTheme,
 } from '@mui/material';
-import { GithubLogo } from 'phosphor-react';
 // component
+import { Link, useNavigate } from 'react-router-dom';
 import images from '~/asset/images';
-import { useNavigate } from 'react-router-dom';
-function Signup() {
+
+function Register() {
     const theme = useTheme();
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
@@ -31,6 +31,15 @@ function Signup() {
     const [open, setOpen] = useState(false);
     const [messageError, setMessageError] = useState([]);
     const navigate = useNavigate();
+    const isNumber = (str) => {
+        if (str.length === 10) return /^[0-9]+$/.test(str);
+        else return false;
+    };
+    const isEmail = (str) => {
+        // Biểu thức chính quy để kiểm tra định dạng email
+        const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+        return emailRegex.test(str);
+    };
     const handleSignUp = async (e) => {
         e.preventDefault();
         const newUser = {
@@ -51,9 +60,28 @@ function Signup() {
             setOpen(true);
             setMessageError([...messageError, 'Please fill out all fields']);
         } else {
-            if (password === confirmPassword) {
-                console.log(newUser);
-                navigate('login');
+            if (!isEmail(email)) {
+                setOpen(true);
+                setMessageError([...messageError, 'Please enter email is valid!']);
+            } else if (!isNumber(phone)) {
+                setOpen(true);
+                setMessageError([...messageError, 'Please enter phone is valid!']);
+            } else if (password === confirmPassword) {
+                if (password.length < 5) {
+                    setOpen(true);
+                    setMessageError([...messageError, 'Please enter a password longer than 6 characters!']);
+                } else {
+                    try {
+                        // const res = await registerPassword(newUser)
+                        // console.log(res)
+                        // if (res?.user) {
+                        //     navigate('login')
+                        // }
+                    } catch (error) {
+                        setOpen(true);
+                        setMessageError([...messageError, error?.response?.data?.error]);
+                    }
+                }
             } else {
                 setOpen(true);
                 setMessageError([...messageError, 'Password not confirm']);
@@ -62,6 +90,11 @@ function Signup() {
     };
     const handleClose = () => {
         setOpen(false);
+    };
+    const handleClickGoogle = async () => {
+        // const url = 'http://localhost:3240/v1/auth/google';
+        // window.open(url, '_self');
+        console.log('click login google');
     };
     return (
         <Grid container width="100%" height={'100vh'}>
@@ -194,6 +227,7 @@ function Signup() {
                             }}
                         >
                             <Button
+                                onClick={handleClickGoogle}
                                 variant="outlined"
                                 sx={{
                                     height: 44,
@@ -209,22 +243,13 @@ function Signup() {
                             >
                                 Google
                             </Button>
-                            <Button
-                                variant="outlined"
-                                sx={{
-                                    height: 44,
-                                    width: 126,
-                                    borderRadius: 2,
-                                    color: theme.palette.text.secondary,
-                                    borderColor: theme.palette.text.secondary,
-                                    '&:hover': {
-                                        color: theme.palette.text.secondary,
-                                    },
-                                }}
-                                startIcon={<GithubLogo size={20} />}
-                            >
-                                Github
-                            </Button>
+                            {/* login */}
+                            <Stack direction={'row'} alignItems="center" fontSize="0.8rem">
+                                Have an account?{' '}
+                                <Link to={'/login'} style={{ color: 'blue', fontSize: '15px' }}>
+                                    Log in
+                                </Link>
+                            </Stack>
                         </Box>
                     </Stack>
                 </Stack>
@@ -278,4 +303,4 @@ function Signup() {
     );
 }
 
-export default Signup;
+export default Register;
