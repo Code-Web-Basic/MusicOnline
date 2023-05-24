@@ -22,8 +22,8 @@ import Comment from '~/pages/Publisher/Comment/Comment';
 import DefaultLayoutAdmin from '~/layout/Admin';
 import DefaultLayoutPublisher from '~/layout/Publisher';
 import ZingRank from '~/pages/Publish/ZingRank/ZingRank';
-import ResetPass from '~/pages/Publish/ResetPass/ResetPass';
 import Profile from '~/pages/Publish/Profile/Profile';
+import ResetPass from '~/pages/Publish/Resetpass/Resetpass';
 // Public routes
 const publicRoutes = [
     { path: configRouter.Home, component: Home },

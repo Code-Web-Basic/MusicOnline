@@ -15,9 +15,10 @@ import {
 import { MagnifyingGlass, SketchLogo } from 'phosphor-react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { logout } from '~/features/authSlice';
-import { Link } from 'react-router-dom';
+import { logOut } from '~/features/authSlice';
+import { Link, useNavigate } from 'react-router-dom';
 import { configRouter } from '~/config';
+import { clearMyPlayList } from '~/service/publish/publish';
 
 function Header() {
     const dispatch = useDispatch();
@@ -37,10 +38,17 @@ function Header() {
         setAnchorElUser(null);
     };
     const settings = ['Thông tin cá nhân', 'Đăng ký nhà phát hành', 'Đăng nhập', 'Đăng xuất'];
-
+    const navigate = useNavigate()
     const handleClickAction = async (title) => {
         if (title === 'Đăng xuất') {
-            await dispatch(logout());
+            await dispatch(clearMyPlayList())
+            await dispatch(logOut());
+        }
+        else if (title === 'Đăng nhập') {
+            navigate('/login')
+        }
+        else if (title === 'Thông tin cá nhân') {
+            navigate('/profile')
         }
         handleCloseUserMenu();
     };

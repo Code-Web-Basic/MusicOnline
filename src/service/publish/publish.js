@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { collection, deleteDoc, doc, getDoc, getDocs, limit, query, setDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDoc, getDocs, limit, query, setDoc, where } from "firebase/firestore";
+import { useSelector } from "react-redux";
 import { db } from "~/connectFirebase/config";
 
 const createRandom = () => {
@@ -11,9 +12,11 @@ const createRandom = () => {
     return randomstring;
 };
 
+// const currentUser = useSelector(state => state.auth.currentUser);
+
 export const getAllMyPlayList = createAsyncThunk('playlist/getAllMyPlayList', async (params, thunkAPI) => {
     let data = []
-    const q = query(collection(db, 'myplaylist'));
+    const q = query(collection(db, 'myplaylist'), where('userId', '==', params));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
         data.push({
@@ -28,7 +31,8 @@ export const setNewMyPlayList = createAsyncThunk('playlist/setNewMyPlayList', as
     const id = createRandom()
     const data = {
         name: params.name,
-        type: params.type
+        type: params.type,
+        userId: params.userId
     }
     await setDoc(doc(db, "myplaylist", id), data);
 
@@ -47,6 +51,13 @@ export const MyPlayListSlice = createSlice({
         loading: false,
         error: '',
         data: [],
+    },
+    reducers: {
+        clearMyPlayList: (state, action) => {
+            state.data = [];
+            state.loading = false;
+            state.error = '';
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(getAllMyPlayList.pending, (state, action) => {
@@ -88,4 +99,5 @@ export const MyPlayListSlice = createSlice({
     },
 });
 
+export const { clearMyPlayList } = MyPlayListSlice.actions;
 export default MyPlayListSlice.reducer;
