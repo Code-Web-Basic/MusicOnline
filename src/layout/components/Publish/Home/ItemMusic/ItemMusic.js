@@ -1,8 +1,14 @@
-import { Box, IconButton, Stack, Tooltip, Typography, useTheme } from '@mui/material';
-import { DotsThree, Play } from 'phosphor-react';
+import { Box, Checkbox, IconButton, Stack, Tooltip, Typography, useTheme } from '@mui/material';
+import { DotsThree, Heart, Play } from 'phosphor-react';
 import { useState } from 'react';
 
-function ItemMusic() {
+import PropTypes from 'prop-types';
+
+ItemMusic.prototype = {
+    data: PropTypes.object,
+    type: PropTypes.string,
+};
+function ItemMusic({ data, type = 'medium' }) {
     const theme = useTheme();
     const [isHovering, setIsHovering] = useState(false);
 
@@ -22,8 +28,8 @@ function ItemMusic() {
                 <Box
                     sx={{
                         borderRadius: '5px',
-                        height: 60,
-                        width: 60,
+                        height: type === 'medium' ? 60 : 40,
+                        width: type === 'medium' ? 60 : 40,
                         overflow: 'hidden',
                         display: 'flex',
                         alignItems: 'center',
@@ -52,24 +58,35 @@ function ItemMusic() {
                     <Typography variant="body1" color={theme.palette.grey[400]} fontSize="0.75rem">
                         Linh Ka, Kewtiie
                     </Typography>
-                    <Typography variant="subtitle2" color={theme.palette.grey[400]} fontSize="0.75rem">
-                        Hôm qua
-                    </Typography>
+                    {type === 'medium' && (
+                        <Typography variant="subtitle2" color={theme.palette.grey[400]} fontSize="0.75rem">
+                            Hôm qua
+                        </Typography>
+                    )}
                 </Stack>
                 {isHovering && (
-                    <Tooltip title="khác">
-                        <IconButton
-                            sx={{
-                                position: 'absolute',
-                                right: 10,
-                                '&:hover': {
-                                    background: theme.palette.grey[800],
-                                },
-                            }}
-                        >
-                            <DotsThree size={20} weight="bold" color={theme.palette.common.white} />
-                        </IconButton>
-                    </Tooltip>
+                    <Stack direction={'row'} position={'absolute'} right={0}>
+                        <Stack direction={'row'} gap={1}>
+                            <Tooltip title="Yêu thích">
+                                <Checkbox
+                                    icon={<Heart size={18} color={theme.palette.common.white} />}
+                                    checkedIcon={<Heart size={18} weight="fill" color="#9b4de0" />}
+                                />
+                            </Tooltip>
+
+                            <Tooltip title="khác">
+                                <IconButton
+                                    sx={{
+                                        '&:hover': {
+                                            background: theme.palette.grey[800],
+                                        },
+                                    }}
+                                >
+                                    <DotsThree size={18} weight="bold" color={theme.palette.common.white} />
+                                </IconButton>
+                            </Tooltip>
+                        </Stack>
+                    </Stack>
                 )}
             </Stack>
         </Box>
