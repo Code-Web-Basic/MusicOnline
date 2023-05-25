@@ -7,7 +7,8 @@ const images = {
     githubIcon: require('~/asset/images/github.svg').default,
     loginBackground: require('~/asset/images/loginBackground.png'),
     uploadIcon: require('~/asset/images/uploadImages.svg').default,
-    image: require('~/asset/images/img.png')
+    image: require('~/asset/images/img.png'),
+    imageUserDefaults: require('~/asset/images/user-default.png'),
 };
 
 export default images;

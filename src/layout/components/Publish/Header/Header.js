@@ -1,72 +1,40 @@
-import {
-    Avatar,
-    Box,
-    Fab,
-    FormControl,
-    IconButton,
-    InputAdornment,
-    InputBase,
-    Menu,
-    MenuItem,
-    Tooltip,
-    Typography,
-    useTheme,
-} from '@mui/material';
-import { MagnifyingGlass, SketchLogo } from 'phosphor-react';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { logOut } from '~/features/authSlice';
-import { Link, useNavigate } from 'react-router-dom';
-import { configRouter } from '~/config';
-import { clearMyPlayList } from '~/service/publish/publish';
+
+import { Box, IconButton, Stack } from '@mui/material';
+
+import SearchResult from './SearchResult';
+import { bgBlur } from '~/util/cssStyles';
+import ControlAction from './ControlAction';
+import { ArrowLeft, ArrowRight } from 'phosphor-react';
 
 function Header() {
-    const dispatch = useDispatch();
-    const [anchorElUser, setAnchorElUser] = useState(null);
-    const theme = useTheme();
-    const handleSubmit = async (event) => {
-        if (event.key === 'Enter') {
-            console.log('search');
-        }
-    };
 
-    const handleOpenUserMenu = (event) => {
-        setAnchorElUser(event.currentTarget);
-    };
-
-    const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
-    };
-    const settings = ['Thông tin cá nhân', 'Đăng ký nhà phát hành', 'Đăng nhập', 'Đăng xuất'];
-    const navigate = useNavigate()
-    const handleClickAction = async (title) => {
-        if (title === 'Đăng xuất') {
-            await dispatch(clearMyPlayList())
-            await dispatch(logOut());
-        }
-        else if (title === 'Đăng nhập') {
-            navigate('/login')
-        }
-        else if (title === 'Thông tin cá nhân') {
-            navigate('/profile')
-        }
-        handleCloseUserMenu();
-    };
     return (
         <Box
             sx={{
                 position: 'sticky',
-                top: '0px',
+                top: 0,
                 zIndex: 1000,
-                backgroundColor: 'rgba(23,15,35,0.8)',
+                backgroundColor: { ...bgBlur({ color: 'rgba(23,15,35,0.8)' }) },
                 width: '100%',
                 height: '70px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-around',
+                padding: 2,
             }}
         >
-            <FormControl
+            <Stack direction={'row'} height={'100%'} width={'100%'} justifyContent={'space-between'}>
+                <Stack direction={'row'} gap={'10px'}>
+                    <Stack direction={'row'} gap={'5px'}>
+                        <IconButton>
+                            <ArrowLeft size={20} weight="fill" />
+                        </IconButton>
+                        <IconButton>
+                            <ArrowRight size={20} weight="fill" />
+                        </IconButton>
+                    </Stack>
+                    <SearchResult />
+                </Stack>
+                <ControlAction />
+            </Stack>
+            {/* <FormControl
                 style={{
                     height: '40px',
                     width: '400px',
@@ -87,8 +55,8 @@ function Header() {
                     placeholder="Tìm kiếm bài hát, nghệ sĩ"
                     onKeyDown={handleSubmit}
                 />
-            </FormControl>
-            <Box sx={{ display: 'flex', alignItems: 'center', marginLeft: '200px' }}>
+            </FormControl> */}
+            {/* <Box sx={{ display: 'flex', alignItems: 'center', marginLeft: '200px' }}>
                 <Box sx={{ marginRight: '50px' }}>
                     <Fab color="white" size="medium">
                         <SketchLogo size={32} />
@@ -127,7 +95,7 @@ function Header() {
                         ))}
                     </Menu>
                 </Box>
-            </Box>
+            </Box> */}
         </Box>
     );
 }

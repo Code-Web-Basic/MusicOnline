@@ -8,8 +8,8 @@ function ItemPlaylist({ size = 'large', data, type = 'playlist' }) {
     const [isHovering, setIsHovering] = useState(false);
     let width, height;
     if (size === 'large') {
-        width = 300;
-        height = 300;
+        width = 240;
+        height = 240;
     } else if (size === 'medium') {
         width = 200;
         height = 200;
@@ -18,19 +18,14 @@ function ItemPlaylist({ size = 'large', data, type = 'playlist' }) {
         height = 120;
     }
 
-    if (type === 'playlist') {
-    } else if (type === 'single') {
-    } else {
-    }
-
     const TypeDescription = () => {
         if (type === 'playlist') {
             return (
-                <Stack direction="row" width={width} padding="10px" alignItems="center" overflow="hidden">
+                <Stack direction="row" width={width} paddingTop="10px" alignItems="center" overflow="hidden">
                     <Typography
                         width="100%"
                         variant="body1"
-                        fontSize={width / 10}
+                        fontSize={width / 12}
                         color={theme.palette.common.white}
                         textAlign="center"
                         textOverflow="ellipsis"
@@ -42,11 +37,11 @@ function ItemPlaylist({ size = 'large', data, type = 'playlist' }) {
             );
         } else if (type === 'single') {
             return (
-                <Stack direction="column" width={width} padding="10px" alignItems="center" overflow="hidden">
+                <Stack direction="column" width={width} paddingTop="10px" alignItems="center" overflow="hidden">
                     <Typography
                         width="100%"
                         variant="body1"
-                        fontSize={width / 10}
+                        fontSize={width / 12}
                         color={theme.palette.common.white}
                         textOverflow="ellipsis"
                         noWrap
@@ -62,7 +57,7 @@ function ItemPlaylist({ size = 'large', data, type = 'playlist' }) {
             );
         } else if (type === 'type') {
             return (
-                <Stack direction="column" width={width} padding="10px" overflow="hidden">
+                <Stack direction="column" width={width} paddingTop="10px" overflow="hidden">
                     <Stack direction="row" width="100%">
                         <Typography variant="body2" fontSize="0.8rem" color={theme.palette.grey[500]}>
                             Cứ vui lên vì những âu lo rồi cũng sẽ qua
@@ -82,7 +77,7 @@ function ItemPlaylist({ size = 'large', data, type = 'playlist' }) {
             );
         } else {
             return (
-                <Stack direction="column" width={width} padding="10px" overflow="hidden">
+                <Stack direction="column" width={width} paddingTop="10px" overflow="hidden">
                     <Typography
                         variant="body2"
                         fontSize="0.8rem"
@@ -98,7 +93,7 @@ function ItemPlaylist({ size = 'large', data, type = 'playlist' }) {
         }
     };
     return (
-        <Stack direction={'column'}>
+        <Stack direction={'column'} justifyContent={'center'} alignItems={'center'}>
             <Box
                 sx={{ position: 'relative', width: width, height: height, overflow: 'hidden', borderRadius: '10px' }}
                 onMouseOver={() => setIsHovering(true)}
@@ -134,7 +129,7 @@ function ItemPlaylist({ size = 'large', data, type = 'playlist' }) {
                             <Checkbox
                                 icon={<Heart size={20} color={theme.palette.common.white} />}
                                 checkedIcon={<Heart size={20} weight="fill" color="#9b4de0" />}
-                            // sx={{ color: '#9b4de0' }}
+                                // sx={{ color: '#9b4de0' }}
                             />
                             <IconButton
                                 sx={{
