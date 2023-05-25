@@ -1,6 +1,6 @@
 import { Divider, Stack, Typography, alpha, useTheme } from '@mui/material';
 import { MagnifyingGlass } from 'phosphor-react';
-import ItemMusic from '../Home/ItemMusic/ItemMusic';
+import ItemMusic from '../ItemMusic/ItemMusic';
 
 function SearchValue({ dataMusic = [], dataKeyword = [], loading }) {
     const theme = useTheme();

@@ -24,6 +24,7 @@ import DefaultLayoutPublisher from '~/layout/Publisher';
 import ZingRank from '~/pages/Publish/ZingRank/ZingRank';
 import ResetPass from '~/pages/Publish/ResetPass/ResetPass';
 import Profile from '~/pages/Publish/Profile/Profile';
+import Search from '~/pages/Publish/Search/Search';
 // Public routes
 const publicRoutes = [
     { path: configRouter.Home, component: Home },
@@ -35,6 +36,7 @@ const publicRoutes = [
     { path: configRouter.Favorite, component: MyPlayList },
     { path: configRouter.DetailPlaylist, component: DetailPlaylist },
     { path: configRouter.Profile, component: Profile, layout: null },
+    { path: configRouter.Search, component: Search },
 ];
 const publisherRoutes = [
     { path: configRouter.dashboard, component: Dashboard, layout: DefaultLayoutPublisher },

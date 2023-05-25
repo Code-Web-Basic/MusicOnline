@@ -15,6 +15,7 @@ function ItemMusic({ data, type = 'medium' }) {
     return (
         <Box
             sx={{
+                width: '100%',
                 padding: '10px',
                 borderRadius: 1,
                 '&:hover': {

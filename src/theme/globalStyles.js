@@ -1,14 +1,30 @@
 // @mui
-import { GlobalStyles as MUIGlobalStyles } from '@mui/material';
+import { GlobalStyles as MUIGlobalStyles, useTheme } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
 export default function GlobalStyles() {
+    const theme = useTheme();
     const inputGlobalStyles = (
         <MUIGlobalStyles
             styles={{
                 '*': {
                     boxSizing: 'border-box',
+                },
+                '&::-webkit-scrollbar': {
+                    width: '5px',
+                },
+
+                /* Track */
+                '&::-webkit-scrollbar-track': {
+                    // boxShadow: 'inset 0 0 5px grey',
+                    borderRadius: '10px',
+                },
+
+                /* Handle */
+                '&::-webkit-scrollbar-thumb': {
+                    background: theme.palette.grey[700],
+                    borderRadius: '10px',
                 },
                 html: {
                     margin: 0,

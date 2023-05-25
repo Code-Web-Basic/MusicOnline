@@ -1,14 +1,5 @@
 import { Box, Stack, Typography, useTheme } from '@mui/material';
-import {
-    ChartLineUp,
-    ChatCircleDots,
-    Compass,
-    House,
-    InstagramLogo,
-    ListPlus,
-    MonitorPlay,
-    Playlist,
-} from 'phosphor-react';
+import { ChartLineUp, House, ListPlus, Playlist } from 'phosphor-react';
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { configRouter } from '~/config';
@@ -18,7 +9,7 @@ function Sidebar() {
     const location = useLocation();
     const [openSideBar, setOpenSidebar] = useState(true);
     return (
-        <Box sx={{ position: 'sticky', top: '0px', backgroundColor: '#2a213a' }}>
+        <Box sx={{ position: 'sticky', top: 0, left: 0, width: '100%', height: '100vh', backgroundColor: '#2a213a' }}>
             <Stack direction="row">
                 <Stack
                     direction={'column'}
