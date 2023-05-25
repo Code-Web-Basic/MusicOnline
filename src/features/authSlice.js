@@ -76,7 +76,7 @@ export const signInFacebook = createAsyncThunk('auth/signInFacebook', async (par
     const role = querySnapshot.docs.map((doc) => doc.exists && { id: doc.id, ...doc.data() })[0];
     return { user, role: role };
 });
-export const logout = createAsyncThunk('auth/logout', async (params, thunkAPI) => {
+export const logOut = createAsyncThunk('auth/logout', async (params, thunkAPI) => {
     await signOut(auth);
 });
 
@@ -142,14 +142,14 @@ export const authSlice = createSlice({
             state.error = '';
             state.typeLogin = 'facebook';
         });
-        builder.addCase(logout.pending, (state, action) => {
+        builder.addCase(logOut.pending, (state, action) => {
             state.loading = true;
         });
-        builder.addCase(logout.rejected, (state, action) => {
+        builder.addCase(logOut.rejected, (state, action) => {
             state.loading = false;
             state.error = action.error;
         });
-        builder.addCase(logout.fulfilled, (state, action) => {
+        builder.addCase(logOut.fulfilled, (state, action) => {
             state.loading = false;
             state.currentUser = null;
             state.typeLogin = null;

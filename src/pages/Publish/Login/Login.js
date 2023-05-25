@@ -24,6 +24,7 @@ import { signInGoogle, signInPassWord } from '~/features/authSlice';
 import { useSnackbar } from 'notistack';
 import { Link, useNavigate } from 'react-router-dom';
 import router from '~/config/Router';
+import { getAllMyPlayList } from '~/service/publish/publish';
 
 const IOSSwitch = styled((props) => <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />)(
     ({ theme }) => ({
@@ -100,6 +101,7 @@ function Login() {
     useEffect(() => {
         if (currentUser) {
             navigate('/');
+            dispatch(getAllMyPlayList(currentUser?.user?.uid))
         }
     }, [currentUser, navigate]);
     return (

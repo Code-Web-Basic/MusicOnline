@@ -60,7 +60,6 @@ function ItemMyPlayList({ playlist }) {
             }}
             width="18%"
             height="250px"
-
         >
             <Stack
                 sx={{
@@ -129,7 +128,7 @@ function ItemMyPlayList({ playlist }) {
                                 borderBottom="1px solid rgb(219, 219, 219)"
                             >
                                 <Typography variant="body1 " fontWeight={5600} fontSize="1.2rem">
-                                    <h3>Xóa Playlist</h3>
+                                    Xóa Playlist
                                 </Typography>
                                 <Box sx={{ position: 'absolute', right: '10px' }} onClick={handleCloseConfirmDeletePlayList}>
                                     <X size={20} />
@@ -145,7 +144,7 @@ function ItemMyPlayList({ playlist }) {
                                 }}
                             >
                                 <Stack>
-                                    <Typography variant="h3" fontSize="14px" fontWeight="400" marginBottom="5px">
+                                    <Typography fontSize="14px" fontWeight="400" marginBottom="5px">
                                         Playlist của bạn sẽ bị xóa khỏi thư viện cá nhân. Bạn có muốn xóa?
                                     </Typography>
                                 </Stack>
@@ -171,8 +170,8 @@ function ItemMyPlayList({ playlist }) {
                     Xóa playlist thành công
                 </Alert>
             </Snackbar>
-            <Typography variant="h4" color="white" fontSize="1.2rem" margin='3px 0px'>{playlist?.data?.name}</Typography>
-            <Typography variant="h4" color="white" fontSize="1rem" fontStyle='italic' sx={{ opacity: '0.7' }}>name</Typography>
+            <Typography color="white" fontSize="1.2rem" >{playlist?.data?.name}</Typography>
+            <Typography color="white" fontSize="1rem" fontStyle='italic' sx={{ opacity: '0.7' }}>name</Typography>
         </Stack>
     );
 }
