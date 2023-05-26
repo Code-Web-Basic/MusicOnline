@@ -6,7 +6,7 @@ const router = {
     ZingChart: '/zing-chart',
     Library: '/library',
     Favorite: '/favorite',
-    DetailPlaylist: '/playlist',
+    DetailPlaylist: '/playlist/:id',
     Profile: '/profile',
 
     dashboard: '/dashboard',
