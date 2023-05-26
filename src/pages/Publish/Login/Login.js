@@ -205,21 +205,33 @@ function Login() {
                             </Box>
                             <Stack direction={'column'} spacing={3} alignItems="center">
                                 <FormControl sx={{ m: 1, width: '400px' }} variant="outlined">
-                                    <InputLabel htmlFor="outlined-adornment-email">email</InputLabel>
+                                    <InputLabel
+                                        htmlFor="outlined-adornment-email"
+                                        sx={{ color: theme.palette.common.black }}
+                                    >
+                                        email
+                                    </InputLabel>
                                     <OutlinedInput
                                         id="outlined-adornment-email"
                                         type="email"
                                         label="email"
                                         value={email}
+                                        sx={{ color: theme.palette.common.black }}
                                         onChange={(e) => setEmail(e.target.value)}
                                     />
                                 </FormControl>
                                 <FormControl sx={{ m: 1, width: '400px' }} variant="outlined">
-                                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                    <InputLabel
+                                        htmlFor="outlined-adornment-password "
+                                        sx={{ color: theme.palette.common.black }}
+                                    >
+                                        Password
+                                    </InputLabel>
                                     <OutlinedInput
                                         id="outlined-adornment-password"
                                         type={showPassword ? 'text' : 'password'}
                                         value={password}
+                                        sx={{ color: theme.palette.common.black }}
                                         onChange={(e) => setPassword(e.target.value)}
                                         endAdornment={
                                             <InputAdornment position="end">
