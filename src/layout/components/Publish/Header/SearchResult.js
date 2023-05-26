@@ -1,8 +1,9 @@
 import { Box, Stack, useTheme } from '@mui/material';
 import { MagnifyingGlass, X } from 'phosphor-react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import SuggestSearch from './SuggestSearch';
 import SearchValue from './SearchValue';
+import useDebounce from '~/hooks/useDebounce';
 
 function SearchResult() {
     const theme = useTheme();
@@ -10,7 +11,32 @@ function SearchResult() {
     const [inputFocus, setInputFocus] = useState(false);
     const [valueInput, setValueInput] = useState('');
     const [searchValue, setSearchValue] = useState([1, 2, 3]);
+    const [isSearching, setIsSearching] = useState(false);
 
+    const valueDebounce = useDebounce(valueInput, 500);
+
+    useEffect(() => {
+        if (valueDebounce) {
+            setIsSearching(true);
+            const callApi = async () => {
+                // const res = await userApi.searchUser(valueDebounce);
+                const res = [];
+                setSearchValue(res);
+                setIsSearching(false);
+            };
+            callApi();
+        } else {
+            setSearchValue([]);
+            setIsSearching(false);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [valueDebounce]);
+
+    const clickClear = () => {
+        setValueInput('');
+        setSearchValue([]);
+        return;
+    };
     return (
         <form>
             <Box
@@ -44,7 +70,7 @@ function SearchResult() {
                         onChange={(e) => setValueInput(e.target.value)}
                         placeholder="Tìm kiếm bài hát, nghệ sĩ, lời bài hát"
                     />
-                    {valueInput !== '' && <X size={20} color={theme.palette.grey[500]} />}
+                    {valueInput !== '' && <X size={20} onClick={clickClear} color={theme.palette.grey[500]} />}
                 </Stack>
 
                 {inputFocus && (
