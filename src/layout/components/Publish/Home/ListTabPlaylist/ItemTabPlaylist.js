@@ -1,6 +1,6 @@
 import { Paper, Stack, styled } from '@mui/material';
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
-import ItemMusic from '../ItemMusic/ItemMusic';
+import ItemMusic from '../../ItemMusic/ItemMusic';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',

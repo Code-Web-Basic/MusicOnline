@@ -101,7 +101,7 @@ function Login() {
     useEffect(() => {
         if (currentUser) {
             navigate('/');
-            dispatch(getAllMyPlayList(currentUser?.user?.uid))
+            dispatch(getAllMyPlayList(currentUser?.user?.uid));
         }
     }, [currentUser, navigate]);
     return (
@@ -120,7 +120,7 @@ function Login() {
                                 ></img>
                             </Box>
                             <Box display={'flex'} gap={'10px'}>
-                                <Typography variant="h6" fontSize="1rem">
+                                <Typography variant="h6" fontSize="1rem" color={theme.palette.common.black}>
                                     Don’t have an account?
                                 </Typography>
                                 <Typography
@@ -137,8 +137,14 @@ function Login() {
                             </Box>
                         </Stack>
                         <Stack direction={'column'} alignItems="center" justifyContent={'center'} spacing={2} flex="1">
-                            <Typography variant="h4">Welcome Back</Typography>
-                            <Typography variant="h5" sx={{ fontSize: '1rem', fontWeight: 500 }}>
+                            <Typography variant="h4" color={theme.palette.common.black}>
+                                Welcome Back
+                            </Typography>
+                            <Typography
+                                variant="h5"
+                                sx={{ fontSize: '1rem', fontWeight: 500 }}
+                                color={theme.palette.common.black}
+                            >
                                 Login into your account
                             </Typography>
                             <Box
@@ -185,7 +191,7 @@ function Login() {
                                         opacity: 0.5,
                                     }}
                                 ></Box>
-                                <Typography variant="h6" fontSize={'1rem'}>
+                                <Typography variant="h6" fontSize={'1rem'} color={theme.palette.common.black}>
                                     Or continue with
                                 </Typography>
                                 <Box
@@ -199,21 +205,33 @@ function Login() {
                             </Box>
                             <Stack direction={'column'} spacing={3} alignItems="center">
                                 <FormControl sx={{ m: 1, width: '400px' }} variant="outlined">
-                                    <InputLabel htmlFor="outlined-adornment-email">email</InputLabel>
+                                    <InputLabel
+                                        htmlFor="outlined-adornment-email"
+                                        sx={{ color: theme.palette.common.black }}
+                                    >
+                                        email
+                                    </InputLabel>
                                     <OutlinedInput
                                         id="outlined-adornment-email"
                                         type="email"
                                         label="email"
                                         value={email}
+                                        sx={{ color: theme.palette.common.black }}
                                         onChange={(e) => setEmail(e.target.value)}
                                     />
                                 </FormControl>
                                 <FormControl sx={{ m: 1, width: '400px' }} variant="outlined">
-                                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                    <InputLabel
+                                        htmlFor="outlined-adornment-password "
+                                        sx={{ color: theme.palette.common.black }}
+                                    >
+                                        Password
+                                    </InputLabel>
                                     <OutlinedInput
                                         id="outlined-adornment-password"
                                         type={showPassword ? 'text' : 'password'}
                                         value={password}
+                                        sx={{ color: theme.palette.common.black }}
                                         onChange={(e) => setPassword(e.target.value)}
                                         endAdornment={
                                             <InputAdornment position="end">
@@ -244,9 +262,16 @@ function Login() {
                             >
                                 <Stack direction={'row'} alignItems="center" spacing={2}>
                                     <IOSSwitch />
-                                    <Typography variant="body1">Remember me</Typography>
+                                    <Typography variant="body1" color={theme.palette.common.black}>
+                                        Remember me
+                                    </Typography>
                                 </Stack>
-                                <Stack direction={'row'} alignItems="center" fontSize="0.8rem">
+                                <Stack
+                                    direction={'row'}
+                                    alignItems="center"
+                                    fontSize="0.8rem"
+                                    color={theme.palette.common.black}
+                                >
                                     Recover Password
                                 </Stack>
                             </Stack>

@@ -8,6 +8,7 @@ const router = {
     Favorite: '/favorite',
     DetailPlaylist: '/playlist/:id',
     Profile: '/profile',
+    Search: '/search',
 
     dashboard: '/dashboard',
     content: '/publisher/content',
