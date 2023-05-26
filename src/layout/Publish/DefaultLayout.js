@@ -1,7 +1,7 @@
-import { Box, Grid, Stack } from '@mui/material';
+import { Grid } from '@mui/material';
 import Sidebar from '~/layout/components/Publish/SideBar';
 import Header from '../components/Publish/Header/Header';
-import PlayMusic from '../components/Publish/PlayMusic/PlayMusic';
+import PlayMusic from './PlayMusic/PlayMusic';
 
 function DefaultLayout({ children }) {
     return (
