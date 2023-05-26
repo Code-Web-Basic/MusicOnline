@@ -65,7 +65,7 @@ function Sidebar() {
                                 <>
                                     <House color="white" size={24} weight="fill" />
                                     {openSideBar && (
-                                        <Typography color="white" variant="h6" fontSize={'1rem'} fontWeight="500">
+                                        <Typography color="white" fontSize='15px' fontWeight="500">
                                             Khám Phá
                                         </Typography>
                                     )}
@@ -112,7 +112,7 @@ function Sidebar() {
                                 <>
                                     <ChartLineUp color="white" size={24} weight="fill" />
                                     {openSideBar && (
-                                        <Typography color="white" variant="h6" fontSize={'1rem'} fontWeight="500">
+                                        <Typography color="white" fontSize='15px' fontWeight="500">
                                             Zing chart
                                         </Typography>
                                     )}
@@ -159,7 +159,7 @@ function Sidebar() {
                                 <>
                                     <Playlist color="white" size={24} weight="fill" />
                                     {openSideBar && (
-                                        <Typography color="white" variant="h6" fontSize={'1rem'} fontWeight="500">
+                                        <Typography color="white" fontSize='15px' fontWeight="500">
                                             Thư Viện
                                         </Typography>
                                     )}
@@ -206,7 +206,7 @@ function Sidebar() {
                                 <>
                                     <ListPlus color="white" size={24} weight="fill" />
                                     {openSideBar && (
-                                        <Typography color="white" variant="h6" fontSize={'1rem'} fontWeight="500">
+                                        <Typography color="white" fontSize='15px' fontWeight="500">
                                             Tạo Playlist Mới
                                         </Typography>
                                     )}

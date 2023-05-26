@@ -25,11 +25,9 @@ const style = {
     p: 1,
     borderRadius: '10px',
 };
-function ListMyPlayList({ title, data = [], size = 'small', type = 'playlist' }) {
+function ListMyPlayList({ title, size = 'small' }) {
     const dispath = useDispatch()
-    // useEffect(() => {
-    //     dispath(getAllMyPlayList())
-    // })
+    const currentUser = useSelector(state => state.auth.currentUser)
     const myPlayLists = useSelector(state => state.myplaylist.data)
     const theme = useTheme();
     const [newPlayList, setNewPlayList] = useState(false);
@@ -67,6 +65,7 @@ function ListMyPlayList({ title, data = [], size = 'small', type = 'playlist' })
         const playList = {
             name: namePlayList,
             type: checked,
+            userId: currentUser?.user?.uid
         };
         if (playList.name === '') {
             alert('Vui lòng nhập tên playlist');
@@ -99,7 +98,6 @@ function ListMyPlayList({ title, data = [], size = 'small', type = 'playlist' })
                 <Typography
                     display="flex"
                     alignItems="center"
-                    variant="h3"
                     fontSize={'1.2rem'}
                     color={theme.palette.common.white}
                 >
@@ -154,10 +152,10 @@ function ListMyPlayList({ title, data = [], size = 'small', type = 'playlist' })
                                     }}
                                 >
                                     <Stack>
-                                        <Typography variant="h3" fontSize="14px" fontWeight="400" marginBottom="5px">
+                                        <Typography fontSize="14px" fontWeight="400" marginBottom="5px">
                                             Công khai
                                         </Typography>
-                                        <Typography variant="h3" fontSize="12px" fontWeight="400" marginBottom="5px">
+                                        <Typography fontSize="12px" fontWeight="400" marginBottom="5px">
                                             Mọi người có thể nhìn thấy playlist này
                                         </Typography>
                                     </Stack>

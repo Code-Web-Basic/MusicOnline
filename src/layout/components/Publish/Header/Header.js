@@ -1,3 +1,4 @@
+
 import { Box, IconButton, Stack } from '@mui/material';
 
 import SearchResult from './SearchResult';
@@ -6,6 +7,7 @@ import ControlAction from './ControlAction';
 import { ArrowLeft, ArrowRight } from 'phosphor-react';
 
 function Header() {
+
     return (
         <Box
             sx={{
