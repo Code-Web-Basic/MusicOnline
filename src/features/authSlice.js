@@ -8,6 +8,7 @@ import {
 } from 'firebase/auth';
 import { addDoc, collection, doc, getDocs, query, serverTimestamp, where } from 'firebase/firestore';
 import { auth, googleAuthProvider, facebookAuthProvider, db } from '~/connectFirebase/config';
+import { handleUpdateProfile } from '~/service/publish/userService';
 
 const { createSlice, createAsyncThunk } = require('@reduxjs/toolkit');
 
@@ -78,6 +79,15 @@ export const signInFacebook = createAsyncThunk('auth/signInFacebook', async (par
 });
 export const logout = createAsyncThunk('auth/logout', async (params, thunkAPI) => {
     await signOut(auth);
+});
+
+export const updateProfile = createAsyncThunk('auth/updateProfile', async (params, thunkAPI) => {
+    const data = {
+        displayName: params?.displayName,
+        photoURL: params?.photoURL
+    }
+    handleUpdateProfile(data)
+    return auth.currentUser
 });
 
 export const authSlice = createSlice({
@@ -154,6 +164,19 @@ export const authSlice = createSlice({
             state.currentUser = null;
             state.typeLogin = null;
             state.error = '';
+        });
+        builder.addCase(updateProfile.pending, (state, action) => {
+            state.loading = true;
+        });
+        builder.addCase(updateProfile.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.error;
+        });
+        builder.addCase(updateProfile.fulfilled, (state, action) => {
+            state.loading = false;
+            state.typeLogin = null;
+            state.error = '';
+            state.currentUser.user = action.payload;
         });
     },
 });

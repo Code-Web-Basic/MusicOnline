@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { configRouter } from '~/config';
-import { deleteMyPlayList } from '~/service/publish/publish';
+import { deletedMyPlayList } from '~/features/playlistSlice';
 
 const style = {
     position: 'absolute',
@@ -34,7 +34,7 @@ function ItemMyPlayList({ playlist }) {
     }
     const handleConfirmDeletePlayList = (documentId) => {
         try {
-            dispath(deleteMyPlayList(documentId))
+            dispath(deletedMyPlayList(documentId))
             setDeletePlayList(false);
             handleClick()
         } catch (error) {

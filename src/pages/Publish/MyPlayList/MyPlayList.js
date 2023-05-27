@@ -3,8 +3,8 @@ import { Play, PlusCircle, X } from 'phosphor-react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { createNewMyPlayList } from '~/features/playlistSlice';
 import ItemMyPlayList from '~/layout/components/Publish/ListMyPlayList/ItemMyPlayList';
-import { getAllMyPlayList, setNewMyPlayList } from '~/service/publish/publish';
 
 const style = {
     position: 'absolute',
@@ -20,9 +20,6 @@ const style = {
 function MyPlayList() {
     const dispatch = useDispatch()
     const currentUser = useSelector(state => state.auth.currentUser)
-    // useEffect(() => {
-    //     dispatch(getAllMyPlayList(currentUser?.user?.uid))
-    // })
     const myPlayLists = useSelector(state => state.myplaylist.data)
     const [newPlayList, setNewPlayList] = useState(false);
     const [checked, setChecked] = useState(true);
@@ -50,7 +47,7 @@ function MyPlayList() {
         } else {
             setNewPlayList(false);
             setNamePlayList('')
-            dispatch(setNewMyPlayList(playList));
+            dispatch(createNewMyPlayList(playList));
             handleClick()
         }
     };

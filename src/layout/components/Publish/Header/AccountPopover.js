@@ -15,13 +15,14 @@ import {
     useTheme,
 } from '@mui/material';
 import Tippy from '@tippyjs/react/headless';
-import { Gear, House, SignOut, UserCircle } from 'phosphor-react';
+import { Gear, House, SignOut, Upload, UserCircle } from 'phosphor-react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import images from '~/asset/images';
 import router from '~/config/Router';
 import { logout } from '~/features/authSlice';
+import { createMusic } from '~/service/publisher/musicService';
 
 const MENU_OPTIONS = [
     {
@@ -29,8 +30,12 @@ const MENU_OPTIONS = [
         icon: <House size={20} weight="fill" />,
     },
     {
-        label: 'Profile',
+        label: 'Thông tin cá nhân',
         icon: <UserCircle size={20} weight="fill" />,
+    },
+    {
+        label: 'Tải lên',
+        icon: <Upload size={20} weight="fill" />,
     },
     {
         label: 'Settings',
@@ -42,7 +47,7 @@ function AccountPopover() {
     const theme = useTheme();
     const [open, setOpen] = useState(null);
     const dispatch = useDispatch();
-
+    const navigate = useNavigate()
     const handleOpen = (event) => {
         setOpen(event.currentTarget);
     };
@@ -54,6 +59,41 @@ function AccountPopover() {
         dispatch(logout());
         handleClose();
     };
+    const handleClickAction = (option) => {
+        if (option.label === 'Tải lên') {
+            handleUploadMusic();
+        }
+        else if (option.label === 'Thông tin cá nhân') {
+            navigate('/profile')
+        }
+        else {
+            handleClose();
+        }
+    }
+    const handleUploadMusic = async () => {
+        // const data = {
+        //     name: '',
+        //     description: '',
+        //     source: '',
+        //     thumbnail: '',
+        //     single: '',
+        //     type: '',
+        //     numberListen: 0,
+        //     numberComment: 0,
+        //     numberLike: 0,
+        //     idPublisher: '',
+        //     status: 'private',
+        //     album: '',
+        //     singles: '',
+        //     createAt: Date.now(),
+        //     updateAt: Date.now(),
+        // };
+        // try {
+        //     await createMusic(data);
+        // } catch (error) {
+        //     console.log(error);
+        // }
+    }
     return (
         <>
             <Tippy
@@ -80,7 +120,7 @@ function AccountPopover() {
                                         {MENU_OPTIONS.map((option) => (
                                             <MenuItem
                                                 key={option.label}
-                                                onClick={handleClose}
+                                                onClick={() => handleClickAction(option)}
                                                 sx={{ color: theme.palette.grey[400] }}
                                             >
                                                 <ListItemIcon sx={{ m: 1, color: theme.palette.grey[400] }}>
@@ -95,7 +135,7 @@ function AccountPopover() {
                                         <ListItemIcon sx={{ m: 1, color: theme.palette.grey[400] }}>
                                             <SignOut size={20} weight="fill" />
                                         </ListItemIcon>
-                                        Logout
+                                        Đăng xuất
                                     </MenuItem>
                                 </>
                             ) : (
@@ -143,11 +183,10 @@ function AccountPopover() {
                 >
                     {auth.currentUser ? (
                         <Avatar
-                            src={`${
-                                auth?.currentUser?.user?.providerData[0]?.photoURL
-                                    ? auth?.currentUser?.user?.providerData[0]?.photoURL
-                                    : ''
-                            }`}
+                            src={`${auth?.currentUser?.user?.providerData[0]?.photoURL
+                                ? auth?.currentUser?.user?.providerData[0]?.photoURL
+                                : ''
+                                }`}
                             alt="photoURL"
                         />
                     ) : (
