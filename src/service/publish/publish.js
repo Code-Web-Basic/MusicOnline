@@ -16,7 +16,7 @@ const createRandom = () => {
 
 export const getAllMyPlayList = createAsyncThunk('playlist/getAllMyPlayList', async (params, thunkAPI) => {
     let data = []
-    const q = query(collection(db, 'myplaylist'), where('userId', '==', params));
+    const q = query(collection(db, 'playlist'), where('ownerId', '==', params));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
         data.push({
@@ -30,17 +30,22 @@ export const getAllMyPlayList = createAsyncThunk('playlist/getAllMyPlayList', as
 export const setNewMyPlayList = createAsyncThunk('playlist/setNewMyPlayList', async (params, thunkAPI) => {
     const id = createRandom()
     const data = {
+        createdAt: new Date(),
         name: params.name,
-        type: params.type,
-        userId: params.userId
+        status: params.type,
+        ownerId: params.userId,
+        description: '',
+        thumbnail: '',
+        type: '',
+        updatedAt: new Date()
     }
-    await setDoc(doc(db, "myplaylist", id), data);
+    await setDoc(doc(db, "playlist", id), data);
 
     return { data: data, id: id }
 });
 
 export const deleteMyPlayList = createAsyncThunk('playlist/deleteMyPlayList', async (params, thunkAPI) => {
-    await deleteDoc(doc(db, 'myplaylist', params));
+    await deleteDoc(doc(db, 'playlist', params));
 
     return params
 });

@@ -264,6 +264,7 @@ function Library() {
                                 p={1}
                                 position="relative"
                                 borderBottom="1px solid rgb(219, 219, 219)"
+                                color='black'
                             >
                                 <Typography variant="body1" fontWeight={5600} fontSize="1.2rem">
                                     Bạn chưa đăng nhập?
@@ -279,6 +280,7 @@ function Library() {
                                     justifyContent: 'space-between',
                                     alignItems: 'center',
                                     padding: '5px 20px',
+                                    color: 'black'
                                 }}
                             >
                                 <Stack>
