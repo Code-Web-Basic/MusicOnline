@@ -1,10 +1,13 @@
-import { Box, Divider, IconButton, Slider, Stack, alpha, useTheme } from '@mui/material';
-import { Playlist, SpeakerHigh, SpeakerSimpleLow, SpeakerSimpleNone, SpeakerSlash } from 'phosphor-react';
+import { Divider, IconButton, Slider, Stack, alpha, useTheme } from '@mui/material';
+import { Playlist, SpeakerHigh, SpeakerSlash } from 'phosphor-react';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { togglePlaylistPlayOpen } from '~/features/layoutSlice';
 
 function ControlExtendMusic({ audioRef }) {
     const theme = useTheme();
-    const active = true;
+    const dispatch = useDispatch();
+    const playlistPlayOpen = useSelector((state) => state.layout.playlistPlayOpen);
     const [volume, setVolume] = useState(1);
     function handleVolumeChange(event) {
         audioRef.current.volume = volume;
@@ -20,6 +23,10 @@ function ControlExtendMusic({ audioRef }) {
             audioRef.current.volume = 1;
         }
     }
+    const handleOpenPlaylistPlay = () => {
+        dispatch(togglePlaylistPlayOpen(!playlistPlayOpen));
+    };
+
     return (
         <Stack direction={'row'} gap={'10px'} alignItems={'center'}>
             <Stack direction="row" sx={{ mb: 1, px: 1 }} alignItems="center" width={200} gap={1}>
@@ -60,13 +67,16 @@ function ControlExtendMusic({ audioRef }) {
                     sx={{
                         borderRadius: '5px',
                         color: theme.palette.text.primary,
-                        backgroundColor: !active ? alpha(theme.palette.grey[700], 0.2) : theme.palette.secondary.main,
+                        backgroundColor: !playlistPlayOpen
+                            ? alpha(theme.palette.grey[700], 0.2)
+                            : theme.palette.secondary.main,
                         '&:hover': {
-                            backgroundColor: !active
+                            backgroundColor: !playlistPlayOpen
                                 ? alpha(theme.palette.grey[600], 0.2)
                                 : alpha(theme.palette.secondary.main, 0.8),
                         },
                     }}
+                    onClick={handleOpenPlaylistPlay}
                 >
                     <Playlist size={20} weight="fill" />
                 </IconButton>
