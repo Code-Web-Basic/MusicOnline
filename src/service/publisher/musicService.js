@@ -1,4 +1,4 @@
-import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { db, storage } from '~/connectFirebase/config';
 
@@ -16,10 +16,10 @@ export const getMusic = async () => {
     }
 };
 
-export const getMusicByOwerId = async (owerId) => {
+export const getMusicByOwerId = async (ownerId) => {
     try {
         let data = []
-        const q = query(collection(db, 'music'), where('ownerId', '==', owerId));
+        const q = query(collection(db, 'music'), where('ownerId', '==', ownerId));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             data.push({
@@ -28,6 +28,26 @@ export const getMusicByOwerId = async (owerId) => {
             });
         });
         return data;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+};
+
+export const getMusicByMusicId = async (musicId) => {
+    try {
+        const docRef = doc(db, 'music', musicId);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            return {
+                data: data,
+                id: docSnap.id
+            }
+        } else {
+            // Document not found
+            console.log('Document not found');
+        }
     } catch (error) {
         return Promise.reject(error);
     }

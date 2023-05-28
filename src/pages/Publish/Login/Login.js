@@ -26,6 +26,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import router from '~/config/Router';
 import { getAllMyPlayList } from '~/service/publish/playlistService';
 import { getMyPlayLists } from '~/features/playlistSlice';
+import { configRouter } from '~/config';
 
 const IOSSwitch = styled((props) => <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />)(
     ({ theme }) => ({
@@ -257,23 +258,19 @@ function Login() {
                             <Stack
                                 direction={'row'}
                                 alignItems="center"
-                                justifyContent={'space-between'}
+                                justifyContent={'right'}
                                 padding="10px 0px"
                                 width={400}
                             >
-                                <Stack direction={'row'} alignItems="center" spacing={2}>
-                                    <IOSSwitch />
-                                    <Typography variant="body1" color={theme.palette.common.black}>
-                                        Remember me
-                                    </Typography>
-                                </Stack>
                                 <Stack
                                     direction={'row'}
                                     alignItems="center"
                                     fontSize="0.8rem"
                                     color={theme.palette.common.black}
                                 >
-                                    Recover Password
+                                    <Link to={configRouter.ForgetPassword}>
+                                        Quên mật khẩu?
+                                    </Link>
                                 </Stack>
                             </Stack>
                             <LoadingButton

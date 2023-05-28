@@ -4,12 +4,12 @@ import ListMyPlayList from '~/layout/components/Publish/ListMyPlayList/ListMyPla
 import { styled } from '@mui/system';
 import { buttonClasses } from '@mui/base/Button';
 import { Tab, TabPanel, Tabs, TabsList, tabClasses } from '@mui/base';
-import ItemTabPlaylist from '~/layout/components/Publish/Home/ListTabPlaylist/ItemTabPlaylist';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getMusicByOwerId } from '~/service/publisher/musicService';
 import { useSnackbar } from 'notistack';
+import ListMusicMyLike from '~/layout/components/Publish/Library/Library';
 
 const grey = {
     50: '#f6f8fa',
@@ -162,7 +162,7 @@ function Library() {
                                 </StyledTabsList>
                                 {/*  */}
                                 <StyledTabPanel value={1}>
-                                    <ItemTabPlaylist />
+                                    <ListMusicMyLike />
                                 </StyledTabPanel>
                                 {/* da tai len */}
                                 <StyledTabPanel value={2}>
