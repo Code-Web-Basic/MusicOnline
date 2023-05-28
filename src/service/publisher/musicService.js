@@ -16,6 +16,23 @@ export const getMusic = async () => {
     }
 };
 
+export const getMusicByOwerId = async (owerId) => {
+    try {
+        let data = []
+        const q = query(collection(db, 'music'), where('ownerId', '==', owerId));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            data.push({
+                data: doc.data(),
+                id: doc.id
+            });
+        });
+        return data;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+};
+
 export const createMusic = async (data) => {
     try {
         const dataTmp = data;
