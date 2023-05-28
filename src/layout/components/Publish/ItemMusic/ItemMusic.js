@@ -3,6 +3,7 @@ import { DotsThree, Heart, Play } from 'phosphor-react';
 import { useState } from 'react';
 
 import PropTypes from 'prop-types';
+import { MoreButtonMusic } from '~/components/MoreButtonMusic/MoreButtonMusic';
 
 ItemMusic.prototype = {
     data: PropTypes.object,
@@ -75,17 +76,7 @@ function ItemMusic({ data, type = 'medium' }) {
                                 />
                             </Tooltip>
 
-                            <Tooltip title="khác">
-                                <IconButton
-                                    sx={{
-                                        '&:hover': {
-                                            background: theme.palette.grey[800],
-                                        },
-                                    }}
-                                >
-                                    <DotsThree size={18} weight="bold" color={theme.palette.common.white} />
-                                </IconButton>
-                            </Tooltip>
+                            <MoreButtonMusic />
                         </Stack>
                     </Stack>
                 )}
