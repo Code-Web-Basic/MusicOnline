@@ -2,6 +2,7 @@ import { faker } from '@faker-js/faker';
 import { Box, IconButton, ListItemIcon, MenuItem, Paper, Stack, Tooltip, Typography, useTheme } from '@mui/material';
 import Tippy from '@tippyjs/react/headless';
 import { ChatCircle, DotsThree, Link as LinkIcon, PlusCircle, Share } from 'phosphor-react';
+import { useState } from 'react';
 import Comment from '~/layout/components/Publish/Comment/Comment';
 
 const MENU_OPTIONS = [
@@ -14,7 +15,7 @@ const MENU_OPTIONS = [
         icon: <LinkIcon size={20} />,
     },
     {
-        label: 'Chia sẽ',
+        label: 'Chia sẻ',
         icon: <Share size={20} />,
     },
 ];
@@ -59,7 +60,7 @@ export function MoreButtonMusic({ music }) {
                                 </Stack>
                             </Box>
                             <Stack sx={{ p: '4px' }}>
-                                <Comment musicId={music?.id} />
+                                <Comment music={music} />
                                 {MENU_OPTIONS.map((option) => (
                                     <MenuItem
                                         key={option.label}

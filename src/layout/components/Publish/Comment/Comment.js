@@ -1,11 +1,13 @@
 import { Avatar, Box, ListItemIcon, MenuItem, Modal, Stack, Typography, alpha, useTheme } from '@mui/material';
+import { useSnackbar } from 'notistack';
 import { ChatCircle, PaperPlaneRight } from 'phosphor-react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { auth } from '~/connectFirebase/config';
-import { getListComment } from '~/service/publish/commentService';
+import { getListComment, setNewComment } from '~/service/publish/commentService';
+import { getUserById } from '~/service/publish/userService';
 
-function Comment({ musicId }) {
+function Comment({ music }) {
     const currentUser = useSelector(state => state.auth.currentUser)
     const theme = useTheme();
     const [open, setOpen] = useState(false);
@@ -13,17 +15,88 @@ function Comment({ musicId }) {
     const handleClose = () => setOpen(false);
     const [listComment, setListComment] = useState([]);
     const [ownerComment, setOwnerComment] = useState([])
+    const [content, setContent] = useState('')
+    const { enqueueSnackbar } = useSnackbar()
     useEffect(() => {
         const getAllComment = async () => {
-            const data = await getListComment(musicId);
+            const data = await getListComment(music?.id);
             setListComment(data)
         }
         getAllComment()
     }, [])
+    useEffect(() => {
+        listComment.map(async (comment) => {
+            const user = await getUserById(comment?.data?.ownerId)
+            setOwnerComment(prev => [...prev, user])
+        })
+    }, [listComment])
+    const convertTime = (time) => {
+        return new Date(time * 1000)
+    }
+
+    const handleGetContent = (e) => {
+        setContent(e.target.value)
+    }
+
+    const handleAddComment = async () => {
+        const data = {
+            content: content,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            musicId: music?.id,
+            ownerId: currentUser?.user?.uid,
+        }
+        if (content === '') {
+            enqueueSnackbar('Hãy nhập bình luận!!!', { variant: "error" })
+        }
+        else {
+            try {
+                const newComment = await setNewComment(data)
+                setListComment(prev => [...prev, newComment?.data])
+                setOwnerComment(prev => [...prev, {
+                    displayName: currentUser?.user?.displayName,
+                    photoURL: currentUser?.user?.photoURL
+                }])
+                setContent('')
+            }
+            catch (err) {
+                enqueueSnackbar(err, { variant: "error" })
+            }
+        }
+    }
+
+    const handleSubmit = async (event) => {
+        const data = {
+            content: content,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            musicId: music?.id,
+            ownerId: currentUser?.user?.uid,
+        }
+        if (event.key === 'Enter') {
+            if (content === '') {
+                enqueueSnackbar('Hãy nhập bình luận!!!', { variant: "error" })
+            }
+            else {
+                try {
+                    const newComment = await setNewComment(data)
+                    setListComment(prev => [...prev, newComment?.data])
+                    setOwnerComment(prev => [...prev, {
+                        displayName: currentUser?.user?.displayName,
+                        photoURL: currentUser?.user?.photoURL
+                    }])
+                    setContent('')
+                }
+                catch (err) {
+                    enqueueSnackbar(err, { variant: "error" })
+                }
+            }
+        }
+    };
     return (
         <>
             <div onClick={handleOpen}><MenuItem
-                // onClick={handleClose}
+                onClick={handleClose}
                 sx={{ color: theme.palette.grey[400] }}
             >
                 <ListItemIcon sx={{ color: theme.palette.grey[400] }}>
@@ -60,43 +133,49 @@ function Comment({ musicId }) {
                             justifyContent={'center'}
                         >
                             <Typography id="modal-modal-title" variant="h6" component="h2">
-                                Bình luận
+                                {music?.data?.numberComment} Bình luận
                             </Typography>
                         </Stack>
                         {/* content */}
                         <Stack width='100%' direction={'column'} p={1} >
-                            <Stack height='50px' display='flex' flexDirection='row' alignItems='center'>
-                                <Stack>
-                                    <Avatar src='https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-6/349598947_261651529689712_2931965297632582605_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=730e14&_nc_ohc=YYl6vOnVDg4AX-LvaLo&_nc_ht=scontent.fsgn2-9.fna&oh=00_AfBvXo_a_wm-o7fMGHE67kfmbPXpjoEAL0QwpMIFzYR_qA&oe=64782350' />
+                            {ownerComment.map((item, index) => (
+                                <Stack key={index} margin='5px' height='50px' display='flex' flexDirection='row' alignItems='center'>
+                                    <Stack>
+                                        <Avatar src={item[0]?.data?.photoURL} />
+                                    </Stack>
+                                    <Stack direction={'column'} p={1}>
+                                        <Typography variant="h5">
+                                            {item[0]?.data?.displayName} - {convertTime(listComment[index]?.data?.createdAt?.seconds).toDateString()}
+                                        </Typography>
+                                        <Typography>
+                                            {listComment[index]?.data?.content}
+                                        </Typography>
+                                    </Stack>
                                 </Stack>
-                                <Stack direction={'column'} p={1}>
-                                    <Typography variant="h5">
-                                        Cong vtt - Today
-                                    </Typography>
-                                    <Typography>
-                                        hay quas anh oiw
-                                    </Typography>
-                                </Stack>
-                            </Stack>
+                            ))}
                             <Stack margin='5px' width='100%' display='flex' flexDirection='row' alignItems='center' position='absolute' bottom='0'>
                                 <Stack>
                                     <Avatar src={currentUser?.user?.photoURL} />
                                 </Stack>
                                 <Stack>
-                                    <input type='search' placeholder='Nhập bình luận...' style={{
-                                        background: 'none',
-                                        outline: 'none',
-                                        padding: '8px',
-                                        borderRadius: '10px',
-                                        border: '1px solid #ccc',
-                                        color: 'white',
-                                        width: '500px',
-                                        fontSize: '1rem',
-                                        margin: '5px'
-                                    }} />
+                                    <input type='search' placeholder='Nhập bình luận...'
+                                        style={{
+                                            background: 'none',
+                                            outline: 'none',
+                                            padding: '8px',
+                                            borderRadius: '10px',
+                                            border: '1px solid #ccc',
+                                            color: 'white',
+                                            width: '500px',
+                                            fontSize: '1rem',
+                                            margin: '5px'
+                                        }}
+                                        onChange={handleGetContent}
+                                        onKeyDown={handleSubmit}
+                                    />
                                 </Stack>
                                 <Stack>
-                                    <PaperPlaneRight cursor='pointer' weight='fill' size={32} />
+                                    <PaperPlaneRight onClick={handleAddComment} cursor='pointer' weight='fill' size={32} />
                                 </Stack>
                             </Stack>
                         </Stack>
