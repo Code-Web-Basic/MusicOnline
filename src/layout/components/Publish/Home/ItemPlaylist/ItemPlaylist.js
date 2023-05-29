@@ -2,6 +2,7 @@ import { Box, Checkbox, IconButton, Stack, Typography, useTheme } from '@mui/mat
 import { DotsThreeOutline, Heart, Play } from 'phosphor-react';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import images from '~/asset/images';
 
 function ItemPlaylist({ size = 'large', data, type = 'playlist' }) {
     const theme = useTheme();
@@ -100,7 +101,7 @@ function ItemPlaylist({ size = 'large', data, type = 'playlist' }) {
                 onMouseOut={() => setIsHovering(false)}
             >
                 <img
-                    src="https://photo-resize-zmp3.zmdcdn.me/w320_r1x1_webp/cover/e/9/e/b/e9eb32fbef1e5fb1c653ab6ff5a4dc64.jpg"
+                    src={data?.thumbnail ? data?.thumbnail : images.playlistImageDefault}
                     alt="photoUser"
                     style={{
                         width: '100%',

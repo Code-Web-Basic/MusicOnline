@@ -9,6 +9,8 @@ const images = {
     uploadIcon: require('~/asset/images/uploadImages.svg').default,
     image: require('~/asset/images/img.png'),
     imageUserDefaults: require('~/asset/images/user-default.png'),
+    noImageMusic: require('~/asset/images/noImageMusic.png'),
+    playlistImageDefault: require('~/asset/images/album_default.png'),
 };
 
 export default images;
