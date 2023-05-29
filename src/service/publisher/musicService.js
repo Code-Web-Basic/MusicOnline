@@ -1,4 +1,4 @@
-import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { db, storage } from '~/connectFirebase/config';
 
@@ -11,6 +11,43 @@ export const getMusic = async () => {
             // doc.data() is never undefined for query doc snapshots
             console.log(doc.id, ' => ', doc.data());
         });
+    } catch (error) {
+        return Promise.reject(error);
+    }
+};
+
+export const getMusicByOwerId = async (ownerId) => {
+    try {
+        let data = []
+        const q = query(collection(db, 'music'), where('ownerId', '==', ownerId));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            data.push({
+                data: doc.data(),
+                id: doc.id
+            });
+        });
+        return data;
+    } catch (error) {
+        return Promise.reject(error);
+    }
+};
+
+export const getMusicByMusicId = async (musicId) => {
+    try {
+        const docRef = doc(db, 'music', musicId);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            return {
+                data: data,
+                id: docSnap.id
+            }
+        } else {
+            // Document not found
+            console.log('Document not found');
+        }
     } catch (error) {
         return Promise.reject(error);
     }

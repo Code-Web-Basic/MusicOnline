@@ -14,7 +14,7 @@ import { CaretRight, PlusCircle, X } from 'phosphor-react';
 import { useNavigate } from 'react-router-dom';
 import ItemMyPlayList from './ItemMyPlayList';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllMyPlayList, setNewMyPlayList } from '~/service/publish/publish';
+import { createNewMyPlayList } from '~/features/playlistSlice';
 const style = {
     position: 'absolute',
     top: '40%',
@@ -72,7 +72,7 @@ function ListMyPlayList({ title, size = 'small' }) {
         } else {
             setNewPlayList(false);
             setNamePlayList('')
-            dispath(setNewMyPlayList(playList));
+            dispath(createNewMyPlayList(playList));
             handleClick()
         }
     };

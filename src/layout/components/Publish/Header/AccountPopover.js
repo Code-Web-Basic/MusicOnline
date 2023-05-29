@@ -15,13 +15,18 @@ import {
     useTheme,
 } from '@mui/material';
 import Tippy from '@tippyjs/react/headless';
-import { Gear, House, SignOut, UserCircle } from 'phosphor-react';
-import { useState } from 'react';
+import { doc, setDoc } from 'firebase/firestore';
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+import { useSnackbar } from 'notistack';
+import { Gear, House, SignOut, Upload, UserCircle } from 'phosphor-react';
+import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import images from '~/asset/images';
 import router from '~/config/Router';
+import { db } from '~/connectFirebase/config';
 import { logout } from '~/features/authSlice';
+import { createMusic } from '~/service/publisher/musicService';
 
 const MENU_OPTIONS = [
     {
@@ -29,8 +34,12 @@ const MENU_OPTIONS = [
         icon: <House size={20} weight="fill" />,
     },
     {
-        label: 'Profile',
+        label: 'Thông tin cá nhân',
         icon: <UserCircle size={20} weight="fill" />,
+    },
+    {
+        label: 'Tải lên',
+        icon: <Upload size={20} weight="fill" />,
     },
     {
         label: 'Settings',
@@ -39,10 +48,11 @@ const MENU_OPTIONS = [
 ];
 function AccountPopover() {
     const auth = useSelector((state) => state.auth);
+    const inputRef = useRef()
     const theme = useTheme();
     const [open, setOpen] = useState(null);
     const dispatch = useDispatch();
-
+    const navigate = useNavigate()
     const handleOpen = (event) => {
         setOpen(event.currentTarget);
     };
@@ -53,6 +63,70 @@ function AccountPopover() {
     const handleLogout = () => {
         dispatch(logout());
         handleClose();
+    };
+    const handleClickAction = (option) => {
+        if (option.label === 'Tải lên') {
+            handleUploadMusic();
+        }
+        else if (option.label === 'Thông tin cá nhân') {
+            navigate('/profile')
+        }
+        else {
+            handleClose();
+        }
+    }
+    const handleUploadMusic = () => {
+        inputRef.current.click()
+    }
+    const { enqueueSnackbar } = useSnackbar();
+    const handleFileUpload = async (event) => {
+        const file = event.target.files[0];
+        if (file.type === '') {
+            enqueueSnackbar('Hãy lựa chọn bài nhạc phù hợp', { variant: 'error' });
+        }
+
+        else {
+            const storage = getStorage();
+            const storageRef = ref(storage, 'audios/' + file.name);
+            const createRandom = () => {
+                var randomstring = '';
+                var characters = 'QWERTYUIOPASDFGHJKLZXCVBNM123456789qwertyuiopasdfghjklzxcvbnm';
+                for (var i, i = 0; i < 28; i++) {
+                    randomstring += characters.charAt(Math.floor(Math.random() * 28));
+                }
+                return randomstring;
+            };
+
+            uploadBytes(storageRef, file).then(() => {
+                try {
+                    getDownloadURL(storageRef).then((downloadURL) => {
+                        const data = {
+                            name: file.name,
+                            description: file.name,
+                            source: downloadURL,
+                            ownerId: auth?.currentUser?.user?.uid,
+                            thumbnail: '',
+                            singer: '',
+                            type: '',
+                            numberListen: 0,
+                            numberComment: 0,
+                            numberLike: 0,
+                            status: 'private',
+                            createAt: Date.now(),
+                            updateAt: Date.now(),
+                        };
+                        try {
+                            setDoc(doc(db, "music", createRandom()), data);
+                            enqueueSnackbar('Đăng tải bài nhạc thành công', { variant: 'success' });
+                        } catch (error) {
+                            enqueueSnackbar(error, { variant: 'error' });
+                        }
+                    });
+                } catch (error) {
+                    enqueueSnackbar(error, { variant: 'error' });
+                }
+            });
+        }
     };
     return (
         <>
@@ -80,9 +154,16 @@ function AccountPopover() {
                                         {MENU_OPTIONS.map((option) => (
                                             <MenuItem
                                                 key={option.label}
-                                                onClick={handleClose}
+                                                onClick={() => handleClickAction(option)}
                                                 sx={{ color: theme.palette.grey[400] }}
                                             >
+                                                <input
+                                                    ref={inputRef}
+                                                    type="file"
+                                                    accept="audio/*"
+                                                    style={{ display: 'none' }}
+                                                    onChange={handleFileUpload}
+                                                />
                                                 <ListItemIcon sx={{ m: 1, color: theme.palette.grey[400] }}>
                                                     {option.icon}
                                                 </ListItemIcon>
@@ -95,7 +176,7 @@ function AccountPopover() {
                                         <ListItemIcon sx={{ m: 1, color: theme.palette.grey[400] }}>
                                             <SignOut size={20} weight="fill" />
                                         </ListItemIcon>
-                                        Logout
+                                        Đăng xuất
                                     </MenuItem>
                                 </>
                             ) : (
@@ -143,11 +224,10 @@ function AccountPopover() {
                 >
                     {auth.currentUser ? (
                         <Avatar
-                            src={`${
-                                auth?.currentUser?.user?.providerData[0]?.photoURL
-                                    ? auth?.currentUser?.user?.providerData[0]?.photoURL
-                                    : ''
-                            }`}
+                            src={`${auth?.currentUser?.user?.providerData[0]?.photoURL
+                                ? auth?.currentUser?.user?.providerData[0]?.photoURL
+                                : ''
+                                }`}
                             alt="photoURL"
                         />
                     ) : (

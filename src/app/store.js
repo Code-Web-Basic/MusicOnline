@@ -3,7 +3,7 @@ import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, 
 import storage from 'redux-persist/lib/storage';
 import authReducer from '~/features/authSlice';
 import layoutReducer from '~/features/layoutSlice';
-import MyPlayListReducer from '~/service/publish/publish';
+import myPlayListReducer from '~/features/playlistSlice';
 import playlistCurrentReducer from '~/features/playlistCurrentSlice';
 
 const persistConfig = {
@@ -23,7 +23,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
     auth: authReducer,
-    myplaylist: MyPlayListReducer,
+    myplaylist: myPlayListReducer,
     layout: layoutReducer,
     playlistCurrent: playlistCurrentReducer,
 });
