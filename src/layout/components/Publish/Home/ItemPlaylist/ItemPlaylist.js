@@ -2,7 +2,9 @@ import { Box, Checkbox, IconButton, Stack, Typography, useTheme } from '@mui/mat
 import { DotsThreeOutline, Heart, Play } from 'phosphor-react';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import images from '~/asset/images';
+import router from '~/config/Router';
 
 function ItemPlaylist({ size = 'large', data, type = 'playlist' }) {
     const theme = useTheme();
@@ -32,7 +34,7 @@ function ItemPlaylist({ size = 'large', data, type = 'playlist' }) {
                         textOverflow="ellipsis"
                         noWrap
                     >
-                        2000s Pop Rock
+                        {data?.name}
                     </Typography>
                 </Stack>
             );
@@ -47,11 +49,11 @@ function ItemPlaylist({ size = 'large', data, type = 'playlist' }) {
                         textOverflow="ellipsis"
                         noWrap
                     >
-                        2000s Pop Rock
+                        {data?.name}
                     </Typography>
                     <Stack direction="row" width="100%">
                         <Typography variant="body2" fontSize="0.8rem" color={theme.palette.grey[500]}>
-                            Backstreet Boys
+                            {data?.description}
                         </Typography>
                     </Stack>
                 </Stack>
@@ -61,7 +63,7 @@ function ItemPlaylist({ size = 'large', data, type = 'playlist' }) {
                 <Stack direction="column" width={width} paddingTop="10px" overflow="hidden">
                     <Stack direction="row" width="100%">
                         <Typography variant="body2" fontSize="0.8rem" color={theme.palette.grey[500]}>
-                            Cứ vui lên vì những âu lo rồi cũng sẽ qua
+                            {data?.name}
                         </Typography>
                     </Stack>
                     <Typography
@@ -72,7 +74,7 @@ function ItemPlaylist({ size = 'large', data, type = 'playlist' }) {
                         textOverflow="ellipsis"
                         noWrap
                     >
-                        Cứ vui lên vì
+                        {data?.description}
                     </Typography>
                 </Stack>
             );
@@ -87,14 +89,20 @@ function ItemPlaylist({ size = 'large', data, type = 'playlist' }) {
                         textOverflow="ellipsis"
                         noWrap
                     >
-                        Cứ vui lên vì những âu lo rồi cũng sẽ qua
+                        {data?.description}
                     </Typography>
                 </Stack>
             );
         }
     };
     return (
-        <Stack direction={'column'} justifyContent={'center'} alignItems={'center'}>
+        <Stack
+            direction={'column'}
+            justifyContent={'center'}
+            alignItems={'center'}
+            component={Link}
+            to={router.DetailPlaylist.slice(0, -3) + `${data.id}`}
+        >
             <Box
                 sx={{ position: 'relative', width: width, height: height, overflow: 'hidden', borderRadius: '10px' }}
                 onMouseOver={() => setIsHovering(true)}

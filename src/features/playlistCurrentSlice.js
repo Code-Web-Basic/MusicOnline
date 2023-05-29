@@ -23,22 +23,28 @@ const playlistCurrentSlice = createSlice({
         loading: false,
     },
     reducers: {
+        addPlaylist: (state, action) => {
+            state.ListMusic = [...state.ListMusic, ...action.payload];
+        },
         addOneMusic: (state, action) => {
-            state.ListMusic = [...state.data, action.payload];
+            state.ListMusic = [...state.ListMusic, action.payload];
         },
         nextMusic: (state, action) => {
-            if (state.currentIndex < state.ListMusic.length) {
-                state.currentIndex = state.currentIndex++;
+            if (state.currentIndex < state.ListMusic.length - 1) {
+                state.currentIndex++;
             } else {
                 state.currentIndex = 0;
             }
         },
         prevMusic: (state, action) => {
             if (state.currentIndex !== 0) {
-                state.currentIndex = state.currentIndex--;
+                state.currentIndex--;
             } else {
-                state.currentIndex = state.ListMusic.length;
+                state.currentIndex = state.ListMusic.length - 1;
             }
+        },
+        clickCurrent: (state, action) => {
+            state.currentIndex = action.payload;
         },
     },
     extraReducers: (builder) => {
@@ -59,5 +65,5 @@ const playlistCurrentSlice = createSlice({
         // builder.addCase(fetchUserById.fulfilled, (state, action) => {});
     },
 });
-export const { addOneMusic, nextMusic, prevMusic } = playlistCurrentSlice.actions;
+export const { addOneMusic, nextMusic, prevMusic, addPlaylist, clickCurrent } = playlistCurrentSlice.actions;
 export default playlistCurrentSlice.reducer;

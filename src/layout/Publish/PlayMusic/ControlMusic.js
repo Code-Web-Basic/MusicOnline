@@ -1,6 +1,8 @@
 import { IconButton, Slider, Stack, Typography, styled, useTheme } from '@mui/material';
 import { Pause, Play, Repeat, ShuffleAngular, SkipBack, SkipForward } from 'phosphor-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { nextMusic, prevMusic } from '~/features/playlistCurrentSlice';
 import { formatDurationMusic } from '~/util/formatTime';
 
 const TinyText = styled(Typography)({
@@ -9,11 +11,13 @@ const TinyText = styled(Typography)({
     fontWeight: 500,
     letterSpacing: 0.2,
 });
-function ControlMusic({ audioRef }) {
+function ControlMusic({ audio }) {
     const theme = useTheme();
+    const dispatch = useDispatch();
     const [isPause, setIsPause] = useState(true);
     const [position, setPosition] = useState(0);
     const [isClickTime, setIsClickTime] = useState(false);
+    const currentPlaylist = useSelector((state) => state.playlistCurrent);
     // time music
     const [duration, setDuration] = useState(0);
     // ref audio
@@ -21,40 +25,55 @@ function ControlMusic({ audioRef }) {
     const playAnimationRef = useRef();
 
     const repeat = useCallback(() => {
-        const currentTime = audioRef.current.currentTime;
+        const currentTime = audio?.current?.currentTime;
         setPosition(Math.floor(currentTime));
         // setPosition(Math.floor(currentTime));
         playAnimationRef.current = requestAnimationFrame(repeat);
-    }, [audioRef]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentPlaylist.currentIndex]);
     useEffect(() => {
         // window.addEventListener('keydown', handleKeyDown);
-        audioRef.current.addEventListener('loadedmetadata', onLoadedMetadata);
+        audio?.current?.addEventListener('loadedmetadata', onLoadedMetadata);
+        audio?.current?.addEventListener('ended', handleEndMusic);
         // // cleanup this component
         return () => {
-            // audioRef.current.removeEventListener('loadedmetadata', onloadedmetadata);
+            // audio?.current?.removeEventListener('onended', handleEndMusic);
         };
-    }, []);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [audio]);
 
     useEffect(() => {
         if (isPause) {
-            audioRef.current.pause();
+            audio?.current?.pause();
             cancelAnimationFrame(playAnimationRef.current);
         } else {
-            audioRef.current.play();
+            audio?.current?.play();
             playAnimationRef.current = requestAnimationFrame(repeat);
         }
-    }, [audioRef, isPause, repeat]);
-    const delay = (ms) => {
-        return new Promise((resolve) => setTimeout(resolve, ms));
-    };
+    }, [audio, isPause, repeat]);
+
     const handleProgressChange = async (e) => {
         const value = e.target.value;
-        audioRef.current.currentTime = value;
+        audio.current.currentTime = value;
     };
     const onLoadedMetadata = () => {
-        const seconds = audioRef.current.duration;
+        const seconds = audio?.current?.duration;
         setDuration(seconds);
     };
+    // control
+    const prevMusicPlaylist = () => {
+        dispatch(prevMusic());
+    };
+    const nextMusicPlaylist = () => {
+        dispatch(nextMusic());
+    };
+
+    // end music
+    const handleEndMusic = () => {
+        // console.log('end');
+        nextMusicPlaylist();
+    };
+
     return (
         <Stack direction={'column'}>
             {/* control */}
@@ -70,6 +89,7 @@ function ControlMusic({ audioRef }) {
                     sx={{
                         color: theme.palette.common.white,
                     }}
+                    onClick={() => prevMusicPlaylist()}
                 >
                     <SkipBack size={25} weight="fill" />
                 </IconButton>
@@ -93,6 +113,7 @@ function ControlMusic({ audioRef }) {
                     sx={{
                         color: theme.palette.common.white,
                     }}
+                    onClick={() => nextMusicPlaylist()}
                 >
                     <SkipForward size={25} weight="fill" />
                 </IconButton>

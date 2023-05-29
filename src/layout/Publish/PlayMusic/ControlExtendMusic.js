@@ -4,23 +4,23 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { togglePlaylistPlayOpen } from '~/features/layoutSlice';
 
-function ControlExtendMusic({ audioRef }) {
+function ControlExtendMusic({ audio }) {
     const theme = useTheme();
     const dispatch = useDispatch();
     const playlistPlayOpen = useSelector((state) => state.layout.playlistPlayOpen);
     const [volume, setVolume] = useState(1);
     function handleVolumeChange(event) {
-        audioRef.current.volume = volume;
+        audio.volume = volume;
         setVolume(event.target.value);
     }
 
     function handleClickVolume() {
         if (volume > 0) {
             setVolume(0);
-            audioRef.current.volume = 0;
+            audio.volume = 0;
         } else {
             setVolume(1);
-            audioRef.current.volume = 1;
+            audio.volume = 1;
         }
     }
     const handleOpenPlaylistPlay = () => {
