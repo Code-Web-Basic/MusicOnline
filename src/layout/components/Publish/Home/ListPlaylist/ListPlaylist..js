@@ -36,25 +36,30 @@ function ListPlaylist({ title, data = [], size = 'small', type = 'playlist' }) {
                     xem tất cả
                 </Typography>
             </Stack>
-
-            <Stack direction="row" width="100%" padding="10px">
-                <Swiper
-                    slidesPerView={slidesPerView}
-                    spaceBetween={25 - slidesPerView}
-                    scrollbar={{
-                        hide: true,
-                    }}
-                    modules={[Scrollbar]}
-                    className="mySwiper"
-                    style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}
-                >
-                    {data.map((item) => (
-                        <SwiperSlide key={item}>
-                            <ItemPlaylist data={item} size={size} type={type} />
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
-            </Stack>
+            {data.length > 0 ? (
+                <Stack direction="row" width="100%" padding="10px">
+                    <Swiper
+                        slidesPerView={slidesPerView}
+                        spaceBetween={25 - slidesPerView}
+                        scrollbar={{
+                            hide: true,
+                        }}
+                        modules={[Scrollbar]}
+                        className="mySwiper"
+                        style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}
+                    >
+                        {data.map((item) => (
+                            <SwiperSlide key={item.id}>
+                                <ItemPlaylist data={item} size={size} type={type} />
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+                </Stack>
+            ) : (
+                <Typography width={'100%'} textAlign={'center'} variant="h6">
+                    không có playlist
+                </Typography>
+            )}
         </Stack>
     );
 }

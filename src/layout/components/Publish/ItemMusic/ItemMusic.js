@@ -4,6 +4,8 @@ import { useState } from 'react';
 
 import PropTypes from 'prop-types';
 import { MoreButtonMusic } from '~/components/MoreButtonMusic/MoreButtonMusic';
+import images from '~/asset/images';
+import { hover } from '@testing-library/user-event/dist/hover';
 
 ItemMusic.prototype = {
     data: PropTypes.object,
@@ -49,13 +51,19 @@ function ItemMusic({ data, type = 'medium' }) {
                     )}
                     <img
                         style={{ height: '100%', width: '100%', objectFit: 'cover' }}
-                        src="https://photo-resize-zmp3.zmdcdn.me/w94_r1x1_webp/cover/d/a/4/f/da4f928118a87298376b2109c2733629.jpg"
+                        src={data?.thumbnail ? data?.thumbnail : images.noImageMusic}
                         alt="music"
                     />
                 </Box>
-                <Stack direction="column" marginLeft="10px">
-                    <Typography variant="h6" color={theme.palette.common.white} fontSize="1rem">
-                        Ghosting
+                <Stack direction="column" marginLeft="10px" width={isHovering ? '65%' : '80%'}>
+                    <Typography
+                        variant="h6"
+                        color={theme.palette.common.white}
+                        fontSize="1rem"
+                        noWrap
+                        textOverflow={'ellipsis'}
+                    >
+                        {data?.name ? data?.name : ''}
                     </Typography>
                     <Typography variant="body1" color={theme.palette.grey[400]} fontSize="0.75rem">
                         Linh Ka, Kewtiie

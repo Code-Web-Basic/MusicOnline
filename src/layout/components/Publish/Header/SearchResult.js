@@ -4,13 +4,17 @@ import { useEffect, useRef, useState } from 'react';
 import SuggestSearch from './SuggestSearch';
 import SearchValue from './SearchValue';
 import useDebounce from '~/hooks/useDebounce';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { searchMusic as searchMusicApi } from '~/service/public/searchService';
 
 function SearchResult() {
     const theme = useTheme();
+    const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
     const inputRef = useRef(null);
     const [inputFocus, setInputFocus] = useState(false);
-    const [valueInput, setValueInput] = useState('');
-    const [searchValue, setSearchValue] = useState([1, 2, 3]);
+    const [valueInput, setValueInput] = useState(searchParams.get('query') || '');
+    const [searchValue, setSearchValue] = useState({ dataMusic: [], dataPlaylist: [] });
     const [isSearching, setIsSearching] = useState(false);
 
     const valueDebounce = useDebounce(valueInput, 500);
@@ -19,9 +23,8 @@ function SearchResult() {
         if (valueDebounce) {
             setIsSearching(true);
             const callApi = async () => {
-                // const res = await userApi.searchUser(valueDebounce);
-                const res = [];
-                setSearchValue(res);
+                const res = await searchMusicApi({ keyword: valueDebounce });
+                setSearchValue({ dataMusic: res, dataPlaylist: [] });
                 setIsSearching(false);
             };
             callApi();
@@ -35,10 +38,19 @@ function SearchResult() {
     const clickClear = () => {
         setValueInput('');
         setSearchValue([]);
+        if (isSearching) {
+        }
         return;
     };
+    const handleEnter = (e) => {
+        e.preventDefault();
+        if (!valueInput.trim()) return;
+        navigate(`/search?query=${encodeURIComponent(valueInput.trim())}`);
+        inputRef.current.blur();
+    };
+
     return (
-        <form>
+        <form onSubmit={handleEnter}>
             <Box
                 sx={{
                     position: 'relative',
@@ -88,8 +100,8 @@ function SearchResult() {
                             borderBottomRightRadius: '20px',
                         }}
                     >
-                        {searchValue.length > 0 ? (
-                            <SearchValue dataMusic={[1, 2, 3]} dataKeyword={[1, 2, 3]} />
+                        {searchValue?.dataMusic?.length > 0 || searchValue?.dataPlaylist?.length > 0 ? (
+                            <SearchValue dataMusic={searchValue.dataMusic} dataKeyword={searchValue.dataPlaylist} />
                         ) : (
                             <SuggestSearch />
                         )}
