@@ -28,25 +28,116 @@ export const signUpPassWord = createAsyncThunk('auth/signUpPassWord', async (par
 export const signInPassWord = createAsyncThunk('auth/signInPassWord', async (params, thunkAPI) => {
     const { email, password } = params;
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
-    const q = query(collection(db, 'role'), where('userId', '==', user.uid));
-    console.log(user.uid);
+    const userPassword = userCredential.user;
+    let user = null;
+    const q = query(collection(db, 'role'), where('userId', '==', userPassword.uid));
     const querySnapshot = await getDocs(q);
+
+    // get data user
+    const q1 = query(collection(db, 'user'), where('uid', '==', userPassword.uid));
+    const querySnapshot1 = await getDocs(q1);
+    // check data user exits
+    if (querySnapshot1.empty) {
+        await addDoc(collection(db, 'user'), {
+            providerData: { ...userPassword.providerData },
+            uid: userPassword.uid,
+            userId: userPassword.uid,
+            photoURL: userPassword.photoURL,
+            email: userPassword.email,
+            displayName: userPassword.displayName,
+            phoneNumber: userPassword.phoneNumber,
+            createAt: Date.now(),
+        });
+        user = {
+            providerData: { ...userPassword.providerData },
+            uid: userPassword.uid,
+            userId: userPassword.uid,
+            photoURL: userPassword.photoURL,
+            email: userPassword.email,
+            displayName: userPassword.displayName,
+            phoneNumber: userPassword.phoneNumber,
+            createAt: Date.now(),
+            stsTokenManager: {
+                // accessToken: userCredential,
+                refreshToken: userPassword.refreshToken,
+            },
+        };
+    } else {
+        user = {
+            ...querySnapshot1.docs.map((doc) => doc.exists && { id: doc.id, ...doc.data() })[0],
+            stsTokenManager: {
+                // accessToken: userCredential.accessToken,
+                refreshToken: userPassword.refreshToken,
+            },
+        };
+    }
+    // check data role exits
+    // if (querySnapshot.empty) {
+    //     const data = {
+    //         userId: userPassword.uid,
+    //         role: 'user',
+    //         createAt: serverTimestamp(),
+    //         updateAt: serverTimestamp(),
+    //     };
+    //     const roleRef = await addDoc(collection(db, 'role'), data);
+    //     return { user, role: { id: roleRef.id, ...data } };
+    // }
+    // read data
     const role = querySnapshot.docs.map((doc) => doc.exists && { id: doc.id, ...doc.data() })[0];
-    return { user, role: role };
+    return { user: user, role: role };
 });
 
 export const signInGoogle = createAsyncThunk('auth/signInGoogle', async (params, thunkAPI) => {
     const userCredential = await signInWithPopup(auth, googleAuthProvider);
     const credential = GoogleAuthProvider.credentialFromResult(userCredential);
     // const token = credential.accessToken;
-    const user = userCredential.user;
-    const q = query(collection(db, 'role'), where('userId', '==', user.uid));
+    const userGoogle = userCredential.user;
+    let user = null;
+    // get role
+    const q = query(collection(db, 'role'), where('userId', '==', userGoogle.uid));
     const querySnapshot = await getDocs(q);
+    // get data user
+    const q1 = query(collection(db, 'user'), where('uid', '==', userGoogle.uid));
+    const querySnapshot1 = await getDocs(q1);
+    // check data user exits
+    if (querySnapshot1.empty) {
+        await addDoc(collection(db, 'user'), {
+            providerData: { ...userGoogle.providerData },
+            uid: userGoogle.uid,
+            userId: userGoogle.uid,
+            photoURL: userGoogle.photoURL,
+            email: userGoogle.email,
+            displayName: userGoogle.displayName,
+            phoneNumber: userGoogle.phoneNumber,
+            createAt: Date.now(),
+        });
+        user = {
+            providerData: { ...userGoogle.providerData },
+            uid: userGoogle.uid,
+            userId: userGoogle.uid,
+            photoURL: userGoogle.photoURL,
+            email: userGoogle.email,
+            displayName: userGoogle.displayName,
+            phoneNumber: userGoogle.phoneNumber,
+            createAt: Date.now(),
+            stsTokenManager: {
+                accessToken: credential.accessToken,
+                refreshToken: userGoogle.refreshToken,
+            },
+        };
+    } else {
+        user = {
+            ...querySnapshot1.docs.map((doc) => doc.exists && { id: doc.id, ...doc.data() })[0],
+            stsTokenManager: {
+                accessToken: credential.accessToken,
+                refreshToken: userGoogle.refreshToken,
+            },
+        };
+    }
+    // check data role exits
     if (querySnapshot.empty) {
-        console.log(querySnapshot);
         const data = {
-            userId: user.uid,
+            userId: userGoogle.uid,
             role: 'user',
             createAt: serverTimestamp(),
             updateAt: serverTimestamp(),
@@ -54,8 +145,9 @@ export const signInGoogle = createAsyncThunk('auth/signInGoogle', async (params,
         const roleRef = await addDoc(collection(db, 'role'), data);
         return { user, role: { id: roleRef.id, ...data } };
     }
+    // read data
     const role = querySnapshot.docs.map((doc) => doc.exists && { id: doc.id, ...doc.data() })[0];
-    return { user, role: role };
+    return { user: user, role: role };
 });
 export const signInFacebook = createAsyncThunk('auth/signInFacebook', async (params, thunkAPI) => {
     const userCredential = await signInWithPopup(auth, facebookAuthProvider);

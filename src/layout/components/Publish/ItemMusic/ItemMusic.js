@@ -4,6 +4,8 @@ import { useState } from 'react';
 
 import PropTypes from 'prop-types';
 import { MoreButtonMusic } from '~/components/MoreButtonMusic/MoreButtonMusic';
+import images from '~/asset/images';
+import { hover } from '@testing-library/user-event/dist/hover';
 
 ItemMusic.prototype = {
     data: PropTypes.object,
@@ -48,7 +50,7 @@ function ItemMusic({ music, type = 'medium' }) {
                     )}
                     <img
                         style={{ height: '100%', width: '100%', objectFit: 'cover' }}
-                        src="https://photo-resize-zmp3.zmdcdn.me/w94_r1x1_webp/cover/d/a/4/f/da4f928118a87298376b2109c2733629.jpg"
+                        src={data?.thumbnail ? data?.thumbnail : images.noImageMusic}
                         alt="music"
                     />
                 </Box>

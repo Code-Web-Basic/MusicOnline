@@ -1,19 +1,37 @@
 import { Box, Divider, Stack, Tab, Tabs, Typography, useTheme } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SearchResultAlbum from '~/layout/Publish/SearchContent/SearchResultAlbum';
 import SearchResultAll from '~/layout/Publish/SearchContent/SearchResultAll';
 import SearchResultMusic from '~/layout/Publish/SearchContent/SearchResultMusic';
+import { useSearchParams } from 'react-router-dom';
+import { search } from '~/service/public/searchService';
 
 function Search() {
     const theme = useTheme();
+    const [searchParams, setSearchParams] = useSearchParams();
     const [valueSelectTab, setValueSelectTab] = useState(1);
 
     const handleChange = (event, newValue) => {
         setValueSelectTab(newValue);
     };
+    useEffect(() => {
+        // const callApi = async () => {
+        //     try {
+        //         // const res = await search();
+        //         console.log(res);
+        //     } catch (error) {
+        //         console.log(error);
+        //     }
+        // };
+        // callApi();
+    }, []);
+    useEffect(() => {
+        console.log(searchParams.get('query'));
+    }, []);
+
     const renderLayoutTab = () => {
         if (valueSelectTab === 1) {
-            return <SearchResultAll />;
+            return <SearchResultAll keyword={searchParams.get('query')} />;
         } else if (valueSelectTab === 2) {
             return <SearchResultMusic />;
         } else if (valueSelectTab === 3) {
