@@ -1,17 +1,16 @@
 import { Box, useTheme } from '@mui/material';
 import { Play } from 'phosphor-react';
 import { useState } from 'react';
+import images from '~/asset/images';
 
-function ImageMusic({ isHover = false }) {
+function ImageMusic({ isHover = false, data }) {
     const theme = useTheme();
     // const [isHover, setisHover] = useState(false);
     return (
         <Box sx={{ height: 40, width: 40, overflow: 'hidden', borderRadius: 1, position: 'relative' }}>
             <img
                 style={{ height: '100%', width: '100%', objectFit: 'cover' }}
-                src={
-                    'https://photo-resize-zmp3.zmdcdn.me/w94_r1x1_webp/covers/f/a/facbb6acec54dacd342c04b533f56b9d_1396931968.jpg'
-                }
+                src={data ? data : images.noImageMusic}
                 alt="music"
             />
             {isHover && (

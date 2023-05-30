@@ -59,20 +59,28 @@ function ItemListMusic({ data, index = 0 }) {
                         </span>
                         <DotsThreeOutline size={20} weight="fill" color={theme.palette.grey[600]} />
                     </Stack>
-                    <ImageMusic isHover={isHover} />
-                    <Stack direction={'column'}>
+                    <ImageMusic data={data?.thumbnail} isHover={isHover} />
+                    <Stack direction={'column'} width={'50%'} overflow={'hidden'}>
                         <Typography
                             variant="h5"
                             fontSize="1rem"
                             color={theme.palette.common.white}
                             overflow={'hidden'}
                             textOverflow={'ellipsis'}
+                            noWrap
                         >
-                            Ngày Mai Người Ta Lấy Chồng
+                            {data?.name}
                         </Typography>
                         <Stack direction={'row'} alignItems={'center'}>
-                            <Typography variant="body2" color={theme.palette.grey[500]}>
-                                Earl Klugh
+                            <Typography
+                                variant="body2"
+                                color={theme.palette.grey[500]}
+                                textOverflow={'ellipsis'}
+                                noWrap
+                            >
+                                {data?.singer?.map((i, index) =>
+                                    index === data?.singer?.length - 1 ? `${i}` : `${i},`,
+                                )}
                             </Typography>
                         </Stack>
                     </Stack>
@@ -89,7 +97,9 @@ function ItemListMusic({ data, index = 0 }) {
                     }}
                 >
                     <Typography variant="body2" color={theme.palette.grey[500]}>
-                        Heimweh (Single)
+                        {`${data?.singer?.map((i, index) =>
+                            index === data?.singer?.length - 1 ? `${i}` : `${i},`,
+                        )} (Single)`}
                     </Typography>
                 </Stack>
                 <Stack
@@ -124,7 +134,7 @@ function ItemListMusic({ data, index = 0 }) {
                             </Tooltip>
                         </Stack>
                     ) : (
-                        '03:09'
+                        ''
                     )}
                 </Stack>
             </Stack>

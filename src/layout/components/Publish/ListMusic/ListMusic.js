@@ -1,12 +1,15 @@
 import { Stack } from '@mui/material';
 import ItemListMusic from './ItemListMusic';
+import PropTypes from 'prop-types';
 
-function ListMusic() {
-    const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+ListMusic.prototype = {
+    data: PropTypes.array,
+};
+function ListMusic({ data = [] }) {
     return (
         <Stack direction={'column'} width={'100%'}>
-            {data.map((item, index) => (
-                <ItemListMusic data={item} index={index} />
+            {data?.map((item, index) => (
+                <ItemListMusic key={item.id} data={item} index={index} />
             ))}
         </Stack>
     );
