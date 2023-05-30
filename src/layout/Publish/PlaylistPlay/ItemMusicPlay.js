@@ -66,7 +66,7 @@ function ItemMusicPlay({ active = false, data = {}, index }) {
                         {data?.name}
                     </Typography>
                     <Typography variant="inherit" color={theme.palette.grey[400]} fontSize="0.7rem">
-                        {data?.singer?.map((i, index) => (index === data?.singer ? `${i}` : `${i},`))}
+                        {data?.singer?.map((i, index) => (index === data?.singer?.length - 1 ? `${i}` : `${i},`))}
                     </Typography>
                 </Stack>
                 {isHovering && (

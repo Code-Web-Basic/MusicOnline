@@ -8,14 +8,11 @@ import { searchMusic, searchPlaylist } from '~/service/public/searchService';
 function SearchResultAll({ keyword = '' }) {
     const theme = useTheme();
     const [data, setData] = useState({ dataMusic: [], dataPlaylist: [] });
-    const dataMusic = [1, 2, 3];
-    const dataItemMusic = [1, 2, 3, 4, 5, 6];
     useEffect(() => {
         const callApi = async () => {
             try {
                 const resMusic = await searchMusic({ keyword: keyword });
                 const resPlaylist = await searchPlaylist({ keyword: keyword });
-                console.log(keyword, resPlaylist);
                 setData({ dataMusic: [...resMusic], dataPlaylist: [...resPlaylist] });
             } catch (error) {
                 console.log(error);

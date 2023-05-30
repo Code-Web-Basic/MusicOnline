@@ -6,6 +6,11 @@ import { Link } from 'react-router-dom';
 import images from '~/asset/images';
 import router from '~/config/Router';
 
+ItemPlaylist.prototype = {
+    size: PropTypes.string,
+    data: PropTypes.array,
+    type: PropTypes.string,
+};
 function ItemPlaylist({ size = 'large', data, type = 'playlist' }) {
     const theme = useTheme();
     const [isHovering, setIsHovering] = useState(false);
@@ -162,9 +167,3 @@ function ItemPlaylist({ size = 'large', data, type = 'playlist' }) {
 }
 
 export default ItemPlaylist;
-
-ItemPlaylist.prototype = {
-    width: PropTypes.number,
-    height: PropTypes.number,
-    data: PropTypes.object,
-};

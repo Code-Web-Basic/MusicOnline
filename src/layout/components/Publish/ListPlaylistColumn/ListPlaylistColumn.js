@@ -6,12 +6,12 @@ import ItemPlaylist from '../Home/ItemPlaylist/ItemPlaylist';
 ListPlaylistColumn.prototype = {
     data: PropTypes.array,
 };
-function ListPlaylistColumn({ data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13] }) {
+function ListPlaylistColumn({ data = [] }) {
     return (
         <Grid container spacing={1}>
-            {data.map((i) => (
+            {data?.map((i, index) => (
                 <Grid item xs={12 / 5} alignItems={'center'} justifyContent={'center'}>
-                    <ItemPlaylist key={i} type="single" data={i} />
+                    <ItemPlaylist key={i.id} type="single" data={i} />
                 </Grid>
             ))}
         </Grid>
