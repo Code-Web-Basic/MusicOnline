@@ -58,7 +58,7 @@ function ItemMusic({ music, type = 'medium', data }) {
                     )}
                     <img
                         style={{ height: '100%', width: '100%', objectFit: 'cover' }}
-                        src={data?.thumbnail ? data?.thumbnail : images.noImageMusic}
+                        src={music?.data?.thumbnail ? music?.data?.thumbnail : images.noImageMusic}
                         alt="music"
                     />
                 </Box>

@@ -175,7 +175,7 @@ function ItemMyPlayList({ playlist }) {
                     Xóa playlist thành công
                 </Alert>
             </Snackbar>
-            <Link to={`/playlist/${playlist?.id}`}><Typography color="white" fontSize="1.2rem" >{playlist?.data?.name}</Typography></Link>
+            <Link to={`/playlist/:${playlist?.id}`}><Typography color="white" fontSize="1.2rem" >{playlist?.data?.name}</Typography></Link>
             <Typography color="white" fontSize="1rem" fontStyle='italic' sx={{ opacity: '0.7' }}>{currentUser?.user?.displayName}</Typography>
         </Stack>
     );

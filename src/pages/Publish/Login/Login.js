@@ -88,7 +88,7 @@ function Login() {
                                     // lineHeight={'none'}
                                     sx={{ color: theme.palette.primary.main }}
                                 >
-                                    Sign up!
+                                    Đăng ký
                                 </Typography>
                             </Box>
                         </Stack>

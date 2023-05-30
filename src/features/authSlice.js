@@ -174,11 +174,11 @@ export const logout = createAsyncThunk('auth/logout', async (params, thunkAPI) =
 });
 
 export const updateProfile = createAsyncThunk('auth/updateProfile', async (params, thunkAPI) => {
-    const data = {
-        displayName: params?.displayName,
-        photoURL: params?.photoURL
-    }
-    handleUpdateProfile(data)
+    // const data = {
+    //     displayName: params?.displayName,
+    //     photoURL: params?.photoURL
+    // }
+    handleUpdateProfile(params)
     return auth.currentUser
 });
 
