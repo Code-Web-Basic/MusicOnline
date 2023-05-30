@@ -18,10 +18,12 @@ import {
 import { DotsThree, Heart, MusicNote, Play } from 'phosphor-react';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import images from '~/asset/images';
+import { addOneMusic } from '~/features/playlistCurrentSlice';
 import { formatDurationMusic } from '~/util/formatTime';
 
-function createData(id, name, thumbnail, Album, time, singer) {
+function createData(id, name, thumbnail, description, Album, time, singer, type, source, ownerId) {
     return {
         name,
         Album,
@@ -72,7 +74,7 @@ function EnhancedTableHead(props) {
     return (
         <TableHead>
             <TableRow sx={{ background: 'transparent' }}>
-                {numSelected > 0 ? (
+                {/* {numSelected > 0 ? (
                     <TableCell padding="checkbox" sx={{ width: 60, background: 'transparent' }}>
                         <Checkbox
                             color="primary"
@@ -97,10 +99,10 @@ function EnhancedTableHead(props) {
                                 },
                             }}
                         >
-                            {/* <Box component="span">{order === 'desc' ? 'sorted descending' : 'sorted ascending'}</Box> */}
+                           
                         </TableSortLabel>
                     </TableCell>
-                )}
+                )} */}
 
                 <TableCell
                     align={'left'}
@@ -152,7 +154,18 @@ function TableMusic({ data = [] }) {
     let rows = null;
     if (!rows) {
         rows = data.map((i) => {
-            return createData(i?.id, i?.name, i?.thumbnail, '', '', i?.singer);
+            return createData(
+                i?.id,
+                i?.name,
+                i?.description,
+                i?.thumbnail,
+                '',
+                '',
+                i?.singer,
+                i?.type,
+                i?.source,
+                i?.ownerId,
+            );
         });
     }
 
@@ -260,8 +273,11 @@ export default TableMusic;
 
 function RowTableMusic({ row = {}, isItemSelected, handleClick, labelId, selectedArr = [] }) {
     const theme = useTheme();
+    const dispatch = useDispatch();
     const [hover, setHover] = React.useState(false);
-
+    const handleClickAddMusicPlaylist = () => {
+        dispatch(addOneMusic({ ...row }));
+    };
     return (
         <TableRow
             hover
@@ -293,7 +309,7 @@ function RowTableMusic({ row = {}, isItemSelected, handleClick, labelId, selecte
             //     selected: useStyles.tableRowSelected,
             // }}
         >
-            {selectedArr.length > 0 || hover ? (
+            {/* {selectedArr.length > 0 || hover ? (
                 <TableCell sx={{ color: theme.palette.grey[500], width: 50 }} padding="checkbox">
                     <Checkbox
                         onClick={(event) => handleClick(event, row.name)}
@@ -308,7 +324,7 @@ function RowTableMusic({ row = {}, isItemSelected, handleClick, labelId, selecte
                 <TableCell sx={{ color: theme.palette.grey[500], width: 50 }}>
                     <MusicNote size={20} color={theme.palette.grey[500]} />
                 </TableCell>
-            )}
+            )} */}
 
             <TableCell
                 component="th"
@@ -339,7 +355,12 @@ function RowTableMusic({ row = {}, isItemSelected, handleClick, labelId, selecte
                                     left: 0,
                                 }}
                             >
-                                <Play size={15} color={theme.palette.common.white} weight="fill" />
+                                <Play
+                                    size={15}
+                                    color={theme.palette.common.white}
+                                    weight="fill"
+                                    onClick={() => handleClickAddMusicPlaylist()}
+                                />
                             </Box>
                         )}
                     </Box>

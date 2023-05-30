@@ -11,8 +11,6 @@ import {
     InputLabel,
     OutlinedInput,
     Stack,
-    styled,
-    Switch,
     Typography,
     useTheme,
 } from '@mui/material';
@@ -24,7 +22,6 @@ import { signInGoogle, signInPassWord } from '~/features/authSlice';
 import { useSnackbar } from 'notistack';
 import { Link, useNavigate } from 'react-router-dom';
 import router from '~/config/Router';
-import { getAllMyPlayList } from '~/service/publish/playlistService';
 import { getMyPlayLists } from '~/features/playlistSlice';
 import { configRouter } from '~/config';
 
@@ -55,9 +52,10 @@ function Login() {
     };
     useEffect(() => {
         if (currentUser) {
-            navigate('/');
             if (currentUser.role.role === 'admin') {
+                navigate('/admin/manageruser');
             } else {
+                navigate('/');
             }
             dispatch(getMyPlayLists(currentUser?.user?.uid));
         }

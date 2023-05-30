@@ -1,0 +1,49 @@
+.ManagerUser-container {
+  min-height: calc(100vh - 70px - 90px);
+  background-color: hsl(0, 16%, 96%);
+  height: 100%;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  border: 1px solid #ccc; /* Add a border around the user list */
+  overflow: auto; /* Enable scrolling if content exceeds container height */
+}
+
+.table-heading {
+  margin-top: 0;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.user-table th,
+.user-table td {
+  padding: 0.5rem;
+}
+
+.user-table th {
+  text-align: left;
+}
+
+.user-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2; /* Add background color to even rows */
+}
+
+.user-table tbody tr:hover {
+  background-color: #e0e0e0; /* Add background color on hover */
+}
+
+.user-table td button {
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #ff0000;
+  color: #fff;
+  cursor: pointer;
+}
+
+.user-table td button:hover {
+  background-color: #cc0000; /* Change button background color on hover */
+}

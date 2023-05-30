@@ -19,5 +19,9 @@ const router = {
     earn: '/publisher/earn',
     copyright: '/publisher/copyright',
     accountPublisher: '/publisher/account',
+
+
+    managerUser: '/admin/manageruser',
+    managerListMusic: '/admin/managerlistmusic',
 };
 export default router;
