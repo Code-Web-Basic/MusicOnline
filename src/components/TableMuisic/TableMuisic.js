@@ -105,6 +105,7 @@ function EnhancedTableHead(props) {
                 <TableCell
                     align={'left'}
                     padding={'normal'}
+                    width={300}
                     // sortDirection={orderBy === headCell.id ? order : false}
                     sx={{ color: theme.palette.grey[500], background: 'transparent' }}
                 >
@@ -113,6 +114,7 @@ function EnhancedTableHead(props) {
                 <TableCell
                     align={'left'}
                     padding={'normal'}
+                    width={200}
                     // sortDirection={orderBy === headCell.id ? order : false}
                     sx={{ color: theme.palette.grey[500], background: 'transparent' }}
                 >
@@ -186,30 +188,14 @@ function TableMusic({ data = [] }) {
         setSelected(newSelected);
     };
 
-    // const handleChangePage = (event, newPage) => {
-    //     setPage(newPage);
-    // };
-
-    // const handleChangeRowsPerPage = (event) => {
-    //     setRowsPerPage(parseInt(event.target.value, 10));
-    //     setPage(0);
-    // };
-
     const isSelected = (name) => selected.indexOf(name) !== -1;
 
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-    const visibleRows = React.useMemo(
-        () =>
-            stableSort(rows, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-        [order, orderBy, page, rows, rowsPerPage],
-    );
-    // useEffect(() => {
-    //     console.log(data);
-    // }, [data]);
+    const visibleRows = React.useMemo(() => stableSort(rows, getComparator(order, orderBy)), [order, orderBy, rows]);
     return (
-        <Box sx={{ width: '100%' }}>
+        <Box sx={{ width: '100%', overflow: 'auto', maxHeight: '100%' }}>
             {/* <EnhancedTableToolbar numSelected={selected.length} /> */}
             <TableContainer>
                 <Table
@@ -331,6 +317,7 @@ function RowTableMusic({ row = {}, isItemSelected, handleClick, labelId, selecte
                 padding="none"
                 align="left"
                 sx={{ color: theme.palette.grey[500] }}
+                width={'400'}
             >
                 <Stack direction={'row'} gap={1} alignItems={'center'}>
                     <Box sx={{ height: 40, width: 40, overflow: 'hidden', borderRadius: 1, position: 'relative' }}>
@@ -356,17 +343,19 @@ function RowTableMusic({ row = {}, isItemSelected, handleClick, labelId, selecte
                             </Box>
                         )}
                     </Box>
-                    <Stack direction={'column'}>
+                    <Stack direction={'column'} width={400} overflow={'hidden'}>
                         <Typography
                             variant="h5"
                             fontSize="1rem"
                             color={theme.palette.common.white}
                             overflow={'hidden'}
                             textOverflow={'ellipsis'}
+                            noWrap
+                            width={'100%'}
                         >
                             {row.name}
                         </Typography>
-                        <Stack direction={'row'} alignItems={'center'}>
+                        <Stack direction={'row'} alignItems={'center'} width={'100%'}>
                             <Typography variant="body2" color={theme.palette.grey[500]}>
                                 {/* Earl Klugh */}
                                 {row?.singer?.map((i, index) => (index + 1 === row?.singer?.length ? `${i}` : `${i},`))}
@@ -376,9 +365,18 @@ function RowTableMusic({ row = {}, isItemSelected, handleClick, labelId, selecte
                 </Stack>
             </TableCell>
             <TableCell align="left" sx={{ color: theme.palette.grey[500] }}>
-                <Typography variant="body2" color={theme.palette.grey[500]}>
-                    {row?.name + '(single)'}
-                </Typography>
+                <Stack direction={'column'} width={200} overflow={'hidden'}>
+                    <Typography
+                        variant="body2"
+                        color={theme.palette.grey[500]}
+                        overflow={'hidden'}
+                        textOverflow={'ellipsis'}
+                        noWrap
+                        width={'100%'}
+                    >
+                        {row?.name + '(single)'}
+                    </Typography>
+                </Stack>
             </TableCell>
             <TableCell align="right" sx={{ color: theme.palette.grey[500] }}>
                 {hover ? (

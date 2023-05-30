@@ -16,7 +16,7 @@ function ItemMusicPlay({ active = false, data = {}, index }) {
         <Box
             sx={{
                 width: '100%',
-                padding: '5px',
+                padding: '10px 5px',
                 borderRadius: 1,
                 background: active ? theme.palette.secondary.main : '',
                 '&:hover': {
@@ -54,13 +54,14 @@ function ItemMusicPlay({ active = false, data = {}, index }) {
                         alt="music"
                     />
                 </Box>
-                <Stack direction="column" marginLeft="10px" width={'150px'} overflow={'hidden'}>
+                <Stack direction="column" marginLeft="10px" width={isHovering ? '50%' : '70%'} overflow={'hidden'}>
                     <Typography
                         variant="body2"
                         color={theme.palette.common.white}
                         fontSize="0.8rem"
                         width={'100%'}
                         textOverflow={'ellipsis'}
+                        noWrap
                     >
                         {data?.name}
                     </Typography>

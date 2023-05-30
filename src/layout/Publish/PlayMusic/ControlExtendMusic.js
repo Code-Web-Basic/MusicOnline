@@ -10,17 +10,17 @@ function ControlExtendMusic({ audio }) {
     const playlistPlayOpen = useSelector((state) => state.layout.playlistPlayOpen);
     const [volume, setVolume] = useState(1);
     function handleVolumeChange(event) {
-        audio.volume = volume;
+        audio.current.volume = volume;
         setVolume(event.target.value);
     }
 
     function handleClickVolume() {
         if (volume > 0) {
             setVolume(0);
-            audio.volume = 0;
+            audio.current.volume = 0;
         } else {
             setVolume(1);
-            audio.volume = 1;
+            audio.current.volume = 1;
         }
     }
     const handleOpenPlaylistPlay = () => {
