@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 function PlaylistPlay() {
     const theme = useTheme();
     const playlistPlayOpen = useSelector((state) => state.layout.playlistPlayOpen);
+    const currentPlaylist = useSelector((state) => state.playlistCurrent);
     return (
         <>
             {playlistPlayOpen && (
@@ -27,7 +28,17 @@ function PlaylistPlay() {
                 >
                     <Typography variant="h6">Danh sách phát</Typography>
                     <Stack direction={'column'} gap={'4px'} height={'100%'} overflow={'auto'}>
-                        <ItemMusicPlay />
+                        {currentPlaylist.ListMusic.map((i, index) => {
+                            return (
+                                <ItemMusicPlay
+                                    data={i}
+                                    key={i.id}
+                                    active={index === currentPlaylist.currentIndex}
+                                    index={index}
+                                />
+                            );
+                        })}
+                        {/* <ItemMusicPlay />
                         <ItemMusicPlay />
                         <ItemMusicPlay />
                         <ItemMusicPlay />
@@ -47,7 +58,7 @@ function PlaylistPlay() {
                         <ItemMusicPlay />
                         <ItemMusicPlay />
                         <ItemMusicPlay />
-                        <ItemMusicPlay />
+                        <ItemMusicPlay /> */}
                     </Stack>
                 </Box>
             )}

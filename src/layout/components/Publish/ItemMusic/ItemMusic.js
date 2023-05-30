@@ -11,7 +11,7 @@ ItemMusic.prototype = {
     data: PropTypes.object,
     type: PropTypes.string,
 };
-function ItemMusic({ music, type = 'medium' }) {
+function ItemMusic({ music, type = 'medium', data }) {
     const theme = useTheme();
     const [isHovering, setIsHovering] = useState(false);
     return (
@@ -59,7 +59,9 @@ function ItemMusic({ music, type = 'medium' }) {
                         {music?.data?.name?.length > 25 ? music?.data?.name?.slice(0, 25) : music?.data?.name}
                     </Typography>
                     <Typography variant="body1" color={theme.palette.grey[400]} fontSize="0.75rem">
-                        {music?.data?.description > 25 ? music?.data?.description?.slice(0, 25) : music?.data?.description}
+                        {music?.data?.description > 25
+                            ? music?.data?.description?.slice(0, 25)
+                            : music?.data?.description}
                     </Typography>
                     {type === 'medium' && (
                         <Typography variant="subtitle2" color={theme.palette.grey[400]} fontSize="0.75rem">
@@ -73,7 +75,7 @@ function ItemMusic({ music, type = 'medium' }) {
                             <Tooltip title="Yêu thích">
                                 <Checkbox
                                     icon={<Heart size={18} weight="fill" color="#9b4de0" />}
-                                // checkedIcon={<Heart size={18} weight="fill" color={theme.palette.common.white} />}
+                                    // checkedIcon={<Heart size={18} weight="fill" color={theme.palette.common.white} />}
                                 />
                             </Tooltip>
                             <MoreButtonMusic music={music} />

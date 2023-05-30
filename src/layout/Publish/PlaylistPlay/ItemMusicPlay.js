@@ -1,10 +1,17 @@
 import { Box, Checkbox, IconButton, Stack, Tooltip, Typography, useTheme } from '@mui/material';
 import { DotsThree, Heart, Play } from 'phosphor-react';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import images from '~/asset/images';
+import { clickCurrent } from '~/features/playlistCurrentSlice';
 
-function ItemMusicPlay({ active = false }) {
+function ItemMusicPlay({ active = false, data = {}, index }) {
     const theme = useTheme();
+    const dispatch = useDispatch();
     const [isHovering, setIsHovering] = useState(false);
+    const clickMusicPlayCurrent = () => {
+        dispatch(clickCurrent(index));
+    };
     return (
         <Box
             sx={{
@@ -20,7 +27,7 @@ function ItemMusicPlay({ active = false }) {
             onMouseOver={() => setIsHovering(true)}
             onMouseOut={() => setIsHovering(false)}
         >
-            <Stack direction="row" alignItems="center" position={'relative'}>
+            <Stack direction="row" alignItems="center" position={'relative'} onClick={() => clickMusicPlayCurrent()}>
                 <Box
                     sx={{
                         borderRadius: '5px',
@@ -43,7 +50,7 @@ function ItemMusicPlay({ active = false }) {
                     )}
                     <img
                         style={{ height: '100%', width: '100%', objectFit: 'cover' }}
-                        src="https://photo-resize-zmp3.zmdcdn.me/w94_r1x1_webp/cover/d/a/4/f/da4f928118a87298376b2109c2733629.jpg"
+                        src={data?.thumbnail ? data?.thumbnail : images.noImageMusic}
                         alt="music"
                     />
                 </Box>
@@ -55,10 +62,10 @@ function ItemMusicPlay({ active = false }) {
                         width={'100%'}
                         textOverflow={'ellipsis'}
                     >
-                        Ghosting
+                        {data?.name}
                     </Typography>
                     <Typography variant="inherit" color={theme.palette.grey[400]} fontSize="0.7rem">
-                        Linh Ka, Kewtiie
+                        {data?.singer?.map((i, index) => (index === data?.singer ? `${i}` : `${i},`))}
                     </Typography>
                 </Stack>
                 {isHovering && (

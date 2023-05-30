@@ -1,14 +1,72 @@
 import { Box, Button, IconButton, Stack, Typography, useTheme } from '@mui/material';
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 import { Play } from 'phosphor-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import TableMusic from '~/components/TableMuisic/TableMuisic';
 import ListPlaylist from '../Home/ListPlaylist/ListPlaylist.';
+import { useParams } from 'react-router-dom';
+import { getDetailPlaylistMusic, getPlaylist } from '~/service/public/PlaylistService';
+import images from '~/asset/images';
+import { formatDurationMusic } from '~/util/formatTime';
+import { useDispatch } from 'react-redux';
+import { addPlaylist } from '~/features/playlistCurrentSlice';
 
+function getDuration(src, cb) {
+    var audio = new Audio(src);
+    audio.onloadedmetadata = function () {
+        cb(audio.duration);
+    };
+    // audio.src = src;
+}
 function DetailPlaylist() {
     const [isHover, setIsHover] = useState(false);
     const theme = useTheme();
-    const data = [1, 2, 3, 4];
+    const dispatch = useDispatch();
+    // const data = [1, 2, 3, 4];
+    const [data, setData] = useState({});
+
+    const [duration, setDuration] = useState(0);
+
+    let { id } = useParams();
+    useEffect(() => {
+        const callApi = async () => {
+            try {
+                if (id) {
+                    const res = await getPlaylist(id);
+
+                    const res1 = await getDetailPlaylistMusic(res?.type);
+
+                    // const resTmp = res1.map((i) => {
+                    //     // const audio = new Audio(i?.source);
+                    //     getDuration(i?.source, function (length) {
+                    //         setDuration(length);
+                    //     });
+                    //     console.log(duration);
+                    //     return { ...i, time: formatDurationMusic(duration) };
+                    // });
+
+                    setData({ ...res, musics: res1 });
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        callApi();
+    }, [id]);
+
+    useEffect(() => {
+        console.log(data);
+        if (data?.musics) {
+            const callApp = async () => {
+                // console.log(audio.onloadedmetadata = );
+            };
+            callApp();
+        }
+    }, [data]);
+    const handleClickPlayPlaylist = () => {
+        console.log('click');
+        dispatch(addPlaylist(data.musics));
+    };
     return (
         <Stack direction={'column'} marginBottom={'60px'}>
             <Grid2 container backgroundColor="transparent" width={'100%'}>
@@ -39,10 +97,9 @@ function DetailPlaylist() {
                                     transform: isHover ? 'scale(1.1)' : '',
                                     transition: '0.3s all linear',
                                 }}
-                                src="https://photo-resize-zmp3.zmdcdn.me/w600_r1x1_webp/cover/8/1/e/9/81e96c0d7646b1d357298e35cecb1762.jpg"
+                                src={data?.thumbnail ? data?.thumbnail : images.playlistImageDefault}
                                 alt="photoPlaylist"
                             ></img>
-                            c
                             <Box
                                 sx={{
                                     position: 'absolute',
@@ -81,7 +138,7 @@ function DetailPlaylist() {
                                 overflow={'hidden'}
                                 height={50}
                             >
-                                Những Bài Hát Hay Nhất Của Lưu Hương Giang
+                                {data?.name}
                             </Typography>
                             <Typography
                                 variant="body2"
@@ -89,24 +146,25 @@ function DetailPlaylist() {
                                 fontSize={'0.8rem'}
                                 textAlign="center"
                             >
-                                Cập nhật: 10/05/2023
+                                {/* {DateTime.parse(Timestamp.fromDate(data?.createdAt.toda).toString)} */}
                             </Typography>
-                            <Typography
+                            {/* singer */}
+                            {/* <Typography
                                 variant="body2"
                                 color={theme.palette.grey[500]}
                                 fontSize={'0.8rem'}
                                 textAlign="center"
                             >
                                 Lưu Hương Giang
-                            </Typography>
-                            <Typography
+                            </Typography> */}
+                            {/* <Typography
                                 variant="body2"
                                 color={theme.palette.grey[500]}
                                 fontSize={'0.8rem'}
                                 textAlign="center"
                             >
-                                283 người yêu thích
-                            </Typography>
+                                0 người yêu thích
+                            </Typography> */}
                         </Stack>
 
                         <Button
@@ -120,6 +178,7 @@ function DetailPlaylist() {
                                 padding: '5px 10px',
                             }}
                             startIcon={<Play size={20} weight="fill" />}
+                            onClick={handleClickPlayPlaylist}
                         >
                             <Typography variant="h5" fontSize="1rem">
                                 Phát ngẫu nhiên
@@ -139,11 +198,11 @@ function DetailPlaylist() {
                                 color={theme.palette.common.white}
                                 textOverflow={'ellipsis'}
                             >
-                                'Mất anh em tìm lại thấy chính mình' và Hit nổi bật của Lưu Hương Giang'
+                                {data?.description}
                             </Typography>
                         </Stack>
 
-                        <TableMusic />
+                        <TableMusic data={data?.musics} />
                     </Stack>
                 </Grid2>
             </Grid2>

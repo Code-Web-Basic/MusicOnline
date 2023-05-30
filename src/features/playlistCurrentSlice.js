@@ -23,22 +23,48 @@ const playlistCurrentSlice = createSlice({
         loading: false,
     },
     reducers: {
+        addPlaylist: (state, action) => {
+            if (state.ListMusic.length + action.payload?.length < 30)
+                state.ListMusic = [...state.ListMusic, ...action.payload];
+            else {
+                const numberSlice = state.ListMusic.length + action.payload?.length - 30;
+                const newIndex = state.ListMusic.length - numberSlice - 1;
+                state.ListMusic = [...state.ListMusic, ...action.payload].slice(0, numberSlice - 1);
+                state.currentIndex = newIndex;
+            }
+        },
         addOneMusic: (state, action) => {
-            state.ListMusic = [...state.data, action.payload];
+            if (state.ListMusic.length + 1 < 30) state.ListMusic = [...state.ListMusic, action.payload];
+            else {
+                const newIndex = state.ListMusic.length;
+                state.ListMusic = [...state.ListMusic, ...action.payload].slice(0, 1);
+                state.currentIndex = newIndex;
+            }
         },
         nextMusic: (state, action) => {
-            if (state.currentIndex < state.ListMusic.length) {
-                state.currentIndex = state.currentIndex++;
+            if (state.currentIndex < state.ListMusic.length - 1) {
+                state.currentIndex++;
             } else {
                 state.currentIndex = 0;
             }
         },
         prevMusic: (state, action) => {
             if (state.currentIndex !== 0) {
-                state.currentIndex = state.currentIndex--;
+                state.currentIndex--;
             } else {
-                state.currentIndex = state.ListMusic.length;
+                state.currentIndex = state.ListMusic.length - 1;
             }
+        },
+        clickCurrent: (state, action) => {
+            state.currentIndex = action.payload;
+        },
+        playRadomMusic: (state, action) => {
+            let newIndex;
+            do {
+                newIndex = Math.floor(Math.random() * state.ListMusic.length);
+            } while (newIndex === state.currentIndex);
+
+            state.currentIndex = newIndex;
         },
     },
     extraReducers: (builder) => {
@@ -59,5 +85,6 @@ const playlistCurrentSlice = createSlice({
         // builder.addCase(fetchUserById.fulfilled, (state, action) => {});
     },
 });
-export const { addOneMusic, nextMusic, prevMusic } = playlistCurrentSlice.actions;
+export const { addOneMusic, nextMusic, prevMusic, addPlaylist, clickCurrent, playRadomMusic } =
+    playlistCurrentSlice.actions;
 export default playlistCurrentSlice.reducer;
