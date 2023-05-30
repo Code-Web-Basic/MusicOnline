@@ -1,7 +1,6 @@
 import { Box, Grid, Stack } from '@mui/material';
 
-import { useEffect, useRef } from 'react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import ShowCurrentMusic from './ShowCurrentMusic';
 import ControlExtendMusic from './ControlExtendMusic';
 import ControlMusic from './ControlMusic';
@@ -9,17 +8,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { nextMusic } from '~/features/playlistCurrentSlice';
 
 function PlayMusic() {
-    const dispatch = useDispatch();
     const currentPlaylist = useSelector((state) => state.playlistCurrent);
     const audioRef = useRef(null);
+    const dispatch = useDispatch();
 
     // useEffect(() => {
     //     setAudio(new Audio(currentPlaylist.ListMusic[currentPlaylist.currentIndex]?.source));
     // }, [currentPlaylist.ListMusic, currentPlaylist.currentIndex]);
-    // const handleEndMusic = () => {
-    //     console.log('end');
-    //     dispatch(nextMusic());
-    // };
+    const [isRepeatMusic, setIsRepeatMusic] = useState(false);
+    const handleEndMusic = () => {
+        if (isRepeatMusic) {
+            audioRef.current?.play();
+        } else {
+            dispatch(nextMusic());
+        }
+    };
     return (
         <Box
             sx={{
@@ -38,7 +41,7 @@ function PlayMusic() {
             <audio
                 src={currentPlaylist.ListMusic[currentPlaylist.currentIndex]?.source}
                 ref={audioRef}
-                // onEnded={handleEndMusic}
+                onEnded={handleEndMusic}
             />
             <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'} width={'100%'}>
                 <Grid container width={'100%'}>
@@ -46,7 +49,11 @@ function PlayMusic() {
                         <ShowCurrentMusic />
                     </Grid>
                     <Grid item xs={12 / 3} display={'flex'} justifyContent={'center'}>
-                        <ControlMusic audio={audioRef} />
+                        <ControlMusic
+                            audio={audioRef}
+                            setIsRepeatMusic={setIsRepeatMusic}
+                            isRepeatMusic={isRepeatMusic}
+                        />
                     </Grid>
                     <Grid item xs={12 / 3} display={'flex'} justifyContent={'flex-end'}>
                         <ControlExtendMusic audio={audioRef} />
