@@ -1,15 +1,16 @@
-import { Grid, Stack } from '@mui/material';
-import Sidebar from '../components/Publish/SideBar/Sidebar';
-import Header from '../components/Publish/Header/Header';
+import { Grid, Stack } from "@mui/material";
+import Sidebar from "./Sidebar/Sidebar";
+import Header from "./Header/Header";
+
 
 function DefaultLayout({ children }) {
     return (
         <Stack direction={{ xs: 'column' }} height={'100vh'} width={'100%'}>
-            <Grid container sx={{ backgroundColor: '#170f23' }}>
+            <Grid container height={'100%'} width={'100%'}>
                 <Grid item xs={2}>
                     <Sidebar />
                 </Grid>
-                <Grid item xs={10}>
+                <Grid item xs={10} paddingTop={'100px'} paddingLeft={'10px'} paddingRight={'10px'}>
                     <Header />
                     {children}
                 </Grid>
