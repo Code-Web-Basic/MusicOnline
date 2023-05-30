@@ -2,6 +2,7 @@ import { faker } from '@faker-js/faker';
 import { Box, IconButton, ListItemIcon, MenuItem, Paper, Stack, Tooltip, Typography, useTheme } from '@mui/material';
 import Tippy from '@tippyjs/react/headless';
 import { ChatCircle, DotsThree, Link as LinkIcon, PlusCircle, Share } from 'phosphor-react';
+import { useState } from 'react';
 import Comment from '~/layout/components/Publish/Comment/Comment';
 
 const MENU_OPTIONS = [
@@ -14,11 +15,11 @@ const MENU_OPTIONS = [
         icon: <LinkIcon size={20} />,
     },
     {
-        label: 'Chia sẽ',
+        label: 'Chia sẻ',
         icon: <Share size={20} />,
     },
 ];
-export function MoreButtonMusic() {
+export function MoreButtonMusic({ music }) {
     const theme = useTheme();
     return (
         <>
@@ -53,32 +54,13 @@ export function MoreButtonMusic() {
                                             sx={{ color: theme.palette.grey[400] }}
                                             textOverflow={'ellipsis'}
                                         >
-                                            Dù Khóc Một Dòng Sông
-                                        </Typography>
-                                        <Typography
-                                            variant="body2"
-                                            fontSize={'0.5rem'}
-                                            sx={{ color: theme.palette.grey[400] }}
-                                            noWrap
-                                        >
-                                            Mai Tiến Dũng
+                                            {music?.data?.name}
                                         </Typography>
                                     </Stack>
                                 </Stack>
                             </Box>
                             <Stack sx={{ p: '4px' }}>
-                                <Comment>
-                                    <MenuItem
-                                        // onClick={handleClose}
-                                        sx={{ color: theme.palette.grey[400] }}
-                                    >
-                                        <ListItemIcon sx={{ color: theme.palette.grey[400] }}>
-                                            <ChatCircle size={20} weight="regular" />
-                                        </ListItemIcon>
-                                        Bình luận
-                                    </MenuItem>
-                                </Comment>
-
+                                <Comment music={music} />
                                 {MENU_OPTIONS.map((option) => (
                                     <MenuItem
                                         key={option.label}

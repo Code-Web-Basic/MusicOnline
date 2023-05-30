@@ -4,10 +4,12 @@ import ListMyPlayList from '~/layout/components/Publish/ListMyPlayList/ListMyPla
 import { styled } from '@mui/system';
 import { buttonClasses } from '@mui/base/Button';
 import { Tab, TabPanel, Tabs, TabsList, tabClasses } from '@mui/base';
-import ItemTabPlaylist from '~/layout/components/Publish/Home/ListTabPlaylist/ItemTabPlaylist';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getMusicByOwerId } from '~/service/publisher/musicService';
+import { useSnackbar } from 'notistack';
+import ListMusicMyLike from '~/layout/components/Publish/Library/Library';
 
 const grey = {
     50: '#f6f8fa',
@@ -91,15 +93,27 @@ const style = {
 
 function Library() {
     const currentUser = useSelector(state => state.auth.currentUser)
+    const { enqueueSnackbar } = useSnackbar();
     const [open, setOpen] = useState(true);
+    const [myMusic, setMyMusic] = useState([]);
+    const [musicAudio, setMusicAudio] = useState([])
     const navigate = useNavigate()
+    useEffect(() => {
+        const load = async () => {
+            try {
+                const data = await getMusicByOwerId(currentUser?.user?.uid)
+                setMyMusic(data)
+                setMusicAudio(new Audio(data[0]?.data?.source))
+            } catch (error) {
+                enqueueSnackbar(error, { variant: 'error' });
+            }
+        };
+        load();
+    }, [])
+
     const handleLogin = () => {
         navigate('/login')
     }
-
-    const handleClick = () => {
-        setOpen(false);
-    };
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -108,6 +122,7 @@ function Library() {
         setOpen(false);
         console.log("true");
     };
+
     return (
         <div
             style={{
@@ -147,7 +162,7 @@ function Library() {
                                 </StyledTabsList>
                                 {/*  */}
                                 <StyledTabPanel value={1}>
-                                    <ItemTabPlaylist />
+                                    <ListMusicMyLike />
                                 </StyledTabPanel>
                                 {/* da tai len */}
                                 <StyledTabPanel value={2}>
@@ -160,86 +175,49 @@ function Library() {
                                                 THỜI GIAN
                                             </Typography>
                                         </Stack>
-                                        <Stack
-                                            display="flex"
-                                            flexDirection="row"
-                                            justifyContent="space-between"
-                                            alignItems="center"
-                                            padding="5px 5px"
-                                            sx={{ backgroundColor: 'hsla(0,0%,100%,0.1)', margin: '5px 0' }}
-                                        >
-                                            <Box
-                                                sx={{
-                                                    width: '33%',
-                                                    height: '100%',
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                }}
+                                        {myMusic?.map((music, index) => (
+                                            <Stack
+                                                key={index}
+                                                display="flex"
+                                                flexDirection="row"
+                                                justifyContent="space-between"
+                                                alignItems="center"
+                                                padding="5px 5px"
+                                                sx={{ backgroundColor: 'hsla(0,0%,100%,0.1)', margin: '5px 0' }}
                                             >
-                                                <Box sx={{ width: '64px', height: '64px' }}>
-                                                    <img
-                                                        src="https://th.bing.com/th/id/OIP.QBN8EFimKWv_qtNxC3FP5wHaGU?pid=ImgDet&rs=1"
-                                                        alt="img"
-                                                        style={{
-                                                            width: '100%',
-                                                            height: '100%',
-                                                            objectFit: 'cover',
-                                                            borderRadius: '5px',
-                                                        }}
-                                                    />
+                                                <Box
+                                                    sx={{
+                                                        width: '33%',
+                                                        height: '100%',
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                    }}
+                                                >
+                                                    <Box sx={{ width: '64px', height: '64px' }}>
+                                                        <img
+                                                            src="https://th.bing.com/th/id/OIP.QBN8EFimKWv_qtNxC3FP5wHaGU?pid=ImgDet&rs=1"
+                                                            alt="img"
+                                                            style={{
+                                                                width: '100%',
+                                                                height: '100%',
+                                                                objectFit: 'cover',
+                                                                borderRadius: '5px',
+                                                            }}
+                                                        />
+                                                    </Box>
+                                                    <Box sx={{ paddingRight: '10px', marginLeft: '10px' }}>
+                                                        <Typography color="white" fontSize="14px">
+                                                            {music?.data?.name}
+                                                        </Typography>
+                                                        <Typography color="white" fontSize="12px">
+                                                            {music?.data?.description}
+                                                        </Typography>
+                                                    </Box>
                                                 </Box>
-                                                <Box sx={{ width: '150px', paddingRight: '10px', marginLeft: '10px' }}>
-                                                    <Typography color="white" fontSize="14px">
-                                                        Tên bài nhạc
-                                                    </Typography>
-                                                    <Typography color="white" fontSize="12px">
-                                                        Ten ca si
-                                                    </Typography>
-                                                </Box>
-                                            </Box>
-                                            <Box color="white">Cá nhân</Box>
-                                            <Box color="white">02:32</Box>
-                                        </Stack>
-                                        <Stack
-                                            display="flex"
-                                            flexDirection="row"
-                                            justifyContent="space-between"
-                                            alignItems="center"
-                                            padding="5px 5px"
-                                            sx={{ backgroundColor: 'hsla(0,0%,100%,0.1)', margin: '5px 0' }}
-                                        >
-                                            <Box
-                                                sx={{
-                                                    width: '33%',
-                                                    height: '100%',
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                }}
-                                            >
-                                                <Box sx={{ width: '64px', height: '64px' }}>
-                                                    <img
-                                                        src="https://th.bing.com/th/id/OIP.QBN8EFimKWv_qtNxC3FP5wHaGU?pid=ImgDet&rs=1"
-                                                        alt="img"
-                                                        style={{
-                                                            width: '100%',
-                                                            height: '100%',
-                                                            objectFit: 'cover',
-                                                            borderRadius: '5px',
-                                                        }}
-                                                    />
-                                                </Box>
-                                                <Box sx={{ width: '150px', paddingRight: '10px', marginLeft: '10px' }}>
-                                                    <Typography color="white" fontSize="14px">
-                                                        Tên bài nhạc
-                                                    </Typography>
-                                                    <Typography color="white" fontSize="12px">
-                                                        Ten ca si
-                                                    </Typography>
-                                                </Box>
-                                            </Box>
-                                            <Box color="white">Cá nhân</Box>
-                                            <Box color="white">02:32</Box>
-                                        </Stack>
+                                                <Box color="white">Cá nhân</Box>
+                                                <Box color="white">{parseInt(musicAudio?.duration)}</Box>
+                                            </Stack>
+                                        ))}
                                     </Stack>
                                 </StyledTabPanel>
                             </Tabs>
@@ -264,6 +242,7 @@ function Library() {
                                 p={1}
                                 position="relative"
                                 borderBottom="1px solid rgb(219, 219, 219)"
+                                color='black'
                             >
                                 <Typography variant="body1" fontWeight={5600} fontSize="1.2rem">
                                     Bạn chưa đăng nhập?
@@ -279,6 +258,7 @@ function Library() {
                                     justifyContent: 'space-between',
                                     alignItems: 'center',
                                     padding: '5px 20px',
+                                    color: 'black'
                                 }}
                             >
                                 <Stack>

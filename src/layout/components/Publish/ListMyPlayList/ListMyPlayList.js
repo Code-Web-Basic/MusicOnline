@@ -14,7 +14,7 @@ import { CaretRight, PlusCircle, X } from 'phosphor-react';
 import { useNavigate } from 'react-router-dom';
 import ItemMyPlayList from './ItemMyPlayList';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllMyPlayList, setNewMyPlayList } from '~/service/publish/publish';
+import { createNewMyPlayList } from '~/features/playlistSlice';
 const style = {
     position: 'absolute',
     top: '40%',
@@ -72,7 +72,7 @@ function ListMyPlayList({ title, size = 'small' }) {
         } else {
             setNewPlayList(false);
             setNamePlayList('')
-            dispath(setNewMyPlayList(playList));
+            dispath(createNewMyPlayList(playList));
             handleClick()
         }
     };
@@ -119,6 +119,7 @@ function ListMyPlayList({ title, size = 'small' }) {
                                     p={1}
                                     position="relative"
                                     borderBottom="1px solid rgb(219, 219, 219)"
+                                    color="black"
                                 >
                                     <Typography variant="body1 " fontWeight={5600} fontSize="0.8rem">
                                         <h3>Tạo playlist mới</h3>
@@ -149,6 +150,7 @@ function ListMyPlayList({ title, size = 'small' }) {
                                         justifyContent: 'space-between',
                                         alignItems: 'center',
                                         padding: '5px 20px',
+                                        color: 'black'
                                     }}
                                 >
                                     <Stack>

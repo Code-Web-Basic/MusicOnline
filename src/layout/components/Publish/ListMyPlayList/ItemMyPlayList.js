@@ -1,8 +1,10 @@
 import { Alert, Box, Button, IconButton, Modal, Snackbar, Stack, Typography, useTheme } from '@mui/material';
 import { DotsThreeOutline, Play, X } from 'phosphor-react';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { deleteMyPlayList } from '~/service/publish/publish';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { configRouter } from '~/config';
+import { deletedMyPlayList } from '~/features/playlistSlice';
 
 const style = {
     position: 'absolute',
@@ -17,6 +19,7 @@ const style = {
 
 function ItemMyPlayList({ playlist }) {
     const dispath = useDispatch()
+    const currentUser = useSelector(state => state.auth.currentUser)
     const theme = useTheme();
     const [deletePlayList, setDeletePlayList] = useState(false);
     const handleOpenConfirmDeletePlayList = () => {
@@ -31,7 +34,7 @@ function ItemMyPlayList({ playlist }) {
     }
     const handleConfirmDeletePlayList = (documentId) => {
         try {
-            dispath(deleteMyPlayList(documentId))
+            dispath(deletedMyPlayList(documentId))
             setDeletePlayList(false);
             handleClick()
         } catch (error) {
@@ -126,6 +129,7 @@ function ItemMyPlayList({ playlist }) {
                                 p={1}
                                 position="relative"
                                 borderBottom="1px solid rgb(219, 219, 219)"
+                                color='black'
                             >
                                 <Typography variant="body1 " fontWeight={5600} fontSize="1.2rem">
                                     Xóa Playlist
@@ -141,6 +145,7 @@ function ItemMyPlayList({ playlist }) {
                                     justifyContent: 'space-between',
                                     alignItems: 'center',
                                     padding: '5px 20px',
+                                    color: 'black'
                                 }}
                             >
                                 <Stack>
@@ -170,8 +175,8 @@ function ItemMyPlayList({ playlist }) {
                     Xóa playlist thành công
                 </Alert>
             </Snackbar>
-            <Typography color="white" fontSize="1.2rem" >{playlist?.data?.name}</Typography>
-            <Typography color="white" fontSize="1rem" fontStyle='italic' sx={{ opacity: '0.7' }}>name</Typography>
+            <Link to={`/playlist/${playlist?.id}`}><Typography color="white" fontSize="1.2rem" >{playlist?.data?.name}</Typography></Link>
+            <Typography color="white" fontSize="1rem" fontStyle='italic' sx={{ opacity: '0.7' }}>{currentUser?.user?.displayName}</Typography>
         </Stack>
     );
 }

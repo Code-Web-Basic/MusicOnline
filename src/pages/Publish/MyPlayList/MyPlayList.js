@@ -3,8 +3,8 @@ import { Play, PlusCircle, X } from 'phosphor-react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { createNewMyPlayList } from '~/features/playlistSlice';
 import ItemMyPlayList from '~/layout/components/Publish/ListMyPlayList/ItemMyPlayList';
-import { getAllMyPlayList, setNewMyPlayList } from '~/service/publish/publish';
 
 const style = {
     position: 'absolute',
@@ -20,9 +20,6 @@ const style = {
 function MyPlayList() {
     const dispatch = useDispatch()
     const currentUser = useSelector(state => state.auth.currentUser)
-    // useEffect(() => {
-    //     dispatch(getAllMyPlayList(currentUser?.user?.uid))
-    // })
     const myPlayLists = useSelector(state => state.myplaylist.data)
     const [newPlayList, setNewPlayList] = useState(false);
     const [checked, setChecked] = useState(true);
@@ -50,7 +47,7 @@ function MyPlayList() {
         } else {
             setNewPlayList(false);
             setNamePlayList('')
-            dispatch(setNewMyPlayList(playList));
+            dispatch(createNewMyPlayList(playList));
             handleClick()
         }
     };
@@ -132,6 +129,7 @@ function MyPlayList() {
                                         p={1}
                                         position="relative"
                                         borderBottom="1px solid rgb(219, 219, 219)"
+                                        color='black'
                                     >
                                         <Typography variant="body1 " fontWeight={5600} fontSize="0.8rem">
                                             <h3>Tạo playlist mới</h3>
@@ -162,6 +160,7 @@ function MyPlayList() {
                                             justifyContent: 'space-between',
                                             alignItems: 'center',
                                             padding: '5px 20px',
+                                            color: 'black'
                                         }}
                                     >
                                         <Stack>
@@ -223,6 +222,7 @@ function MyPlayList() {
                                 p={1}
                                 position="relative"
                                 borderBottom="1px solid rgb(219, 219, 219)"
+                                color='black'
                             >
                                 <Typography variant="body1" fontWeight={5600} fontSize="1.2rem">
                                     Bạn chưa đăng nhập?
@@ -238,6 +238,7 @@ function MyPlayList() {
                                     justifyContent: 'space-between',
                                     alignItems: 'center',
                                     padding: '5px 20px',
+                                    color: 'black'
                                 }}
                             >
                                 <Stack>

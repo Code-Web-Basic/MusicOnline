@@ -9,6 +9,8 @@ const router = {
     DetailPlaylist: '/playlist/::id',
     Profile: '/profile',
     Search: '/search',
+    ForgetPassword: '/forgetpassword',
+    ResetPassword: '/resetpassword',
 
     dashboard: '/dashboard',
     content: '/publisher/content',

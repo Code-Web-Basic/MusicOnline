@@ -25,6 +25,8 @@ import ZingRank from '~/pages/Publish/ZingRank/ZingRank';
 import Profile from '~/pages/Publish/Profile/Profile';
 import Search from '~/pages/Publish/Search/Search';
 import ResetPass from '~/pages/Publish/ResetPass/ResetPass';
+import ForgetPassword from '~/pages/Publish/ForgetPassword/ForgetPassword';
+import ResetPassword from '~/pages/Publish/ForgetPassword/ResetPassword';
 // Public routes
 const publicRoutes = [
     { path: configRouter.Home, component: Home },
@@ -37,6 +39,8 @@ const publicRoutes = [
     { path: configRouter.DetailPlaylist, component: DetailPlaylist },
     { path: configRouter.Profile, component: Profile, layout: null },
     { path: configRouter.Search, component: Search },
+    { path: configRouter.ForgetPassword, component: ForgetPassword, layout: null },
+    { path: configRouter.ResetPassword, component: ResetPassword, layout: null }
 ];
 const publisherRoutes = [
     { path: configRouter.dashboard, component: Dashboard, layout: DefaultLayoutPublisher },

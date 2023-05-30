@@ -1,23 +1,56 @@
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { useSnackbar } from "notistack";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { updateProfile } from "~/features/authSlice";
 
-const { Box, Stack, Typography, Input, TextField, InputLabel, Select, MenuItem, FormControl, Avatar, Button } = require("@mui/material");
+const { Box, Stack, Typography, TextField, Avatar, Button } = require("@mui/material");
 
-
-const months = ['tháng 1', 'tháng 2', 'tháng 3', 'tháng 4', 'tháng 5', 'tháng 6', 'tháng 7', 'tháng 8', 'tháng 9', 'tháng 10', 'tháng 11', 'tháng 12']
 function ProfileDetail() {
-    const [age, setAge] = useState('');
-    const [avatar, setAvatar] = useState(null);
-
-    const handleChangeAge = (event) => {
-        console.log(event.target.value)
-        setAge(event.target.value);
-    };
+    const { enqueueSnackbar } = useSnackbar();
+    const dispatch = useDispatch()
+    const currentUser = useSelector(state => state.auth.currentUser)
+    const [avatar, setAvatar] = useState(currentUser?.user?.photoURL || '');
+    const [displayName, setDisplayName] = useState(currentUser?.user?.displayName || '');
 
     const handleChangeAvatar = async (e) => {
-        setAvatar(URL.createObjectURL(e.target.files[0]));
+        if (e.target.files[0].type === '') {
+            enqueueSnackbar('Hãy lựa chọn ảnh phù hợp', { variant: 'error' });
+        }
+        else {
+            const storage = getStorage();
+            const storageRef = ref(storage, 'avatar/' + e.target.files[0].name);
+
+            uploadBytes(storageRef, e.target.files[0]).then(() => {
+                try {
+                    getDownloadURL(storageRef).then((downloadURL) => setAvatar(downloadURL));
+                } catch (error) {
+                    enqueueSnackbar(error, { variant: 'error' });
+                }
+            });
+        }
     }
 
-    return (<Box sx={{ margin: '0px 20%', boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px' }}>
+    const handleGetDisplayName = (e) => {
+        setDisplayName(e.target.value);
+    }
+    const handleUpdateInfo = () => {
+        const data = {
+            displayName: displayName,
+            photoURL: avatar
+        }
+        if (displayName === '') {
+            enqueueSnackbar('Hãy điền đủ tên', { variant: 'error' });
+            enqueueSnackbar('Cập nhập thất bại', { variant: 'error' });
+        }
+        else {
+            // handleUpdateProfile(data)
+            dispatch(updateProfile(data))
+            enqueueSnackbar('Cập nhập thông tin thành công', { variant: 'success' });
+        }
+    }
+
+    return (<Box sx={{ margin: '0px 20%', boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px', color: 'black' }}>
         <Stack sx={{ padding: '15px' }}>
             <Typography variant="h3">
                 Tổng quan về tài khoản
@@ -28,7 +61,7 @@ function ProfileDetail() {
                 Hồ sơ
             </Typography>
             <Stack display='flex' flexDirection='row' alignItems='center'>
-                <Stack>
+                <Stack sx={{ width: '60%' }}>
                     <Stack sx={{ margin: '5px 0' }}>
                         <Typography variant="p" fontSize='15px'>
                             Email
@@ -36,52 +69,25 @@ function ProfileDetail() {
                         <TextField
                             disabled
                             id="outlined-read-only-input"
-                            defaultValue="testing@gmail.com"
+                            defaultValue={currentUser?.user?.email}
                             InputProps={{
                                 readOnly: true,
                             }}
-                            sx={{ margin: '5px 0' }}
+                            sx={{ margin: '5px 0', border: '1px solid #ccc' }}
                         />
                     </Stack>
                     <Stack sx={{ margin: '5px 0' }}>
                         <Typography variant="p" fontSize='15px'>
                             Họ và tên
                         </Typography>
-                        <TextField id="outlined-search" type="search" defaultValue='testing' sx={{ margin: '5px 0' }} />
-                    </Stack>
-                    <Stack sx={{ margin: '5px 0' }}>
-                        <Typography variant="p" fontSize='15px'>
-                            Ngày sinh
-                        </Typography>
-                        <Stack direction='row'>
-                            <TextField
-                                id="outlined-read-only-input"
-                                defaultValue="07"
-                                sx={{ margin: '5px 5px' }}
-                            />
-                            <FormControl sx={{ margin: '5px 5px', width: '200px' }}>
-                                <Select
-                                    value={age}
-                                    onChange={handleChangeAge}
-                                >
-                                    {months.map((month, index) => (
-                                        <MenuItem key={index} value={index + 1}>{month}</MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                            <TextField
-                                disabled
-                                id="outlined-read-only-input"
-                                defaultValue="2002"
-                                sx={{ margin: '5px 5px' }}
-                            />
-                        </Stack>
+                        <input onChange={handleGetDisplayName} type='search' defaultValue={displayName} style={{ margin: '5px 0', color: 'black', padding: '15px', fontSize: '15px', border: '1px solid #ccc' }} />
                     </Stack>
                 </Stack>
                 <Stack sx={{ margin: '5px 10px' }}>
                     <input
                         type="file"
                         id="file"
+                        accept="image/*"
                         style={{ display: "none" }}
                         onChange={(e) => {
                             handleChangeAvatar(e)
@@ -94,11 +100,8 @@ function ProfileDetail() {
                     </label>
                 </Stack>
             </Stack>
-            <Stack display='flex' flexDirection='row'>
-                <Button disabled>
-                    Hủy
-                </Button>
-                <Button disabled variant="contained" color="success">
+            <Stack display='flex' flexDirection='row' >
+                <Button variant="contained" color="success" onClick={handleUpdateInfo}>
                     Cập nhập
                 </Button>
             </Stack>

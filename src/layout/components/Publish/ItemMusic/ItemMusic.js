@@ -11,10 +11,9 @@ ItemMusic.prototype = {
     data: PropTypes.object,
     type: PropTypes.string,
 };
-function ItemMusic({ data, type = 'medium' }) {
+function ItemMusic({ music, type = 'medium' }) {
     const theme = useTheme();
     const [isHovering, setIsHovering] = useState(false);
-
     return (
         <Box
             sx={{
@@ -55,18 +54,12 @@ function ItemMusic({ data, type = 'medium' }) {
                         alt="music"
                     />
                 </Box>
-                <Stack direction="column" marginLeft="10px" width={isHovering ? '65%' : '80%'}>
-                    <Typography
-                        variant="h6"
-                        color={theme.palette.common.white}
-                        fontSize="1rem"
-                        noWrap
-                        textOverflow={'ellipsis'}
-                    >
-                        {data?.name ? data?.name : ''}
+                <Stack direction="column" marginLeft="10px">
+                    <Typography variant="h6" color={theme.palette.common.white} fontSize="1rem">
+                        {music?.data?.name?.length > 25 ? music?.data?.name?.slice(0, 25) : music?.data?.name}
                     </Typography>
                     <Typography variant="body1" color={theme.palette.grey[400]} fontSize="0.75rem">
-                        Linh Ka, Kewtiie
+                        {music?.data?.description > 25 ? music?.data?.description?.slice(0, 25) : music?.data?.description}
                     </Typography>
                     {type === 'medium' && (
                         <Typography variant="subtitle2" color={theme.palette.grey[400]} fontSize="0.75rem">
@@ -79,12 +72,11 @@ function ItemMusic({ data, type = 'medium' }) {
                         <Stack direction={'row'} gap={1}>
                             <Tooltip title="Yêu thích">
                                 <Checkbox
-                                    icon={<Heart size={18} color={theme.palette.common.white} />}
-                                    checkedIcon={<Heart size={18} weight="fill" color="#9b4de0" />}
+                                    icon={<Heart size={18} weight="fill" color="#9b4de0" />}
+                                // checkedIcon={<Heart size={18} weight="fill" color={theme.palette.common.white} />}
                                 />
                             </Tooltip>
-
-                            <MoreButtonMusic />
+                            <MoreButtonMusic music={music} />
                         </Stack>
                     </Stack>
                 )}
