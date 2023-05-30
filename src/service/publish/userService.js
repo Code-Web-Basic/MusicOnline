@@ -6,9 +6,12 @@ export const handleUpdateProfile = async (data) => {
         await updateProfile(auth.currentUser, {
             displayName: data?.displayName,
             photoURL: data?.photoURL
-        });
-        console.log(auth.currentUser);
-        console.log('Profile updated successfully');
+        }).then(() => {
+            console.log(auth.currentUser);
+            console.log('Profile updated successfully');
+        }).catch((error) => {
+            console.error('Error updating profile:', error);
+        });;
     } catch (error) {
         console.error('Error updating profile:', error);
     }

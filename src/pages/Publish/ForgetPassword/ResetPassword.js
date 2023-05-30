@@ -1,5 +1,5 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
-import { confirmPasswordReset, sendPasswordResetEmail } from "firebase/auth";
+import { confirmPasswordReset } from "firebase/auth";
 import { useSnackbar } from "notistack";
 import { useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -23,7 +23,7 @@ function ResetPassword() {
     const handleGetConfirmPassword = (e) => {
         setPassword(e.target.value);
     }
-    const handleForgetPass = () => {
+    const handleResetPass = () => {
         if (password === '' || confirmPassword === '') {
             enqueueSnackbar('Hãy nhập mật khẩu mới', { variant: "error" })
             inputRef.current.focus()
@@ -100,7 +100,7 @@ function ResetPassword() {
             </Link>
         </Stack>
         <Stack display='flex' flexDirection='row' justifyContent='right' margin='10px 15px'>
-            <Button variant="contained" sx={{ color: 'white' }} onClick={handleForgetPass}>
+            <Button variant="contained" sx={{ color: 'white' }} onClick={handleResetPass}>
                 Xác nhận
             </Button>
         </Stack>
