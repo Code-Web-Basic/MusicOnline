@@ -40,7 +40,7 @@ function Home() {
             <Container maxWidth="xl" sx={{ display: 'flex', flexDirection: 'column', padding: '10px 0px' }}>
                 {/* <Banner />
                 <ListPlaylist title={'Gần Đây'} data={data1} /> */}
-                <ListPlaylist title={'Có Thể Bạn Muốn Nghe'} data={data1} size="medium" />
+                {/* <ListPlaylist title={'Có Thể Bạn Muốn Nghe'} data={data1} size="medium" /> */}
                 <ListTabPlaylist title={'Mới Phát Hành'} data={dataMusic} />
                 {data.map((i) => (
                     <ListPlaylist key={i.type} title={i.type} data={i.data} size="medium" type="description" />

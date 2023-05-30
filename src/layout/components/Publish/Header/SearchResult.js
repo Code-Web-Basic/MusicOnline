@@ -65,7 +65,7 @@ function SearchResult() {
                 }}
             >
                 <Stack direction={'row'} width={'100%'} height={'40px'} gap={'10px'} alignItems={'center'}>
-                    <MagnifyingGlass size={20} color={theme.palette.grey[500]} />
+                    <MagnifyingGlass size={20} color={theme.palette.grey[500]} onClick={(e) => handleEnter(e)} />
                     <input
                         ref={inputRef}
                         style={{
@@ -103,7 +103,8 @@ function SearchResult() {
                         {searchValue?.dataMusic?.length > 0 || searchValue?.dataPlaylist?.length > 0 ? (
                             <SearchValue dataMusic={searchValue.dataMusic} dataKeyword={searchValue.dataPlaylist} />
                         ) : (
-                            <SuggestSearch />
+                            // <SuggestSearch />
+                            <></>
                         )}
                     </Box>
                 )}
