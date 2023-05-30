@@ -1,11 +1,17 @@
 import { collection, doc, getDoc, getDocs, limit, orderBy, query, where } from 'firebase/firestore';
 import { db } from '~/connectFirebase/config';
 
-export const getListPlaylistType = async (type = '') => {
+export const getAllListPlaylistType = async (type = []) => {
     try {
-        const q = query(collection(db, 'playlist'), where('type', '==', type), limit(6));
-        const querySnapshot = await getDocs(q);
-        return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        const typeList = type.map(async (i) => {
+            const q = query(collection(db, 'playlist'), where('type', '==', i), limit(6));
+            const querySnapshot = await getDocs(q);
+            const result = { type: i, data: querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) };
+            return result;
+        });
+        return Promise.all(typeList).then((values) => {
+            return values;
+        });
     } catch (error) {
         return Promise.reject(error);
     }

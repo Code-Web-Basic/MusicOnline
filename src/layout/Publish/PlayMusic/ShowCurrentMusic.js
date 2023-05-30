@@ -23,9 +23,11 @@ function ShowCurrentMusic({ data }) {
                 </Box>
             </Stack>
 
-            <Stack direction={'column'} maxWidth={100}>
+            <Stack direction={'column'} maxWidth={300}>
                 <Typography color="white" variant="h6" noWrap>
-                    {currentPlaylist.ListMusic[currentPlaylist.currentIndex]?.name}
+                    {currentPlaylist.ListMusic[currentPlaylist.currentIndex]?.name
+                        ? currentPlaylist.ListMusic[currentPlaylist.currentIndex]?.name
+                        : 'chưa có nhạc trong danh sách'}
                 </Typography>
                 <Typography
                     color={theme.palette.text.secondary}
