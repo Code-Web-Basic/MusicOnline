@@ -73,7 +73,7 @@ const StyledTabsList = styled(TabsList)(
     `,
 );
 
-function ListTabPlaylist({ title, data }) {
+function ListTabPlaylist({ title, data = [] }) {
     const theme = useTheme();
     return (
         <Stack direction="column">
@@ -91,18 +91,18 @@ function ListTabPlaylist({ title, data }) {
                     <Tabs defaultValue={1}>
                         <StyledTabsList>
                             <StyledTab value={1}>Tất cả</StyledTab>
-                            <StyledTab value={2}>Việt Nam</StyledTab>
-                            <StyledTab value={3}>Quốc tế</StyledTab>
+                            {/* <StyledTab value={2}>Việt Nam</StyledTab>
+                            <StyledTab value={3}>Quốc tế</StyledTab> */}
                         </StyledTabsList>
                         <StyledTabPanel value={1}>
-                            <ItemTabPlaylist />
+                            <ItemTabPlaylist data={data} />
                         </StyledTabPanel>
-                        <StyledTabPanel value={2}>
+                        {/* <StyledTabPanel value={2}>
                             <ItemTabPlaylist />
                         </StyledTabPanel>
                         <StyledTabPanel value={3}>
                             <ItemTabPlaylist />
-                        </StyledTabPanel>
+                        </StyledTabPanel> */}
                     </Tabs>
                 </Box>
             </Stack>

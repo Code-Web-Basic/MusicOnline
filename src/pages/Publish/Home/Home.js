@@ -5,17 +5,21 @@ import ListTabPlaylist from '~/layout/components/Publish/Home/ListTabPlaylist/Li
 import { useEffect, useState } from 'react';
 
 import { useSelector } from 'react-redux';
-import { getListPlaylistType } from '~/service/public/PlaylistService';
+import { getAllListPlaylistType } from '~/service/public/PlaylistService';
+import { getHomeMusic } from '~/service/public/MusicService';
 
 function Home() {
     const currentUser = useSelector((state) => state.auth.currentUser);
-    const [data, setData] = useState({ type: '', data: [] });
+    const [data, setData] = useState([]);
+    const [dataMusic, setDataMusic] = useState([]);
     useEffect(() => {
         try {
             const callApi = async () => {
-                const res = await getListPlaylistType('Hip-Hop');
-                console.log(res);
-                setData({ type: 'Hip-Hop', data: res });
+                const type = ['Acoustic', 'EDM', 'Bolero', 'Remix', 'Indie Việt'];
+                const res1 = await getAllListPlaylistType(type);
+                setData(res1);
+                const res2 = await getHomeMusic();
+                setDataMusic(res2);
             };
             callApi();
         } catch (error) {
@@ -34,15 +38,13 @@ function Home() {
             }}
         >
             <Container maxWidth="xl" sx={{ display: 'flex', flexDirection: 'column', padding: '10px 0px' }}>
-                <Banner />
-                <ListPlaylist title={'Gần Đây'} data={data1} />
+                {/* <Banner />
+                <ListPlaylist title={'Gần Đây'} data={data1} /> */}
                 <ListPlaylist title={'Có Thể Bạn Muốn Nghe'} data={data1} size="medium" />
-                <ListTabPlaylist title={'Mới Phát Hành'} />
-                <ListPlaylist title={data.type} data={data.data} size="medium" type="description" />
-                <ListPlaylist title={'Năng Lượng Tích Cực'} data={data1} size="medium" type="description" />
-                <ListPlaylist title={'Nghệ Sĩ Thịnh Hành'} data={data1} size="medium" type="description" />
-                <ListPlaylist title={'Chill Cùng R&B Việt'} data={data1} size="medium" type="single" />
-                <ListPlaylist title={'Backstreet Boys'} data={data1} size="medium" type="single" />
+                <ListTabPlaylist title={'Mới Phát Hành'} data={dataMusic} />
+                {data.map((i) => (
+                    <ListPlaylist key={i.type} title={i.type} data={i.data} size="medium" type="description" />
+                ))}
             </Container>
         </div>
     );

@@ -11,13 +11,6 @@ import { formatDurationMusic } from '~/util/formatTime';
 import { useDispatch } from 'react-redux';
 import { addPlaylist } from '~/features/playlistCurrentSlice';
 
-function getDuration(src, cb) {
-    var audio = new Audio(src);
-    audio.onloadedmetadata = function () {
-        cb(audio.duration);
-    };
-    // audio.src = src;
-}
 function DetailPlaylist() {
     const [isHover, setIsHover] = useState(false);
     const theme = useTheme();
@@ -25,26 +18,13 @@ function DetailPlaylist() {
     // const data = [1, 2, 3, 4];
     const [data, setData] = useState({});
 
-    const [duration, setDuration] = useState(0);
-
     let { id } = useParams();
     useEffect(() => {
         const callApi = async () => {
             try {
                 if (id) {
                     const res = await getPlaylist(id);
-
                     const res1 = await getDetailPlaylistMusic(res?.type);
-
-                    // const resTmp = res1.map((i) => {
-                    //     // const audio = new Audio(i?.source);
-                    //     getDuration(i?.source, function (length) {
-                    //         setDuration(length);
-                    //     });
-                    //     console.log(duration);
-                    //     return { ...i, time: formatDurationMusic(duration) };
-                    // });
-
                     setData({ ...res, musics: res1 });
                 }
             } catch (error) {
@@ -53,18 +33,7 @@ function DetailPlaylist() {
         };
         callApi();
     }, [id]);
-
-    useEffect(() => {
-        console.log(data);
-        if (data?.musics) {
-            const callApp = async () => {
-                // console.log(audio.onloadedmetadata = );
-            };
-            callApp();
-        }
-    }, [data]);
     const handleClickPlayPlaylist = () => {
-        console.log('click');
         dispatch(addPlaylist(data.musics));
     };
     return (
