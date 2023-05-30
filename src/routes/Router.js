@@ -24,7 +24,7 @@ import DefaultLayoutPublisher from '~/layout/Publisher';
 import ZingRank from '~/pages/Publish/ZingRank/ZingRank';
 import Profile from '~/pages/Publish/Profile/Profile';
 import Search from '~/pages/Publish/Search/Search';
-import ResetPass from '~/pages/Publish/Resetpass/Resetpass';
+import ResetPass from '~/pages/Publish/ResetPass/ResetPass';
 import ForgetPassword from '~/pages/Publish/ForgetPassword/ForgetPassword';
 import ResetPassword from '~/pages/Publish/ForgetPassword/ResetPassword';
 import ManageUser from '~/layout/Admin/ManagerUser/ManagerUser';
@@ -42,7 +42,7 @@ const publicRoutes = [
     { path: configRouter.Profile, component: Profile, layout: null },
     { path: configRouter.Search, component: Search },
     { path: configRouter.ForgetPassword, component: ForgetPassword, layout: null },
-    { path: configRouter.ResetPassword, component: ResetPassword, layout: null }
+    { path: configRouter.ResetPassword, component: ResetPassword, layout: null },
 ];
 const publisherRoutes = [
     { path: configRouter.dashboard, component: Dashboard, layout: DefaultLayoutPublisher },
@@ -60,8 +60,8 @@ const adminRoutes = [
     { path: configRouter.Login, component: Login, layout: null },
     { path: configRouter.Signup, component: Signup, layout: null },
     { path: configRouter.ResetPass, component: ResetPass, layout: null },
-    { path: configRouter.managerUser,component: ManageUser, layout: DefaultLayoutAdmin},
-    { path: configRouter.managerListMusic,component: ManagerListMusic, layout: DefaultLayoutAdmin},
+    { path: configRouter.managerUser, component: ManageUser, layout: DefaultLayoutAdmin },
+    { path: configRouter.managerListMusic, component: ManagerListMusic, layout: DefaultLayoutAdmin },
 ];
 // const privateRoutes = [];
 
