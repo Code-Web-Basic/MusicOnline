@@ -163,8 +163,8 @@ function TableMusic({ data = [] }) {
             return createData(
                 i?.id,
                 i?.name,
-                i?.description,
                 i?.thumbnail,
+                i?.description,
                 '',
                 '',
                 i?.singer,
