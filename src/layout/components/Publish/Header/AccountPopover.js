@@ -18,7 +18,7 @@ import Tippy from '@tippyjs/react/headless';
 import { doc, setDoc } from 'firebase/firestore';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { useSnackbar } from 'notistack';
-import { Gear, House, SignOut, Upload, UserCircle } from 'phosphor-react';
+import { Gear, House, SignOut, SketchLogo, Upload, UserCircle } from 'phosphor-react';
 import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
@@ -30,7 +30,7 @@ import { createMusic } from '~/service/publisher/musicService';
 
 const MENU_OPTIONS = [
     {
-        label: 'Home',
+        label: 'Nhà phát hành',
         icon: <House size={20} weight="fill" />,
     },
     {
@@ -45,6 +45,10 @@ const MENU_OPTIONS = [
         label: 'Settings',
         icon: <Gear size={20} weight="fill" />,
     },
+    {
+        label: 'Nâng cấp VIP',
+        icon: <SketchLogo size={20} weight="fill" />,
+    }
 ];
 function AccountPopover() {
     const auth = useSelector((state) => state.auth);
