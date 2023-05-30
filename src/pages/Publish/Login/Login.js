@@ -55,9 +55,10 @@ function Login() {
     };
     useEffect(() => {
         if (currentUser) {
-            navigate('/');
             if (currentUser.role.role === 'admin') {
+                navigate('/');
             } else {
+                navigate('/');
             }
             dispatch(getMyPlayLists(currentUser?.user?.uid));
         }
