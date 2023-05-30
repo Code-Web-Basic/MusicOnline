@@ -42,7 +42,7 @@ const publicRoutes = [
     { path: configRouter.Profile, component: Profile, layout: null },
     { path: configRouter.Search, component: Search },
     { path: configRouter.ForgetPassword, component: ForgetPassword, layout: null },
-    { path: configRouter.ResetPassword, component: ResetPassword, layout: null }
+    { path: configRouter.ResetPassword, component: ResetPassword, layout: null },
 ];
 const publisherRoutes = [
     { path: configRouter.dashboard, component: Dashboard, layout: DefaultLayoutPublisher },
