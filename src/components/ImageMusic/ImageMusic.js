@@ -1,13 +1,15 @@
 import { Box, useTheme } from '@mui/material';
 import { Play } from 'phosphor-react';
-import { useState } from 'react';
 import images from '~/asset/images';
 
-function ImageMusic({ isHover = false, data }) {
+function ImageMusic({ isHover = false, data, onClick }) {
     const theme = useTheme();
     // const [isHover, setisHover] = useState(false);
     return (
-        <Box sx={{ height: 40, width: 40, overflow: 'hidden', borderRadius: 1, position: 'relative' }}>
+        <Box
+            sx={{ height: 40, width: 40, overflow: 'hidden', borderRadius: 1, position: 'relative' }}
+            onClick={() => onClick()}
+        >
             <img
                 style={{ height: '100%', width: '100%', objectFit: 'cover' }}
                 src={data ? data : images.noImageMusic}

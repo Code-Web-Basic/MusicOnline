@@ -1,13 +1,18 @@
 import { Box, Checkbox, IconButton, Stack, Tooltip, Typography, alpha, useTheme } from '@mui/material';
 import { DotsThree, DotsThreeOutline, Heart } from 'phosphor-react';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import ImageMusic from '~/components/ImageMusic/ImageMusic';
+import { addOneMusic } from '~/features/playlistCurrentSlice';
 
 const color = ['#4a90e2', '#50e3c2', '#f8e71c', '#e35050'];
 function ItemListMusic({ data, index = 0 }) {
     const theme = useTheme();
+    const dispatch = useDispatch();
     const [isHover, setIsHover] = useState(false);
-
+    const handleAddMusicPlay = () => {
+        dispatch(addOneMusic(data));
+    };
     return (
         <Box
             height={60}
@@ -59,7 +64,7 @@ function ItemListMusic({ data, index = 0 }) {
                         </span>
                         <DotsThreeOutline size={20} weight="fill" color={theme.palette.grey[600]} />
                     </Stack>
-                    <ImageMusic data={data?.thumbnail} isHover={isHover} />
+                    <ImageMusic data={data?.thumbnail} isHover={isHover} onClick={handleAddMusicPlay} />
                     <Stack direction={'column'} width={'50%'} overflow={'hidden'}>
                         <Typography
                             variant="h5"
