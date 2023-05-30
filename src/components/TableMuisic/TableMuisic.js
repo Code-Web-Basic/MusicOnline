@@ -25,10 +25,16 @@ import { formatDurationMusic } from '~/util/formatTime';
 
 function createData(id, name, thumbnail, description, Album, time, singer, type, source, ownerId) {
     return {
+        id,
         name,
+        thumbnail,
+        description,
         Album,
         time,
         singer,
+        type,
+        source,
+        ownerId,
     };
 }
 
@@ -157,8 +163,8 @@ function TableMusic({ data = [] }) {
             return createData(
                 i?.id,
                 i?.name,
-                i?.description,
                 i?.thumbnail,
+                i?.description,
                 '',
                 '',
                 i?.singer,
@@ -275,7 +281,9 @@ function RowTableMusic({ row = {}, isItemSelected, handleClick, labelId, selecte
     const theme = useTheme();
     const dispatch = useDispatch();
     const [hover, setHover] = React.useState(false);
+    console.log(row);
     const handleClickAddMusicPlaylist = () => {
+        console.log(row);
         dispatch(addOneMusic({ ...row }));
     };
     return (
