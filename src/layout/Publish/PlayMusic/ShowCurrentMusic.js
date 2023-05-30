@@ -1,24 +1,33 @@
 import { Box, Checkbox, Stack, Tooltip, Typography, useTheme } from '@mui/material';
 import { Heart } from 'phosphor-react';
+import { useSelector } from 'react-redux';
+import images from '~/asset/images';
 import { MoreButtonMusic } from '~/components/MoreButtonMusic/MoreButtonMusic';
 
 function ShowCurrentMusic({ data }) {
     const theme = useTheme();
+    const currentPlaylist = useSelector((state) => state.playlistCurrent);
     return (
         <Stack direction={'row'} gap={'10px'} alignItems={'center'}>
             <Stack direction={'row'}>
                 <Box sx={{ width: 60, height: 60, borderRadius: '10px', overflow: 'hidden' }}>
                     <img
-                        src="https://th.bing.com/th/id/R.60e788ded4d8885f7e5dbfeacc425168?rik=3yBVfG3N7ZPS9Q&pid=ImgRaw&r=0"
+                        src={
+                            currentPlaylist.ListMusic[currentPlaylist.currentIndex]?.thumbnail
+                                ? currentPlaylist.ListMusic[currentPlaylist.currentIndex]?.thumbnail
+                                : images.noImageMusic
+                        }
                         alt="img"
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     />
                 </Box>
             </Stack>
 
-            <Stack direction={'column'} maxWidth={100}>
+            <Stack direction={'column'} maxWidth={300}>
                 <Typography color="white" variant="h6" noWrap>
-                    Tên bài nhạc
+                    {currentPlaylist.ListMusic[currentPlaylist.currentIndex]?.name
+                        ? currentPlaylist.ListMusic[currentPlaylist.currentIndex]?.name
+                        : 'chưa có nhạc trong danh sách'}
                 </Typography>
                 <Typography
                     color={theme.palette.text.secondary}
@@ -31,7 +40,11 @@ function ShowCurrentMusic({ data }) {
                         },
                     }}
                 >
-                    Ten ca si
+                    {currentPlaylist.ListMusic[currentPlaylist.currentIndex]?.singer?.map((i, index) =>
+                        currentPlaylist.ListMusic[currentPlaylist.currentIndex]?.singer?.length - 1 === index
+                            ? `${i}`
+                            : `${i},`,
+                    )}
                 </Typography>
             </Stack>
             <Stack direction={'row'} marginLeft={'10px'}>

@@ -17,33 +17,18 @@ import {
 } from '@mui/material';
 import { DotsThree, Heart, MusicNote, Play } from 'phosphor-react';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
+import images from '~/asset/images';
+import { formatDurationMusic } from '~/util/formatTime';
 
-function createData(name, calories, fat, carbs, protein) {
+function createData(id, name, thumbnail, Album, time, singer) {
     return {
         name,
-        calories,
-        fat,
-        carbs,
-        protein,
+        Album,
+        time,
+        singer,
     };
 }
-
-const rows = [
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Donut', 452, 25.0, 51, 4.9),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-    createData('Honeycomb', 408, 3.2, 87, 6.5),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Jelly Bean', 375, 0.0, 94, 0.0),
-    createData('KitKat', 518, 26.0, 65, 7.0),
-    createData('Lollipop', 392, 0.2, 98, 0.0),
-    createData('Marshmallow', 318, 0, 81, 2.0),
-    createData('Nougat', 360, 19.0, 9, 37.0),
-    createData('Oreo', 437, 18.0, 63, 4.0),
-];
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -86,9 +71,9 @@ function EnhancedTableHead(props) {
 
     return (
         <TableHead>
-            <TableRow>
+            <TableRow sx={{ background: 'transparent' }}>
                 {numSelected > 0 ? (
-                    <TableCell padding="checkbox" sx={{ width: 60 }}>
+                    <TableCell padding="checkbox" sx={{ width: 60, background: 'transparent' }}>
                         <Checkbox
                             color="primary"
                             indeterminate={numSelected > 0 && numSelected < rowCount}
@@ -100,7 +85,7 @@ function EnhancedTableHead(props) {
                         />
                     </TableCell>
                 ) : (
-                    <TableCell sx={{ width: 60 }}>
+                    <TableCell sx={{ width: 60, background: 'transparent' }}>
                         <TableSortLabel
                             // active={orderBy === headCell.id}
                             direction={orderBy === 'Name' ? order : 'asc'}
@@ -120,16 +105,18 @@ function EnhancedTableHead(props) {
                 <TableCell
                     align={'left'}
                     padding={'normal'}
+                    width={300}
                     // sortDirection={orderBy === headCell.id ? order : false}
-                    sx={{ color: theme.palette.grey[500] }}
+                    sx={{ color: theme.palette.grey[500], background: 'transparent' }}
                 >
                     Bài hát
                 </TableCell>
                 <TableCell
                     align={'left'}
                     padding={'normal'}
+                    width={200}
                     // sortDirection={orderBy === headCell.id ? order : false}
-                    sx={{ color: theme.palette.grey[500] }}
+                    sx={{ color: theme.palette.grey[500], background: 'transparent' }}
                 >
                     Album
                 </TableCell>
@@ -137,9 +124,9 @@ function EnhancedTableHead(props) {
                     align={'right'}
                     padding={'normal'}
                     // sortDirection={orderBy === headCell.id ? order : false}
-                    sx={{ color: theme.palette.grey[500], width: 150 }}
+                    sx={{ color: theme.palette.grey[500], background: 'transparent', width: 150 }}
                 >
-                    Bài hát
+                    {/* Bài hát */}
                 </TableCell>
             </TableRow>
         </TableHead>
@@ -155,13 +142,19 @@ EnhancedTableHead.propTypes = {
     rowCount: PropTypes.number.isRequired,
 };
 
-function TableMusic({ data }) {
+function TableMusic({ data = [] }) {
     const theme = useTheme();
     const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState('calories');
+    const [orderBy, setOrderBy] = React.useState('Bài hát');
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    let rows = null;
+    if (!rows) {
+        rows = data.map((i) => {
+            return createData(i?.id, i?.name, i?.thumbnail, '', '', i?.singer);
+        });
+    }
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -195,28 +188,14 @@ function TableMusic({ data }) {
         setSelected(newSelected);
     };
 
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
-
     const isSelected = (name) => selected.indexOf(name) !== -1;
 
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-    const visibleRows = React.useMemo(
-        () =>
-            stableSort(rows, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-        [order, orderBy, page, rowsPerPage],
-    );
-
+    const visibleRows = React.useMemo(() => stableSort(rows, getComparator(order, orderBy)), [order, orderBy, rows]);
     return (
-        <Box sx={{ width: '100%' }}>
+        <Box sx={{ width: '100%', overflow: 'auto', maxHeight: '100%' }}>
             {/* <EnhancedTableToolbar numSelected={selected.length} /> */}
             <TableContainer>
                 <Table
@@ -279,7 +258,7 @@ function TableMusic({ data }) {
 
 export default TableMusic;
 
-function RowTableMusic({ row, isItemSelected, handleClick, labelId, selectedArr = [] }) {
+function RowTableMusic({ row = {}, isItemSelected, handleClick, labelId, selectedArr = [] }) {
     const theme = useTheme();
     const [hover, setHover] = React.useState(false);
 
@@ -338,14 +317,13 @@ function RowTableMusic({ row, isItemSelected, handleClick, labelId, selectedArr 
                 padding="none"
                 align="left"
                 sx={{ color: theme.palette.grey[500] }}
+                width={'400'}
             >
                 <Stack direction={'row'} gap={1} alignItems={'center'}>
                     <Box sx={{ height: 40, width: 40, overflow: 'hidden', borderRadius: 1, position: 'relative' }}>
                         <img
                             style={{ height: '100%', width: '100%', objectFit: 'cover' }}
-                            src={
-                                'https://photo-resize-zmp3.zmdcdn.me/w94_r1x1_webp/covers/f/a/facbb6acec54dacd342c04b533f56b9d_1396931968.jpg'
-                            }
+                            src={row?.thumbnail ? row?.thumbnail : images.noImageMusic}
                             alt="music"
                         />
                         {hover && (
@@ -365,28 +343,40 @@ function RowTableMusic({ row, isItemSelected, handleClick, labelId, selectedArr 
                             </Box>
                         )}
                     </Box>
-                    <Stack direction={'column'}>
+                    <Stack direction={'column'} width={400} overflow={'hidden'}>
                         <Typography
                             variant="h5"
                             fontSize="1rem"
                             color={theme.palette.common.white}
                             overflow={'hidden'}
                             textOverflow={'ellipsis'}
+                            noWrap
+                            width={'100%'}
                         >
                             {row.name}
                         </Typography>
-                        <Stack direction={'row'} alignItems={'center'}>
+                        <Stack direction={'row'} alignItems={'center'} width={'100%'}>
                             <Typography variant="body2" color={theme.palette.grey[500]}>
-                                Earl Klugh
+                                {/* Earl Klugh */}
+                                {row?.singer?.map((i, index) => (index + 1 === row?.singer?.length ? `${i}` : `${i},`))}
                             </Typography>
                         </Stack>
                     </Stack>
                 </Stack>
             </TableCell>
             <TableCell align="left" sx={{ color: theme.palette.grey[500] }}>
-                <Typography variant="body2" color={theme.palette.grey[500]}>
-                    Heimweh (Single)
-                </Typography>
+                <Stack direction={'column'} width={200} overflow={'hidden'}>
+                    <Typography
+                        variant="body2"
+                        color={theme.palette.grey[500]}
+                        overflow={'hidden'}
+                        textOverflow={'ellipsis'}
+                        noWrap
+                        width={'100%'}
+                    >
+                        {row?.name + '(single)'}
+                    </Typography>
+                </Stack>
             </TableCell>
             <TableCell align="right" sx={{ color: theme.palette.grey[500] }}>
                 {hover ? (
@@ -412,7 +402,7 @@ function RowTableMusic({ row, isItemSelected, handleClick, labelId, selectedArr 
                         </Tooltip>
                     </Stack>
                 ) : (
-                    '03:09'
+                    row?.time
                 )}
             </TableCell>
         </TableRow>

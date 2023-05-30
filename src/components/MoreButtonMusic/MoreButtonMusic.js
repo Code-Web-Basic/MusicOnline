@@ -1,8 +1,7 @@
-import { faker } from '@faker-js/faker';
 import { Box, IconButton, ListItemIcon, MenuItem, Paper, Stack, Tooltip, Typography, useTheme } from '@mui/material';
 import Tippy from '@tippyjs/react/headless';
-import { ChatCircle, DotsThree, Link as LinkIcon, PlusCircle, Share } from 'phosphor-react';
-import { useState } from 'react';
+import { DotsThree, Link as LinkIcon, PlusCircle, Share } from 'phosphor-react';
+import images from '~/asset/images';
 import Comment from '~/layout/components/Publish/Comment/Comment';
 
 const MENU_OPTIONS = [
@@ -42,8 +41,8 @@ export function MoreButtonMusic({ music }) {
                                     >
                                         <img
                                             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                                            src={faker.image.avatarLegacy()}
-                                            alt="userui"
+                                            src={music?.thumbnail ? music?.thumbnail : images.noImageMusic}
+                                            alt="img music"
                                         />
                                     </Box>
                                     <Stack direction={'column'} maxWidth={150} overflow={'hidden'}>
@@ -54,7 +53,7 @@ export function MoreButtonMusic({ music }) {
                                             sx={{ color: theme.palette.grey[400] }}
                                             textOverflow={'ellipsis'}
                                         >
-                                            {music?.data?.name}
+                                            {music?.name}
                                         </Typography>
                                     </Stack>
                                 </Stack>

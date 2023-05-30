@@ -2,33 +2,32 @@ import Banner from '~/layout/components/Publish/Home/Banner/Banner';
 import { Container } from '@mui/material';
 import ListPlaylist from '~/layout/components/Publish/Home/ListPlaylist/ListPlaylist.';
 import ListTabPlaylist from '~/layout/components/Publish/Home/ListTabPlaylist/ListTabPlaylist';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useSelector } from 'react-redux';
+import { getAllListPlaylistType } from '~/service/public/PlaylistService';
+import { getHomeMusic } from '~/service/public/MusicService';
 
 function Home() {
     const currentUser = useSelector((state) => state.auth.currentUser);
-    // useEffect(() => {
-    //     try {
-    //         const callApi = async () => {
-    //             if (currentUser) {
-    //                 const data = {
-    //                     userId: currentUser.user.uid,
-    //                     role: 'user',
-    //                     createAt: Date.now(),
-    //                     updateAt: Date.now(),
-    //                 };
-    //                 const roleRef = await addDoc(doc(collection(db, 'role')), data);
-    //                 console.log(roleRef.converter);
-    //             }
-    //         };
-    //         callApi();
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }, [currentUser]);
+    const [data, setData] = useState([]);
+    const [dataMusic, setDataMusic] = useState([]);
+    useEffect(() => {
+        try {
+            const callApi = async () => {
+                const type = ['Acoustic', 'EDM', 'Bolero', 'Remix', 'Indie Việt'];
+                const res1 = await getAllListPlaylistType(type);
+                setData(res1);
+                const res2 = await getHomeMusic();
+                setDataMusic(res2);
+            };
+            callApi();
+        } catch (error) {
+            console.log(error);
+        }
+    }, []);
 
-    const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    const data1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     return (
         <div
             style={{
@@ -39,15 +38,13 @@ function Home() {
             }}
         >
             <Container maxWidth="xl" sx={{ display: 'flex', flexDirection: 'column', padding: '10px 0px' }}>
-                <Banner />
-                <ListPlaylist title={'Gần Đây'} data={data} />
-                <ListPlaylist title={'Có Thể Bạn Muốn Nghe'} data={data} size="medium" />
-                <ListTabPlaylist title={'Mới Phát Hành'} />
-                <ListPlaylist title={'Chill'} data={data} size="medium" type="description" />
-                <ListPlaylist title={'Năng Lượng Tích Cực'} data={data} size="medium" type="description" />
-                <ListPlaylist title={'Nghệ Sĩ Thịnh Hành'} data={data} size="medium" type="description" />
-                <ListPlaylist title={'Chill Cùng R&B Việt'} data={data} size="medium" type="single" />
-                <ListPlaylist title={'Backstreet Boys'} data={data} size="medium" type="single" />
+                {/* <Banner />
+                <ListPlaylist title={'Gần Đây'} data={data1} /> */}
+                {/* <ListPlaylist title={'Có Thể Bạn Muốn Nghe'} data={data1} size="medium" /> */}
+                <ListTabPlaylist title={'Mới Phát Hành'} data={dataMusic} />
+                {data.map((i) => (
+                    <ListPlaylist key={i.type} title={i.type} data={i.data} size="medium" type="description" />
+                ))}
             </Container>
         </div>
     );

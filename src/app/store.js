@@ -10,7 +10,7 @@ const persistConfig = {
     key: 'root',
     version: 1,
     storage,
-    blacklist: ['playlistCurrent', 'layout'],
+    blacklist: ['layout'],
 };
 
 // export default configureStore({
